@@ -1,10 +1,6 @@
 <h1 align="center">Reward as An Agent for Embodied World Models</h1>
 
 <p align="center">
-  <strong>Reward as An Agent for Embodied World Models</strong>
-</p>
-
-<p align="center">
   <a href="https://arxiv.org/abs/2606.19990">📄 Paper</a> |
   <a href="#quick-start">🚀 Quick Start</a> |
   <a href="#demo-videos">🎬 Demo</a> |
