@@ -1,0 +1,1417 @@
+{
+  "index": 0,
+  "score": 1.0,
+  "status": "success",
+  "task_verdict": "complete",
+  "training_eligible": true,
+  "diagnostic_score": 1.0,
+  "diagnostic_review_required": false,
+  "diagnostic_review_reasons": [],
+  "details": {
+    "planning_api_output": {
+      "index": 0,
+      "score": "complete",
+      "status": "success"
+    },
+    "total_score": 1.0,
+    "pipeline_version": "evidence-v7.0-focused1",
+    "evidence_report": {
+      "schema_version": "evidence-v2",
+      "task": {
+        "requested_action": "使用扫帚将垃圾扫入簸箕",
+        "target_description": "垃圾、扫帚、簸箕",
+        "final_state_requirement": "垃圾被扫入簸箕中"
+      },
+      "requirement_checks": [
+        {
+          "requirement_id": "R1",
+          "status": "met",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "reason": "初始可见桌面上散放红色小盒、蓝色小包装袋、浅棕色片状物，蓝柄毛刷在桌面左侧，蓝色簸箕在右侧；随后左机械臂握持毛刷、右机械臂握持簸箕，毛刷扫过桌面并把上述杂物送入簸箕；扫入后多帧可见这些垃圾位于蓝色簸箕内，满足用扫帚将垃圾扫入簸箕的动作和末态要求。"
+        }
+      ],
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            41,
+            81
+          ],
+          "description": "白色桌面上放着一把蓝柄黑毛毛刷（黑胶带缠绕手柄）、蓝色簸箕，以及红色小盒、蓝色小包装袋、浅棕色片状物；杂物位于毛刷与簸箕之间的桌面上，两个机械臂在桌前下方，未接触桌上物品。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            122,
+            162,
+            203,
+            244,
+            284,
+            325,
+            366,
+            406
+          ],
+          "description": "左机械臂抬起靠近毛刷，反复调整手部姿态并接触、握持毛刷；右机械臂靠近并握住蓝色簸箕手柄；红色小盒、蓝色小包装袋和浅棕色片状物仍在桌面上。"
+        },
+        {
+          "id": "E3",
+          "frames": [
+            447,
+            487,
+            528,
+            569,
+            609
+          ],
+          "description": "左机械臂握持毛刷扫过桌面，将红色小盒、蓝色小包装袋和浅棕色片状物推入右机械臂所持蓝色簸箕内；随后毛刷抬离簸箕并放回桌面靠近簸箕边缘，簸箕内可见上述杂物。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            650,
+            690,
+            731,
+            772,
+            812,
+            853,
+            893,
+            934,
+            975,
+            1015,
+            1056,
+            1097,
+            1137,
+            1178,
+            1218,
+            1259
+          ],
+          "description": "蓝色簸箕置于桌面上，红色小盒、蓝色小包装袋和浅棕色片状物持续位于簸箕内；毛刷横放在桌面靠近簸箕边缘；机械臂随后松开毛刷和簸箕，下降收回桌前下方，未将已在簸箕内的杂物移出。"
+        }
+      ],
+      "task_assessment": {
+        "verdict": "complete",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "可见机械臂用毛刷作为扫帚完成扫动，将桌面的红色小盒、蓝色小包装袋和浅棕色片状物送入蓝色簸箕；后续到末帧多帧显示这些垃圾仍位于簸箕中，动作和最终状态均符合要求。帧采样间隔未展示每个连续动作细节，但关键初态、扫入过程和末态均有可见证据支持。",
+        "target_match": "match"
+      },
+      "physics_assessment": {
+        "verdict": "plausible",
+        "confidence": "medium",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "issues": [],
+        "reason": "在可见帧范围内，机械臂握持毛刷与簸箕、杂物被毛刷推进簸箕并停留在簸箕内的接触和运动关系整体可理解；未看到可确认的穿透、悬浮或明显无因果跳变。中间动作因采样间隔未逐帧呈现，但未见物体数量异常、状态往复跳变等已确认物理反常。"
+      },
+      "visual_assessment": {
+        "verdict": "clear",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "关键对象和动作可见：桌面、毛刷、簸箕和杂物在初态、扫动阶段及末态均可辨认；虽存在正常运动模糊和固定俯视角，但不妨碍判断垃圾被扫入簸箕的主要动作和结果。"
+      },
+      "uncertainties": [
+        "采样为间隔帧，两次提供帧之间的连续抓取、扫动和释放细节未逐帧展示；该限制未妨碍基于已见初态、扫入动作和末态作出判断。"
+      ]
+    },
+    "physics_evidence": null,
+    "process_event_evidence": null,
+    "evaluator_version": "evidence-v7.0-focused1-4fae127f66af5465",
+    "task_contract": {
+      "schema_version": "task-contract-v1",
+      "task": {
+        "requested_action": "使用扫帚将垃圾扫入簸箕",
+        "target_description": "垃圾、扫帚、簸箕",
+        "final_state_requirement": "垃圾被扫入簸箕中"
+      },
+      "requirements": [
+        {
+          "id": "R1",
+          "source_quote": "Sweep the trash into the dustpan using a broom.",
+          "text": "必须使用扫帚将垃圾扫入簸箕。"
+        }
+      ],
+      "coverage_notes": [],
+      "source_text": "Sweep the trash into the dustpan using a broom.\n",
+      "source_sha256": "046ff92998573e6ffa80dbb51090f6900f56c11338c917fb6fc1737e2ce43bd6",
+      "contract_sha256": "fcd8ecf002f98f0a1b361e903c3538fbf27770388e03052e2f6996d37d08f4a8"
+    },
+    "task_contract_sha256": "fcd8ecf002f98f0a1b361e903c3538fbf27770388e03052e2f6996d37d08f4a8",
+    "task_contract_registry_sha256": null,
+    "task_contract_review": null,
+    "requirement_scope_audits": [
+      {
+        "report_sha256": "63acabd52d16693ecc218e012bd4f68812153065de521d7814e1f2f856aec68f",
+        "audit": {
+          "schema_version": "requirement-scope-audit-v1",
+          "checks": [
+            {
+              "requirement_id": "R1",
+              "issues": []
+            }
+          ]
+        }
+      }
+    ],
+    "pre_scope_repair_report": {
+      "schema_version": "evidence-v2",
+      "task": {
+        "requested_action": "使用扫帚将垃圾扫入簸箕",
+        "target_description": "垃圾、扫帚、簸箕",
+        "final_state_requirement": "垃圾被扫入簸箕中"
+      },
+      "requirement_checks": [
+        {
+          "requirement_id": "R1",
+          "status": "met",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "reason": "初始可见桌面上散放红色小盒、蓝色小包装袋、浅棕色片状物，蓝柄毛刷在桌面左侧，蓝色簸箕在右侧；随后左机械臂握持毛刷、右机械臂握持簸箕，毛刷扫过桌面并把上述杂物送入簸箕；扫入后多帧可见这些垃圾位于蓝色簸箕内，满足用扫帚将垃圾扫入簸箕的动作和末态要求。"
+        }
+      ],
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            41,
+            81
+          ],
+          "description": "白色桌面上放着一把蓝柄黑毛毛刷（黑胶带缠绕手柄）、蓝色簸箕，以及红色小盒、蓝色小包装袋、浅棕色片状物；杂物位于毛刷与簸箕之间的桌面上，两个机械臂在桌前下方，未接触桌上物品。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            122,
+            162,
+            203,
+            244,
+            284,
+            325,
+            366,
+            406
+          ],
+          "description": "左机械臂抬起靠近毛刷，反复调整手部姿态并接触、握持毛刷；右机械臂靠近并握住蓝色簸箕手柄；红色小盒、蓝色小包装袋和浅棕色片状物仍在桌面上。"
+        },
+        {
+          "id": "E3",
+          "frames": [
+            447,
+            487,
+            528,
+            569,
+            609
+          ],
+          "description": "左机械臂握持毛刷扫过桌面，将红色小盒、蓝色小包装袋和浅棕色片状物推入右机械臂所持蓝色簸箕内；随后毛刷抬离簸箕并放回桌面靠近簸箕边缘，簸箕内可见上述杂物。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            650,
+            690,
+            731,
+            772,
+            812,
+            853,
+            893,
+            934,
+            975,
+            1015,
+            1056,
+            1097,
+            1137,
+            1178,
+            1218,
+            1259
+          ],
+          "description": "蓝色簸箕置于桌面上，红色小盒、蓝色小包装袋和浅棕色片状物持续位于簸箕内；毛刷横放在桌面靠近簸箕边缘；机械臂随后松开毛刷和簸箕，下降收回桌前下方，未将已在簸箕内的杂物移出。"
+        }
+      ],
+      "task_assessment": {
+        "verdict": "complete",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "可见机械臂用毛刷作为扫帚完成扫动，将桌面的红色小盒、蓝色小包装袋和浅棕色片状物送入蓝色簸箕；后续到末帧多帧显示这些垃圾仍位于簸箕中，动作和最终状态均符合要求。帧采样间隔未展示每个连续动作细节，但关键初态、扫入过程和末态均有可见证据支持。",
+        "target_match": "match"
+      },
+      "physics_assessment": {
+        "verdict": "plausible",
+        "confidence": "medium",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "issues": [],
+        "reason": "在可见帧范围内，机械臂握持毛刷与簸箕、杂物被毛刷推进簸箕并停留在簸箕内的接触和运动关系整体可理解；未看到可确认的穿透、悬浮或明显无因果跳变。中间动作因采样间隔未逐帧呈现，但未见物体数量异常、状态往复跳变等已确认物理反常。"
+      },
+      "visual_assessment": {
+        "verdict": "clear",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "关键对象和动作可见：桌面、毛刷、簸箕和杂物在初态、扫动阶段及末态均可辨认；虽存在正常运动模糊和固定俯视角，但不妨碍判断垃圾被扫入簸箕的主要动作和结果。"
+      },
+      "uncertainties": [
+        "采样为间隔帧，两次提供帧之间的连续抓取、扫动和释放细节未逐帧展示；该限制未妨碍基于已见初态、扫入动作和末态作出判断。"
+      ]
+    },
+    "requirement_summary": {
+      "all_met": true,
+      "status_by_requirement": {
+        "R1": "met"
+      },
+      "unresolved_requirement_ids": [],
+      "review_required": false
+    },
+    "draft_report": {
+      "schema_version": "evidence-v2",
+      "task": {
+        "requested_action": "使用扫帚将垃圾扫入簸箕",
+        "target_description": "垃圾、扫帚、簸箕",
+        "final_state_requirement": "垃圾被扫入簸箕中"
+      },
+      "requirement_checks": [
+        {
+          "requirement_id": "R1",
+          "status": "met",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "reason": "初始时垃圾散落在桌面、扫帚在桌面左侧、簸箕在右侧；机械臂随后使用左侧手臂握持扫帚，将红色小盒、蓝色包装袋和浅棕色片状物扫向并送入右侧簸箕；后续帧可见这些垃圾位于蓝色簸箕内，簸箕被机械臂握持/保持，完成将垃圾扫入簸箕的动作与末态。"
+        }
+      ],
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            41,
+            81
+          ],
+          "description": "白色桌面上放着一把蓝柄黑毛扫帚（手柄包黑色缠绕物）、一个蓝色簸箕，以及红色小盒、蓝色小包装袋、浅棕色片状物；垃圾位于扫帚与簸箕之间的桌面上；两个机械臂在桌前下方，未接触桌上物品。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            122,
+            162,
+            203,
+            244,
+            284,
+            325,
+            366,
+            406
+          ],
+          "description": "左侧机械臂抬起靠近并调整姿态接触扫帚，右侧机械臂靠近并握住蓝色簸箕手柄；垃圾仍在桌面上，扫帚被左侧机械臂拨弄/握持，位置向垃圾方向靠近。"
+        },
+        {
+          "id": "E3",
+          "frames": [
+            447,
+            487,
+            528,
+            569,
+            609
+          ],
+          "description": "左侧机械臂握持扫帚扫过桌面，将红色小盒、蓝色小包装袋和浅棕色片状物推入右侧机械臂所持的蓝色簸箕内；随后扫帚抬起并放回桌面靠近簸箕处，簸箕内可见这些垃圾。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            650,
+            690,
+            731,
+            772,
+            812,
+            853,
+            893,
+            934,
+            975,
+            1015,
+            1056,
+            1097,
+            1137,
+            1178,
+            1218,
+            1259
+          ],
+          "description": "簸箕保持在桌面上，红色小盒、蓝色小包装袋和浅棕色片状物仍位于簸箕内；扫帚横放在桌面挨着簸箕边缘。后期机械臂先后松开扫帚和簸箕手柄并收回桌前下方；后方人员转向并操作笔记本电脑。"
+        }
+      ],
+      "task_assessment": {
+        "verdict": "complete",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "可见机械臂用扫帚完成扫动，并将初始散落在桌面的垃圾送入蓝色簸箕；末态多帧显示垃圾留在簸箕中，满足“使用扫帚将垃圾扫入簸箕”的动作与最终状态要求。采样为间隔帧，但关键初态、扫动进入过程和末态均有可见证据。",
+        "target_match": "match"
+      },
+      "physics_assessment": {
+        "verdict": "plausible",
+        "confidence": "medium",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "issues": [],
+        "reason": "在可见帧范围内，机械臂握持扫帚和簸箕、垃圾随扫帚移动进入簸箕、垃圾停留在簸箕内的接触与运动关系可理解；未观察到可明确确认的穿透、悬浮或明显非因果跳变。采样间隔未展示完整连续轨迹，但没有出现状态反复或物体数量异常等已确认反常。"
+      },
+      "visual_assessment": {
+        "verdict": "clear",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "桌面、扫帚、簸箕和垃圾的位置与最终状态在各关键帧均可辨认；虽存在正常运动模糊和固定俯视角限制，但不影响判断垃圾被扫入簸箕的主要动作和结果。"
+      },
+      "uncertainties": [
+        "采样为间隔帧，两次给出帧之间的连续抓取、扫动和释放细节未逐帧展示；但不影响基于已见初态、动作阶段和末态对任务完成的判断。"
+      ]
+    },
+    "blind_observations": {
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            41,
+            81
+          ],
+          "description": "白色桌面上初始放着一把蓝黑手柄毛刷、一个红色小盒、一个蓝色小包装袋、一片浅棕色片状物，以及一个蓝色簸箕；两个机器人手在桌前下方，未接触桌上物品；后方有一人坐在桌旁，双手交叠。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            122,
+            162,
+            203,
+            244,
+            284,
+            325,
+            366,
+            406
+          ],
+          "description": "左侧机械臂抬起并靠近毛刷，在毛刷上方及手柄处调整手部姿态；右侧机械臂在簸箕附近活动并接触簸箕手柄，期间毛刷从原摆放位置被拨弄，手柄转向靠近桌沿。"
+        },
+        {
+          "id": "E3",
+          "frames": [
+            447,
+            487,
+            528,
+            569,
+            609
+          ],
+          "description": "左侧机械臂握住毛刷，将毛刷及桌面的红色小盒、蓝色小包装袋、浅棕色片状物扫入右侧机械臂持有的蓝色簸箕内；随后毛刷被抬离簸箕，部分杂物留在簸箕里，毛刷放回桌面靠近簸箕边缘处，右侧机械臂仍握着簸箕。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            609,
+            650,
+            690,
+            731,
+            772,
+            812,
+            853,
+            893,
+            934,
+            975,
+            1015,
+            1056,
+            1097
+          ],
+          "description": "簸箕保持在桌面上，内有红色小盒、蓝色小包装袋和片状物，毛刷停在桌面挨着簸箕；左右机械臂在毛刷与簸箕上方张开手指、小幅移动，没有把物品从簸箕中移出；后方坐着的人放下双手后转向笔记本电脑，多次在键盘上操作。"
+        },
+        {
+          "id": "E5",
+          "frames": [
+            1137,
+            1178,
+            1218,
+            1259
+          ],
+          "description": "两个机械臂向下收回至桌前下方，离开毛刷与簸箕；毛刷横放在桌面上，簸箕内仍保留红色小盒、蓝色小包装袋和片状物，后方的人继续操作笔记本电脑。"
+        }
+      ],
+      "uncertainties": [
+        "采样为间隔帧，两次给出帧之间的连续抓取、扫动和释放细节不可见；毛刷与簸箕黑色缠绕部分内部结构无法辨认。"
+      ]
+    },
+    "scoring": {
+      "total_score": 1.0,
+      "component_scores": {
+        "task": 1.0,
+        "physics": 1.0,
+        "visual": 1.0
+      },
+      "review_required": false,
+      "review_reasons": [],
+      "scoring_version": "task-failure-material-review-v1",
+      "diagnostic_score": 1.0,
+      "diagnostic_review_required": false,
+      "diagnostic_review_reasons": [],
+      "diagnostic_scoring_version": "evidence-soft-physics-v2-provisional",
+      "task_reward": 1.0,
+      "decisive_failure": false,
+      "task_failure_gate": {
+        "applied": false,
+        "failed_requirement_ids": [],
+        "reason": "No decisive independent task failure; retain existing reward and material review."
+      }
+    },
+    "review_required": false,
+    "failure_reward_resolution": null,
+    "diagnostic_score": 1.0,
+    "diagnostic_review_required": false,
+    "diagnostic_review_reasons": [],
+    "training_eligible": true,
+    "frame_manifest": [
+      {
+        "source_frame_index": 0,
+        "timestamp_seconds": 0.0,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 41,
+        "timestamp_seconds": 1.3667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 81,
+        "timestamp_seconds": 2.7,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 122,
+        "timestamp_seconds": 4.0667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 162,
+        "timestamp_seconds": 5.4,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 203,
+        "timestamp_seconds": 6.7667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 244,
+        "timestamp_seconds": 8.1333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 284,
+        "timestamp_seconds": 9.4667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 325,
+        "timestamp_seconds": 10.8333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 366,
+        "timestamp_seconds": 12.2,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 406,
+        "timestamp_seconds": 13.5333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 447,
+        "timestamp_seconds": 14.9,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 487,
+        "timestamp_seconds": 16.2333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 528,
+        "timestamp_seconds": 17.6,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 569,
+        "timestamp_seconds": 18.9667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 609,
+        "timestamp_seconds": 20.3,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 650,
+        "timestamp_seconds": 21.6667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 690,
+        "timestamp_seconds": 23.0,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 731,
+        "timestamp_seconds": 24.3667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 772,
+        "timestamp_seconds": 25.7333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 812,
+        "timestamp_seconds": 27.0667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 853,
+        "timestamp_seconds": 28.4333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 893,
+        "timestamp_seconds": 29.7667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 934,
+        "timestamp_seconds": 31.1333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 975,
+        "timestamp_seconds": 32.5,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 1015,
+        "timestamp_seconds": 33.8333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 1056,
+        "timestamp_seconds": 35.2,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 1097,
+        "timestamp_seconds": 36.5667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 1137,
+        "timestamp_seconds": 37.9,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 1178,
+        "timestamp_seconds": 39.2667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 1218,
+        "timestamp_seconds": 40.6,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 1259,
+        "timestamp_seconds": 41.9667,
+        "view": "full"
+      }
+    ],
+    "observation_time_manifest": {
+      "E1": [
+        {
+          "source_frame_index": 0,
+          "timestamp_seconds": 0.0
+        },
+        {
+          "source_frame_index": 41,
+          "timestamp_seconds": 1.3667
+        },
+        {
+          "source_frame_index": 81,
+          "timestamp_seconds": 2.7
+        }
+      ],
+      "E2": [
+        {
+          "source_frame_index": 122,
+          "timestamp_seconds": 4.0667
+        },
+        {
+          "source_frame_index": 162,
+          "timestamp_seconds": 5.4
+        },
+        {
+          "source_frame_index": 203,
+          "timestamp_seconds": 6.7667
+        },
+        {
+          "source_frame_index": 244,
+          "timestamp_seconds": 8.1333
+        },
+        {
+          "source_frame_index": 284,
+          "timestamp_seconds": 9.4667
+        },
+        {
+          "source_frame_index": 325,
+          "timestamp_seconds": 10.8333
+        },
+        {
+          "source_frame_index": 366,
+          "timestamp_seconds": 12.2
+        },
+        {
+          "source_frame_index": 406,
+          "timestamp_seconds": 13.5333
+        }
+      ],
+      "E3": [
+        {
+          "source_frame_index": 447,
+          "timestamp_seconds": 14.9
+        },
+        {
+          "source_frame_index": 487,
+          "timestamp_seconds": 16.2333
+        },
+        {
+          "source_frame_index": 528,
+          "timestamp_seconds": 17.6
+        },
+        {
+          "source_frame_index": 569,
+          "timestamp_seconds": 18.9667
+        },
+        {
+          "source_frame_index": 609,
+          "timestamp_seconds": 20.3
+        }
+      ],
+      "E4": [
+        {
+          "source_frame_index": 650,
+          "timestamp_seconds": 21.6667
+        },
+        {
+          "source_frame_index": 690,
+          "timestamp_seconds": 23.0
+        },
+        {
+          "source_frame_index": 731,
+          "timestamp_seconds": 24.3667
+        },
+        {
+          "source_frame_index": 772,
+          "timestamp_seconds": 25.7333
+        },
+        {
+          "source_frame_index": 812,
+          "timestamp_seconds": 27.0667
+        },
+        {
+          "source_frame_index": 853,
+          "timestamp_seconds": 28.4333
+        },
+        {
+          "source_frame_index": 893,
+          "timestamp_seconds": 29.7667
+        },
+        {
+          "source_frame_index": 934,
+          "timestamp_seconds": 31.1333
+        },
+        {
+          "source_frame_index": 975,
+          "timestamp_seconds": 32.5
+        },
+        {
+          "source_frame_index": 1015,
+          "timestamp_seconds": 33.8333
+        },
+        {
+          "source_frame_index": 1056,
+          "timestamp_seconds": 35.2
+        },
+        {
+          "source_frame_index": 1097,
+          "timestamp_seconds": 36.5667
+        },
+        {
+          "source_frame_index": 1137,
+          "timestamp_seconds": 37.9
+        },
+        {
+          "source_frame_index": 1178,
+          "timestamp_seconds": 39.2667
+        },
+        {
+          "source_frame_index": 1218,
+          "timestamp_seconds": 40.6
+        },
+        {
+          "source_frame_index": 1259,
+          "timestamp_seconds": 41.9667
+        }
+      ]
+    },
+    "verification_coverage": {
+      "decoded_frames": 1260,
+      "fps": 30.0,
+      "provided_frames": 32,
+      "all_decoded_frames_provided": false
+    },
+    "video_metadata": {
+      "decoded_frames": 1260,
+      "fps": 30.0,
+      "width": 640,
+      "height": 480
+    },
+    "trace": [
+      {
+        "stage": "blind_observation",
+        "attempt": 1,
+        "response_id": "resp_0217897057594530e23c04e8b740c94d8512f0597aa5fa6dc829c",
+        "messages_sha256": "167298f93bf6a9419ce5ddf6038956d0a636c13531aa760e0b3f691b2cac381c",
+        "request_payload_sha256": "dbeb9124f64de4c8973ca5df6af283f24afc6cf762a41b18ef7faeacef9cc2c2",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 44709,
+          "output_tokens": 519,
+          "total_tokens": 45228,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                41,
+                81
+              ],
+              "description": "白色桌面上初始放着一把蓝黑手柄毛刷、一个红色小盒、一个蓝色小包装袋、一片浅棕色片状物，以及一个蓝色簸箕；两个机器人手在桌前下方，未接触桌上物品；后方有一人坐在桌旁，双手交叠。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                122,
+                162,
+                203,
+                244,
+                284,
+                325,
+                366,
+                406
+              ],
+              "description": "左侧机械臂抬起并靠近毛刷，在毛刷上方及手柄处调整手部姿态；右侧机械臂在簸箕附近活动并接触簸箕手柄，期间毛刷从原摆放位置被拨弄，手柄转向靠近桌沿。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                447,
+                487,
+                528,
+                569,
+                609
+              ],
+              "description": "左侧机械臂握住毛刷，将毛刷及桌面的红色小盒、蓝色小包装袋、浅棕色片状物扫入右侧机械臂持有的蓝色簸箕内；随后毛刷被抬离簸箕，部分杂物留在簸箕里，毛刷放回桌面靠近簸箕边缘处，右侧机械臂仍握着簸箕。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                609,
+                650,
+                690,
+                731,
+                772,
+                812,
+                853,
+                893,
+                934,
+                975,
+                1015,
+                1056,
+                1097
+              ],
+              "description": "簸箕保持在桌面上，内有红色小盒、蓝色小包装袋和片状物，毛刷停在桌面挨着簸箕；左右机械臂在毛刷与簸箕上方张开手指、小幅移动，没有把物品从簸箕中移出；后方坐着的人放下双手后转向笔记本电脑，多次在键盘上操作。"
+            },
+            {
+              "id": "E5",
+              "frames": [
+                1137,
+                1178,
+                1218,
+                1259
+              ],
+              "description": "两个机械臂向下收回至桌前下方，离开毛刷与簸箕；毛刷横放在桌面上，簸箕内仍保留红色小盒、蓝色小包装袋和片状物，后方的人继续操作笔记本电脑。"
+            }
+          ],
+          "uncertainties": [
+            "采样为间隔帧，两次给出帧之间的连续抓取、扫动和释放细节不可见；毛刷与簸箕黑色缠绕部分内部结构无法辨认。"
+          ]
+        }
+      },
+      {
+        "stage": "task_contract_extraction",
+        "attempt": 1,
+        "response_id": "resp_0217897057776507093713527b8c530401a403eec8fc152228286",
+        "messages_sha256": "682e3d7888e5793785dd83f5e4195f4d7a74de6e5eb22b78fbf5a26dc84efa84",
+        "request_payload_sha256": "32c91c15ca6a4e989be6fa1d33414288d4d16f7b6cfebbe730309eb7421f626f",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 780,
+          "output_tokens": 143,
+          "total_tokens": 923,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "task-contract-v1",
+          "task": {
+            "requested_action": "使用扫帚将垃圾扫入簸箕",
+            "target_description": "垃圾、扫帚、簸箕",
+            "final_state_requirement": "垃圾被扫入簸箕中"
+          },
+          "requirements": [
+            {
+              "id": "R1",
+              "source_quote": "Sweep the trash into the dustpan using a broom.",
+              "text": "必须使用扫帚将垃圾扫入簸箕。"
+            }
+          ],
+          "coverage_notes": []
+        }
+      },
+      {
+        "stage": "task_contract_coverage_audit",
+        "attempt": 1,
+        "response_id": "resp_0217897057801363f04613060c95c0e1cb70b4f628471a95c478d",
+        "messages_sha256": "fafde9264204c5b93a8b773441942142cc94673f8ec5dc51b0f3d074ffbc0aff",
+        "request_payload_sha256": "8fc927c4d1a063b502905277f6d46af6ec5a2cc4df57c069809be792a4899888",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 1182,
+          "output_tokens": 95,
+          "total_tokens": 1277,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "task-contract-v1",
+          "task": {
+            "requested_action": "使用扫帚将垃圾扫入簸箕",
+            "target_description": "垃圾、扫帚、簸箕",
+            "final_state_requirement": "垃圾被扫入簸箕中"
+          },
+          "requirements": [
+            {
+              "id": "R1",
+              "source_quote": "Sweep the trash into the dustpan using a broom.",
+              "text": "必须使用扫帚将垃圾扫入簸箕。"
+            }
+          ],
+          "coverage_notes": []
+        }
+      },
+      {
+        "stage": "assessment",
+        "attempt": 1,
+        "response_id": "resp_02178970578421440d92d5266a85c14e28416df297f1b20885235",
+        "messages_sha256": "967a0c65d9a8899a3a3e64cb16a80f3a340895170f6b8d4d4279e8b2ebf7665a",
+        "request_payload_sha256": "86b2c483f5df3293b087cb944981b12f45f53996221219500e3f8f06f058953b",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 48604,
+          "output_tokens": 1192,
+          "total_tokens": 49796,
+          "input_tokens_details": {
+            "cached_tokens": 1848
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "使用扫帚将垃圾扫入簸箕",
+            "target_description": "垃圾、扫帚、簸箕",
+            "final_state_requirement": "垃圾被扫入簸箕中"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E2",
+                "E3",
+                "E4"
+              ],
+              "reason": "初始时垃圾散落在桌面、扫帚在桌面左侧、簸箕在右侧；机械臂随后使用左侧手臂握持扫帚，将红色小盒、蓝色包装袋和浅棕色片状物扫向并送入右侧簸箕；后续帧可见这些垃圾位于蓝色簸箕内，簸箕被机械臂握持/保持，完成将垃圾扫入簸箕的动作与末态。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                41,
+                81
+              ],
+              "description": "白色桌面上放着一把蓝柄黑毛扫帚（手柄包黑色缠绕物）、一个蓝色簸箕，以及红色小盒、蓝色小包装袋、浅棕色片状物；垃圾位于扫帚与簸箕之间的桌面上；两个机械臂在桌前下方，未接触桌上物品。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                122,
+                162,
+                203,
+                244,
+                284,
+                325,
+                366,
+                406
+              ],
+              "description": "左侧机械臂抬起靠近并调整姿态接触扫帚，右侧机械臂靠近并握住蓝色簸箕手柄；垃圾仍在桌面上，扫帚被左侧机械臂拨弄/握持，位置向垃圾方向靠近。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                447,
+                487,
+                528,
+                569,
+                609
+              ],
+              "description": "左侧机械臂握持扫帚扫过桌面，将红色小盒、蓝色小包装袋和浅棕色片状物推入右侧机械臂所持的蓝色簸箕内；随后扫帚抬起并放回桌面靠近簸箕处，簸箕内可见这些垃圾。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                650,
+                690,
+                731,
+                772,
+                812,
+                853,
+                893,
+                934,
+                975,
+                1015,
+                1056,
+                1097,
+                1137,
+                1178,
+                1218,
+                1259
+              ],
+              "description": "簸箕保持在桌面上，红色小盒、蓝色小包装袋和浅棕色片状物仍位于簸箕内；扫帚横放在桌面挨着簸箕边缘。后期机械臂先后松开扫帚和簸箕手柄并收回桌前下方；后方人员转向并操作笔记本电脑。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "complete",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "reason": "可见机械臂用扫帚完成扫动，并将初始散落在桌面的垃圾送入蓝色簸箕；末态多帧显示垃圾留在簸箕中，满足“使用扫帚将垃圾扫入簸箕”的动作与最终状态要求。采样为间隔帧，但关键初态、扫动进入过程和末态均有可见证据。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "issues": [],
+            "reason": "在可见帧范围内，机械臂握持扫帚和簸箕、垃圾随扫帚移动进入簸箕、垃圾停留在簸箕内的接触与运动关系可理解；未观察到可明确确认的穿透、悬浮或明显非因果跳变。采样间隔未展示完整连续轨迹，但没有出现状态反复或物体数量异常等已确认反常。"
+          },
+          "visual_assessment": {
+            "verdict": "clear",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "reason": "桌面、扫帚、簸箕和垃圾的位置与最终状态在各关键帧均可辨认；虽存在正常运动模糊和固定俯视角限制，但不影响判断垃圾被扫入簸箕的主要动作和结果。"
+          },
+          "uncertainties": [
+            "采样为间隔帧，两次给出帧之间的连续抓取、扫动和释放细节未逐帧展示；但不影响基于已见初态、动作阶段和末态对任务完成的判断。"
+          ]
+        }
+      },
+      {
+        "stage": "verification",
+        "attempt": 1,
+        "response_id": "resp_021789705815724846a816464a9af9c0791e0f68a2ce03c1971b8",
+        "messages_sha256": "01eba6c37638236e195f1642d073d1979e855bc59164cc793d8eda35734b64b0",
+        "request_payload_sha256": "cb2d3a1e01870fcebe30560998b701cfe0af5c9be4f50ddec791a7e3ea94aab0",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 50176,
+          "output_tokens": 1218,
+          "total_tokens": 51394,
+          "input_tokens_details": {
+            "cached_tokens": 1848
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "使用扫帚将垃圾扫入簸箕",
+            "target_description": "垃圾、扫帚、簸箕",
+            "final_state_requirement": "垃圾被扫入簸箕中"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E2",
+                "E3",
+                "E4"
+              ],
+              "reason": "初始可见桌面上散放红色小盒、蓝色小包装袋、浅棕色片状物，蓝柄毛刷在桌面左侧，蓝色簸箕在右侧；随后左机械臂握持毛刷、右机械臂握持簸箕，毛刷扫过桌面并把上述杂物送入簸箕；扫入后多帧可见这些垃圾位于蓝色簸箕内，满足用扫帚将垃圾扫入簸箕的动作和末态要求。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                41,
+                81
+              ],
+              "description": "白色桌面上放着一把蓝柄黑毛毛刷（黑胶带缠绕手柄）、蓝色簸箕，以及红色小盒、蓝色小包装袋、浅棕色片状物；杂物位于毛刷与簸箕之间的桌面上，两个机械臂在桌前下方，未接触桌上物品。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                122,
+                162,
+                203,
+                244,
+                284,
+                325,
+                366,
+                406
+              ],
+              "description": "左机械臂抬起靠近毛刷，反复调整手部姿态并接触、握持毛刷；右机械臂靠近并握住蓝色簸箕手柄；红色小盒、蓝色小包装袋和浅棕色片状物仍在桌面上。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                447,
+                487,
+                528,
+                569,
+                609
+              ],
+              "description": "左机械臂握持毛刷扫过桌面，将红色小盒、蓝色小包装袋和浅棕色片状物推入右机械臂所持蓝色簸箕内；随后毛刷抬离簸箕并放回桌面靠近簸箕边缘，簸箕内可见上述杂物。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                650,
+                690,
+                731,
+                772,
+                812,
+                853,
+                893,
+                934,
+                975,
+                1015,
+                1056,
+                1097,
+                1137,
+                1178,
+                1218,
+                1259
+              ],
+              "description": "蓝色簸箕置于桌面上，红色小盒、蓝色小包装袋和浅棕色片状物持续位于簸箕内；毛刷横放在桌面靠近簸箕边缘；机械臂随后松开毛刷和簸箕，下降收回桌前下方，未将已在簸箕内的杂物移出。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "complete",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "reason": "可见机械臂用毛刷作为扫帚完成扫动，将桌面的红色小盒、蓝色小包装袋和浅棕色片状物送入蓝色簸箕；后续到末帧多帧显示这些垃圾仍位于簸箕中，动作和最终状态均符合要求。帧采样间隔未展示每个连续动作细节，但关键初态、扫入过程和末态均有可见证据支持。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "issues": [],
+            "reason": "在可见帧范围内，机械臂握持毛刷与簸箕、杂物被毛刷推进簸箕并停留在簸箕内的接触和运动关系整体可理解；未看到可确认的穿透、悬浮或明显无因果跳变。中间动作因采样间隔未逐帧呈现，但未见物体数量异常、状态往复跳变等已确认物理反常。"
+          },
+          "visual_assessment": {
+            "verdict": "clear",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "reason": "关键对象和动作可见：桌面、毛刷、簸箕和杂物在初态、扫动阶段及末态均可辨认；虽存在正常运动模糊和固定俯视角，但不妨碍判断垃圾被扫入簸箕的主要动作和结果。"
+          },
+          "uncertainties": [
+            "采样为间隔帧，两次提供帧之间的连续抓取、扫动和释放细节未逐帧展示；该限制未妨碍基于已见初态、扫入动作和末态作出判断。"
+          ]
+        }
+      },
+      {
+        "stage": "requirement_scope_audit",
+        "attempt": 1,
+        "response_id": "resp_021789705846753b566464da517b102b4cb09cdfd60e7ee8d2ba4",
+        "messages_sha256": "764ec3860fb1af3de0166ad133bd9a10d23183e396b3e1390c5b54bda0e7f231",
+        "request_payload_sha256": "1b2cf144b38075e5a23cac3e6a7bfb7d58fcf453fabbbe34d682ca10a00d862d",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 2197,
+          "output_tokens": 34,
+          "total_tokens": 2231,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "requirement-scope-audit-v1",
+          "checks": [
+            {
+              "requirement_id": "R1",
+              "issues": []
+            }
+          ]
+        }
+      }
+    ],
+    "elapsed_seconds": 89.385
+  },
+  "model": "doubao-seed-2-1-pro-260628",
+  "provider": "doubao"
+}

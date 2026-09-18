@@ -1,0 +1,30 @@
+{
+  "sample_id": "0073ac35b3a828a6e277",
+  "media_type": "real_robot_recording",
+  "source_collection": "User-owned sweep_trash rollouts",
+  "source_manifest": "reward_agent_experiments_202609/physics_and_rollout_runs/own_rollout_eval_v1/development_manifest.json",
+  "source_video": "reward_agent_experiments_202609/physics_and_rollout_runs/own_rollout_eval_v1/videos/0073ac35b3a828a6e277.mp4",
+  "video_sha256": "d5933b605fa8fc2a69f7f7b2a92f9ae64072ca7c40f63949e7c02a1450f407fc",
+  "decoded_frames": 1260,
+  "fps": 30,
+  "duration_seconds": 42,
+  "task_description": "Sweep the trash into the dustpan using a broom.",
+  "task_text_change": "None; prompt.txt adds only a terminal newline",
+  "video_transform": "None; original video bytes and full timeline preserved",
+  "preview": {
+    "path": "assets/demos/demo_07.gif",
+    "playback_speed": 3,
+    "fps": 8,
+    "width": 360,
+    "used_for_evaluation": false
+  },
+  "split": "development",
+  "reference_annotation": {
+    "label": "任务成功，中间步骤无错误",
+    "annotation_member": "success/20260731_state26/sweep_trash/videos/chunk-000/observation.images.cam_high_left/episode_000077.mp4.json",
+    "annotation_sha256": "641b49356080461ec451342704939a68a8f34cac688a3aa10fecc80f3d7993a7",
+    "label_origin": "Existing annotation export, not a new independent adjudication",
+    "not_provided_to_agent": true
+  },
+  "selection": "Selected from development recordings with a successful, error-free task reference label for a positive-example showcase; not an unbiased benchmark."
+}

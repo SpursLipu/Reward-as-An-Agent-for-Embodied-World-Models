@@ -1,0 +1,2201 @@
+{
+  "index": 0,
+  "score": 0.595,
+  "status": "success",
+  "task_verdict": "partial",
+  "training_eligible": true,
+  "diagnostic_score": 0.595,
+  "diagnostic_review_required": false,
+  "diagnostic_review_reasons": [],
+  "details": {
+    "planning_api_output": {
+      "index": 0,
+      "score": "partial",
+      "status": "success"
+    },
+    "total_score": 0.595,
+    "pipeline_version": "evidence-v7.0-focused1",
+    "evidence_report": {
+      "schema_version": "evidence-v2",
+      "task": {
+        "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+        "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+        "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+      },
+      "requirement_checks": [
+        {
+          "requirement_id": "R1",
+          "status": "met",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "reason": "帧0到帧43期间，右侧机械臂一直握持桌面上的红白红色罐；自帧46起该臂将红罐抬离桌面、移到黄色篮上方，并经黑色把手之间向下放入篮内，到帧93可见红罐已位于篮中。R1仅要求右臂完成向下放入黄色购物篮的动作，该动作在可见画面中已发生；R1不单独要求罐在最终时刻仍留在篮内或必须等左臂完全静止后才开始后续动作。"
+        },
+        {
+          "requirement_id": "R2",
+          "status": "not_met",
+          "evidence": [
+            "E2",
+            "E3",
+            "E5",
+            "E6"
+          ],
+          "reason": "左侧机械臂在右臂尚未把红罐放入篮之前就已经从左侧移动到篮沿并接触黑色把手区域；在右臂放罐并撤离后，末态帧112、116、120中该左臂夹爪仍握持红罐并把红罐压向篮口/篮内，没有呈现抓住篮子黑色把手的状态，未完成“在完成前一动作后移动左臂并抓住黑色把手”的要求。"
+        }
+      ],
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "description": "黄色塑料购物篮位于白色桌面中央，黑色把手横跨篮口，篮内为空；画面右上方的黑色机械夹爪握持一个红白色罐，停在篮子右侧桌面；画面左侧仅露出另一黑色夹爪的一小部分。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            15,
+            19,
+            23,
+            27,
+            31,
+            35
+          ],
+          "description": "左侧机械臂从画面左边向篮子移动，夹爪到达篮子左上沿及黑色把手附近并与篮沿/把手区域接触；此时右侧机械夹爪仍握持红白罐停在右侧桌面，篮内仍为空。"
+        },
+        {
+          "id": "E3",
+          "frames": [
+            39,
+            43
+          ],
+          "description": "篮内黑色把手下方出现一个横置的红色带纹理物体；左侧夹爪仍停在篮子左上沿/把手附近，右侧夹爪仍在桌面右侧握持红白罐。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            46,
+            50,
+            54,
+            58,
+            62,
+            66,
+            70,
+            74,
+            77,
+            81,
+            85,
+            89,
+            93
+          ],
+          "description": "右侧机械臂将红白罐抬离桌面并移至篮口上方，从黑色把手之间伸入篮内，把红白罐向下放入篮中并下压；红罐白色罐顶可见，位于篮内；随后夹爪松开并向左上方撤离，篮内仍可见红罐。"
+        },
+        {
+          "id": "E5",
+          "frames": [
+            97,
+            101,
+            105
+          ],
+          "description": "撤离到左侧的机械臂在桌面左侧握持另一个红白罐；篮子发生倾斜，篮内仍可见红罐，但罐身外观/角度发生变化。"
+        },
+        {
+          "id": "E6",
+          "frames": [
+            108,
+            112,
+            116,
+            120
+          ],
+          "description": "篮底视野中先前所见红罐不再清晰可见，随后左侧机械夹爪握持红罐移回篮口，从黑色把手之间下降并把红罐压向篮内；黑色把手仍横跨篮口，夹爪接触的是红罐而非抓握黑色把手。"
+        }
+      ],
+      "task_assessment": {
+        "verdict": "partial",
+        "confidence": "medium",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4",
+          "E5",
+          "E6"
+        ],
+        "reason": "已有有效核心进展：右臂确实将原先握持的红白色罐抬离桌面、移到黄色购物篮上方并向下放入篮中，满足了第一个动作要求（E1-E4）。但第二个要求未完成：左臂在右臂放罐完成前已先移动到篮沿/把手附近，且到最后可见状态，左臂夹爪握持红罐下探篮口，并未抓住篮子的黑色把手（E2,E3,E5,E6）。此外，帧105到108之间篮内先前红罐的状态变化未被采样帧完整覆盖，存在遮挡/倾倒/移位的可能，因此最终篮内是否仍保留由右臂放入的那一罐存在不确定性，但这不否定右臂已执行放入动作。",
+        "target_match": "match"
+      },
+      "physics_assessment": {
+        "verdict": "plausible",
+        "confidence": "medium",
+        "evidence": [
+          "E1",
+          "E4",
+          "E6"
+        ],
+        "issues": [],
+        "reason": "可见交互以机械臂夹持、移动、下压、释放和再次夹持红罐为主；夹爪与把手、罐顶的重叠位于正常夹持和下压接触区域，运动模糊和俯视遮挡可解释多数局部重叠。帧105到108之间缺少完整中间过程，但现有画面只显示篮体倾斜和红罐状态改变，没有可定位且难以由正常接触、遮挡或采样间隔解释的明确穿模、悬浮或不可能运动证据，因此不认定已发生物理缺陷。"
+      },
+      "visual_assessment": {
+        "verdict": "minor_degradation",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E4",
+          "E6"
+        ],
+        "reason": "俯视视角下黄色篮子、黑色把手、红罐和两只机械臂的主要位置与动作可辨认；动作较快时存在运动模糊，尤其在臂部移动和夹爪下压阶段有局部遮挡，但这些退化没有广泛妨碍对“右臂放罐”和“左臂未抓把手而握罐”这些关键状态的判断。"
+      },
+      "uncertainties": [
+        "帧105到108之间篮内先前红罐从可见变为不可见/变形的具体过程未被提供的采样帧覆盖，无法仅凭现有图像确定其是被遮挡、倾倒、移位还是被重新抓取。",
+        "帧39起出现在篮内的红色带纹理物体在俯视角度和运动模糊下无法完全确认其身份及与后续被放入红白罐的关系。",
+        "双臂身份主要依据初始位置和动作路径推断；在双臂靠近篮口的部分时刻存在遮挡，但不影响“左臂最终未抓握黑色把手”的判断。"
+      ]
+    },
+    "physics_evidence": null,
+    "process_event_evidence": null,
+    "evaluator_version": "evidence-v7.0-focused1-4fae127f66af5465",
+    "task_contract": {
+      "schema_version": "task-contract-v1",
+      "task": {
+        "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+        "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+        "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+      },
+      "requirements": [
+        {
+          "id": "R1",
+          "source_quote": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket",
+          "text": "使用右臂将红色可口可乐罐向下放入黄色塑料购物篮中"
+        },
+        {
+          "id": "R2",
+          "source_quote": "then move the left arm to grasp the basket's black handle",
+          "text": "在完成前一动作后，移动左臂并抓住篮子的黑色把手"
+        }
+      ],
+      "coverage_notes": [],
+      "source_text": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket, then move the left arm to grasp the basket's black handle.",
+      "source_sha256": "5cb82e3f869f647824970cfa3d2b9f0327fd88329f70999ca1f12a1355ffaf9f",
+      "contract_sha256": "f484e93016e49ba6e69d1a58b2e0f7b9453958f3893298433e8a4369e41cdbeb"
+    },
+    "task_contract_sha256": "f484e93016e49ba6e69d1a58b2e0f7b9453958f3893298433e8a4369e41cdbeb",
+    "task_contract_registry_sha256": null,
+    "task_contract_review": null,
+    "requirement_scope_audits": [
+      {
+        "report_sha256": "295cd2f5d92f45a431116274732590914657ed5a6af1825402a37d60d74f7716",
+        "audit": {
+          "schema_version": "requirement-scope-audit-v1",
+          "checks": [
+            {
+              "requirement_id": "R1",
+              "issues": [
+                {
+                  "kind": "added_condition",
+                  "claim_quote": "不能证实最终仍是右臂放入并留在篮中",
+                  "reference_requirement_ids": [],
+                  "reason": "R1 原文仅要求“使用右臂将红色可口可乐罐向下放入黄色塑料购物篮中”，并未额外规定放入后罐必须在最终状态持续留在篮内。该理由把“最终仍留在篮中”作为未满足条件，属于新增门槛。"
+                },
+                {
+                  "kind": "temporal_scope",
+                  "claim_quote": "未满足“先用右臂放入”的要求",
+                  "reference_requirement_ids": [
+                    "R2"
+                  ],
+                  "reason": "关于“先完成放罐、后移动左臂抓把手”的顺序条件在 R2 的“then move the left arm”中体现；R1 本身是右臂放罐动作要求。此处以左臂提前移动作为否定 R1 满足的理由，将顺序条件错用于判断 R1，属于阶段/要求范围串用。"
+                }
+              ]
+            },
+            {
+              "requirement_id": "R2",
+              "issues": []
+            }
+          ]
+        }
+      },
+      {
+        "report_sha256": "30e1b7033b458dc92d26c77f0ec657061ddbd7fea52c934a068d75af54db7c48",
+        "audit": {
+          "schema_version": "requirement-scope-audit-v1",
+          "checks": [
+            {
+              "requirement_id": "R1",
+              "issues": []
+            },
+            {
+              "requirement_id": "R2",
+              "issues": []
+            }
+          ]
+        }
+      }
+    ],
+    "pre_scope_repair_report": {
+      "schema_version": "evidence-v2",
+      "task": {
+        "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+        "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+        "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+      },
+      "requirement_checks": [
+        {
+          "requirement_id": "R1",
+          "status": "not_met",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5",
+            "E6",
+            "E7",
+            "E8"
+          ],
+          "reason": "右臂确实曾将其夹持的红白罐向下放进黄色篮中并下压（E4-E6），但任务要求的最终状态是红色可口可乐罐被右臂放入篮中；后续可见篮内红色物体状态发生变化，到帧108篮底已看不到此前放入的红白罐，左/离开篮口的机械臂在桌面左侧持有红罐（E7-E8），不能证实最终仍是右臂放入并留在篮中，且左臂在右臂完成放罐前就已先移动到篮沿/把手附近（E2-E3），未满足“先用右臂放入”的要求。"
+        },
+        {
+          "requirement_id": "R2",
+          "status": "not_met",
+          "evidence": [
+            "E2",
+            "E3",
+            "E6",
+            "E7",
+            "E8",
+            "E9"
+          ],
+          "reason": "左臂在右臂完成放罐之前就从左侧进入并接触篮沿/黑色把手区域（E2-E3）；右臂放罐并撤离后，到末态帧120，黑色把手仍横跨篮口，可见的机械臂/夹爪并未抓握黑色把手，而是夹着红罐下探到篮口把手之间并压向篮内（E7-E9），未实现移动左臂抓住篮子黑色把手的最终要求。"
+        }
+      ],
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "description": "黄色塑料购物篮置于白色桌面中央，黑色把手横跨篮口，篮内为空；画面右上方的黑色机械夹爪握持一个红白罐停在篮子右侧桌面；画面左侧仅露出另一黑色夹爪的一小部分。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            15,
+            19,
+            23,
+            27,
+            31,
+            35
+          ],
+          "description": "左侧机械臂从画面左边向篮子移动，夹爪伸到篮子左上沿及黑色把手附近，与篮沿/把手区域接触；此时右侧机械夹爪仍握持红白罐停在右侧桌面，篮内仍为空。"
+        },
+        {
+          "id": "E3",
+          "frames": [
+            39,
+            43
+          ],
+          "description": "篮内黑色把手下方出现一个横置的红色带纹理物体；左侧夹爪仍停在篮子左上沿/把手附近，右侧夹爪仍在桌面右侧握持红白罐。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            46,
+            50
+          ],
+          "description": "右侧机械臂将红白罐抬离桌面并移动到篮子上方；左侧夹爪仍靠在篮子左侧/把手附近，篮内红色带纹理物体仍在把手下方。"
+        },
+        {
+          "id": "E5",
+          "frames": [
+            54,
+            58,
+            62,
+            66,
+            70,
+            74
+          ],
+          "description": "机械夹爪从黑色把手之间伸入篮内，将红白罐向下放入篮中并下压，罐身被压到篮底附近，白色罐顶可见，原有红色带纹理物体被压在其下/被遮挡。"
+        },
+        {
+          "id": "E6",
+          "frames": [
+            77,
+            81,
+            85,
+            89
+          ],
+          "description": "夹爪继续在黑色把手之间向下按压篮中的红白罐，红罐保持在篮内；黑色把手仍横跨篮口，夹爪未抓握把手。"
+        },
+        {
+          "id": "E7",
+          "frames": [
+            93,
+            97,
+            101,
+            105
+          ],
+          "description": "下压的夹爪松开并离开篮口，撤向画面左上方；篮内可见红白罐仍以倾斜/竖立状态位于篮底，黑色把手复位横跨篮口，左侧夹爪在桌面左侧握持另一个红罐。"
+        },
+        {
+          "id": "E8",
+          "frames": [
+            108
+          ],
+          "description": "篮内已看不到此前可见的红白罐，篮底呈空黄色；左侧黑色夹爪仍在桌面左侧附近握持红罐。"
+        },
+        {
+          "id": "E9",
+          "frames": [
+            112,
+            116,
+            120
+          ],
+          "description": "夹爪握持红罐移向篮口，从黑色把手上方/之间下降并把红罐压向篮内；黑色把手仍横跨篮口，夹爪在接触红罐而非抓握黑色把手。"
+        }
+      ],
+      "task_assessment": {
+        "verdict": "partial",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E4",
+          "E5",
+          "E7",
+          "E8",
+          "E9"
+        ],
+        "reason": "存在有效实质进展：右臂将原先握持的红白罐抬起、移到黄色购物篮上方并向下放入篮中（E4-E6）；但两项必要要求均未满足：左臂在右臂完成放罐前就先移动到篮沿/把手区域（E2-E3），违反先右后左的顺序；到最后可见状态，黑色把手未被左臂抓握，夹爪反而握持红罐再次下探篮口（E7-E9），且帧108篮内已看不到此前由右臂放入的红白罐（E8），未能达到“右臂放入罐留在篮中、左臂抓住黑色把手”的最终状态。",
+        "target_match": "match"
+      },
+      "physics_assessment": {
+        "verdict": "plausible",
+        "confidence": "medium",
+        "evidence": [
+          "E1",
+          "E5",
+          "E7",
+          "E9"
+        ],
+        "issues": [],
+        "reason": "可见交互以机械臂夹持、移动、下压和撤离为主，夹爪与把手/罐顶的重叠位于可解释的夹持和下压接触区域；虽然采样未覆盖帧105到108之间篮内红罐不可见的完整过程，但仅凭现有帧不能确认穿模、悬浮或不可能运动，未见可定位且难以由遮挡/视角/采样解释的明确物理错误。"
+      },
+      "visual_assessment": {
+        "verdict": "minor_degradation",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E5",
+          "E9"
+        ],
+        "reason": "俯视视角下黄色篮子、黑色把手、红罐和两只机械臂的主要位置与动作均可辨认；动作较快处存在运动模糊和局部遮挡，但未广泛妨碍任务关键状态的判断。"
+      },
+      "uncertainties": [
+        "帧105到108之间篮内先前所见红白罐消失的具体过程未被提供的采样帧覆盖，无法仅凭现有图像确定其是被遮挡、被夹出还是倾倒移位。",
+        "帧39起出现在篮内的红色带纹理物体在俯视角度和运动模糊下无法确认其具体身份，与后续被压入的红白罐是否为同一物体也无法完全分辨。",
+        "画面中左右机械臂身份主要依据初始位置和动作路径推断；在双臂靠近篮口的部分时刻存在遮挡，但不影响最终未见左臂抓握把手的判断。"
+      ]
+    },
+    "requirement_summary": {
+      "all_met": false,
+      "status_by_requirement": {
+        "R1": "met",
+        "R2": "not_met"
+      },
+      "unresolved_requirement_ids": [],
+      "review_required": false
+    },
+    "draft_report": {
+      "schema_version": "evidence-v2",
+      "task": {
+        "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+        "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+        "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+      },
+      "requirement_checks": [
+        {
+          "requirement_id": "R1",
+          "status": "not_met",
+          "evidence": [
+            "E2",
+            "E3",
+            "E6",
+            "E8",
+            "E9"
+          ],
+          "reason": "右臂未先将红色可口可乐罐向下放入篮中：在右臂仍夹持桌上红罐时，左臂先移动并接触篮子，且篮内出现另一红色物体；随后右臂将其夹持的红罐放入篮内下压，但该红罐在帧101仍在篮中后，到帧108已不在篮内，左臂却在桌面左侧持有红罐，并未保持“罐被右臂放入篮中”的要求结果。"
+        },
+        {
+          "requirement_id": "R2",
+          "status": "not_met",
+          "evidence": [
+            "E2",
+            "E3",
+            "E6",
+            "E7",
+            "E8",
+            "E9"
+          ],
+          "reason": "左臂在右臂完成放罐之前就已接近并接触篮子/把手区域，且到末态左臂并未抓住篮子的黑色把手：帧77-89可见右臂/右上臂与黑色把手处接触，随后帧101-120显示左臂退到左侧桌面并夹持一个红罐，最后将红罐放到篮子把手附近，黑色把手仍横在篮口，未被左臂抓住。"
+        }
+      ],
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "description": "黄色塑料购物篮放在白色桌面上，篮口有黑色把手，篮内为空；画面右上角的机械臂夹爪握持一个红色白纹罐位于篮子右侧桌面；画面左下角露出另一黑色夹爪的一部分。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            15,
+            19,
+            23,
+            27,
+            31,
+            35
+          ],
+          "description": "左侧机械臂从画面左边向篮子移动，夹爪伸到篮子左上沿和黑色把手附近并接触篮子边缘/把手区域；此时右侧机械臂仍握持红罐停在桌面，篮内仍为空。"
+        },
+        {
+          "id": "E3",
+          "frames": [
+            39,
+            43
+          ],
+          "description": "篮内黑色把手下方出现一个横置的红色带纹理物体；左侧夹爪仍在篮子左上沿附近，右侧夹爪仍在桌面右侧握持红罐。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            46,
+            50
+          ],
+          "description": "右侧机械臂将红罐抬离桌面并移动到篮子上方；左侧夹爪仍靠在篮子侧边/把手附近。"
+        },
+        {
+          "id": "E5",
+          "frames": [
+            54,
+            58,
+            62,
+            66,
+            70,
+            74
+          ],
+          "description": "右侧机械臂将红罐向下压入篮内，夹爪从把手间伸入并向下按压，红罐在篮内被压正，罐顶白盖可见；篮内原有红色带纹理物体被压在其下。"
+        },
+        {
+          "id": "E6",
+          "frames": [
+            77,
+            81,
+            85,
+            89
+          ],
+          "description": "上方机械臂继续从把手处向下按压篮中红罐，夹爪穿过黑色把手之间与红罐顶部接触；红罐仍位于篮内。"
+        },
+        {
+          "id": "E7",
+          "frames": [
+            93,
+            97
+          ],
+          "description": "机械夹爪离开黑色把手并退到篮子左侧桌面上方；黑把手复位横跨篮口，篮内仍可见一个红罐站立/倾斜放置。"
+        },
+        {
+          "id": "E8",
+          "frames": [
+            101,
+            105
+          ],
+          "description": "左侧黑色夹爪在桌面左侧握持另一个红白罐；篮内的红罐仍可见，黑把手横跨篮口。"
+        },
+        {
+          "id": "E9",
+          "frames": [
+            108,
+            112,
+            116,
+            120
+          ],
+          "description": "帧108时篮内已看不到红罐，篮底为空；左侧夹爪握持的红罐被移向篮口并从黑色把手上方下降，帧116-120中该夹爪把红罐压在黑色把手/篮口处，未抓握黑色把手。"
+        }
+      ],
+      "task_assessment": {
+        "verdict": "partial",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E4",
+          "E5",
+          "E8",
+          "E9"
+        ],
+        "reason": "已有实质进展：右臂确实将它握持的红罐抬起并向下放入黄色篮中；但顺序和末态不符合要求：左臂先于右臂完成放罐前就移动并接触篮子，且到最后并未抓住黑色把手，反而持有并移动另一个红罐；已放入篮中的红罐最终也不在篮内保持，故两项要求均未满足。",
+        "target_match": "match"
+      },
+      "physics_assessment": {
+        "verdict": "plausible",
+        "confidence": "medium",
+        "evidence": [
+          "E1",
+          "E5",
+          "E7",
+          "E9"
+        ],
+        "issues": [],
+        "reason": "可见动作主要由机械臂夹持、下压、释放和再次夹持构成；虽然采样间隔下未展示红罐从篮中消失的中间过程，但仅凭采样缺失不能确认物理异常，可见接触与位置变化未出现无法用遮挡/运动解释的确定穿模或悬浮。"
+      },
+      "visual_assessment": {
+        "verdict": "minor_degradation",
+        "confidence": "high",
+        "evidence": [
+          "E1",
+          "E2",
+          "E5",
+          "E9"
+        ],
+        "reason": "俯视视角下黄色篮子、黑色把手、红色罐子和两只机械臂的主要动作均可辨认；局部运动模糊和夹爪遮挡在动作较快处存在，但未广泛妨碍任务关键状态判断。"
+      },
+      "uncertainties": [
+        "帧105到帧108之间篮内红罐消失的具体过程未被采样到，无法仅凭现有帧确定其是被取出、倾倒出视野还是被遮挡。",
+        "帧39开始出现在篮内的红色带纹理物体在俯视和运动模糊下无法确认其是否为另一罐或其他红色物品。",
+        "机械臂左右身份通过位置和动作推断，但部分帧中双臂靠近镜头切换，存在短暂遮挡。"
+      ]
+    },
+    "blind_observations": {
+      "observations": [
+        {
+          "id": "E1",
+          "frames": [
+            0,
+            4,
+            8,
+            12
+          ],
+          "description": "A yellow shopping basket with a black handle sits empty on a white table. The right robotic gripper holds a red-and-white can on the table to the basket's right. Another black robotic gripper is partially visible at the left edge."
+        },
+        {
+          "id": "E2",
+          "frames": [
+            15,
+            19,
+            23,
+            27,
+            31,
+            35
+          ],
+          "description": "The left robotic arm moves from the left edge toward the basket, with its black gripper reaching over the basket's top edge near the black handle while the basket remains empty; the right gripper continues to hold the red-and-white can on the table."
+        },
+        {
+          "id": "E3",
+          "frames": [
+            39,
+            43
+          ],
+          "description": "A red patterned object appears inside the basket under the handle as the left gripper stays near the basket's top-left edge; the right gripper still holds the red-and-white can on the table."
+        },
+        {
+          "id": "E4",
+          "frames": [
+            46,
+            50
+          ],
+          "description": "The right gripper lifts the red-and-white can off the table and moves it over the basket. The left gripper remains in contact with the basket, and the red patterned object stays in the basket."
+        },
+        {
+          "id": "E5",
+          "frames": [
+            54,
+            58,
+            62,
+            66,
+            70,
+            74,
+            77,
+            81,
+            85
+          ],
+          "description": "The robotic arm places the red-and-white can into the basket and presses downward on the red patterned object beneath the black handle, compressing or repositioning that object inside the basket."
+        },
+        {
+          "id": "E6",
+          "frames": [
+            89,
+            93,
+            97
+          ],
+          "description": "The gripper releases and moves away from the basket, leaving the red-and-white can standing upright inside the basket as the arm withdraws to the left."
+        },
+        {
+          "id": "E7",
+          "frames": [
+            101,
+            105,
+            108
+          ],
+          "description": "The basket tilts; the previously upright red-and-white can disappears from view inside the basket, and the left gripper holds another red can above the white table to the left of the basket."
+        },
+        {
+          "id": "E8",
+          "frames": [
+            112,
+            116,
+            120
+          ],
+          "description": "The left gripper moves the red can over the basket and lowers it toward the basket interior, with the black handle still visible across the basket opening."
+        }
+      ],
+      "uncertainties": [
+        "The basket briefly tilts around frames 101-108, and the exact moment the first placed red-and-white can exits the basket is not captured in the sampled frames.",
+        "Due to motion blur and the top-down view, the precise identity and state of the red patterned object pressed under the handle cannot be fully determined."
+      ]
+    },
+    "scoring": {
+      "total_score": 0.595,
+      "component_scores": {
+        "task": 0.45,
+        "physics": 1.0,
+        "visual": 0.8
+      },
+      "review_required": false,
+      "review_reasons": [],
+      "scoring_version": "task-failure-material-review-v1",
+      "diagnostic_score": 0.595,
+      "diagnostic_review_required": false,
+      "diagnostic_review_reasons": [],
+      "diagnostic_scoring_version": "evidence-soft-physics-v2-provisional",
+      "task_reward": 0.595,
+      "decisive_failure": false,
+      "task_failure_gate": {
+        "applied": false,
+        "failed_requirement_ids": [],
+        "reason": "No decisive independent task failure; retain existing reward and material review."
+      }
+    },
+    "review_required": false,
+    "failure_reward_resolution": null,
+    "diagnostic_score": 0.595,
+    "diagnostic_review_required": false,
+    "diagnostic_review_reasons": [],
+    "training_eligible": true,
+    "frame_manifest": [
+      {
+        "source_frame_index": 0,
+        "timestamp_seconds": 0.0,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 4,
+        "timestamp_seconds": 0.1667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 8,
+        "timestamp_seconds": 0.3333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 12,
+        "timestamp_seconds": 0.5,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 15,
+        "timestamp_seconds": 0.625,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 19,
+        "timestamp_seconds": 0.7917,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 23,
+        "timestamp_seconds": 0.9583,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 27,
+        "timestamp_seconds": 1.125,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 31,
+        "timestamp_seconds": 1.2917,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 35,
+        "timestamp_seconds": 1.4583,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 39,
+        "timestamp_seconds": 1.625,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 43,
+        "timestamp_seconds": 1.7917,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 46,
+        "timestamp_seconds": 1.9167,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 50,
+        "timestamp_seconds": 2.0833,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 54,
+        "timestamp_seconds": 2.25,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 58,
+        "timestamp_seconds": 2.4167,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 62,
+        "timestamp_seconds": 2.5833,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 66,
+        "timestamp_seconds": 2.75,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 70,
+        "timestamp_seconds": 2.9167,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 74,
+        "timestamp_seconds": 3.0833,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 77,
+        "timestamp_seconds": 3.2083,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 81,
+        "timestamp_seconds": 3.375,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 85,
+        "timestamp_seconds": 3.5417,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 89,
+        "timestamp_seconds": 3.7083,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 93,
+        "timestamp_seconds": 3.875,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 97,
+        "timestamp_seconds": 4.0417,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 101,
+        "timestamp_seconds": 4.2083,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 105,
+        "timestamp_seconds": 4.375,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 108,
+        "timestamp_seconds": 4.5,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 112,
+        "timestamp_seconds": 4.6667,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 116,
+        "timestamp_seconds": 4.8333,
+        "view": "full"
+      },
+      {
+        "source_frame_index": 120,
+        "timestamp_seconds": 5.0,
+        "view": "full"
+      }
+    ],
+    "observation_time_manifest": {
+      "E1": [
+        {
+          "source_frame_index": 0,
+          "timestamp_seconds": 0.0
+        },
+        {
+          "source_frame_index": 4,
+          "timestamp_seconds": 0.1667
+        },
+        {
+          "source_frame_index": 8,
+          "timestamp_seconds": 0.3333
+        },
+        {
+          "source_frame_index": 12,
+          "timestamp_seconds": 0.5
+        }
+      ],
+      "E2": [
+        {
+          "source_frame_index": 15,
+          "timestamp_seconds": 0.625
+        },
+        {
+          "source_frame_index": 19,
+          "timestamp_seconds": 0.7917
+        },
+        {
+          "source_frame_index": 23,
+          "timestamp_seconds": 0.9583
+        },
+        {
+          "source_frame_index": 27,
+          "timestamp_seconds": 1.125
+        },
+        {
+          "source_frame_index": 31,
+          "timestamp_seconds": 1.2917
+        },
+        {
+          "source_frame_index": 35,
+          "timestamp_seconds": 1.4583
+        }
+      ],
+      "E3": [
+        {
+          "source_frame_index": 39,
+          "timestamp_seconds": 1.625
+        },
+        {
+          "source_frame_index": 43,
+          "timestamp_seconds": 1.7917
+        }
+      ],
+      "E4": [
+        {
+          "source_frame_index": 46,
+          "timestamp_seconds": 1.9167
+        },
+        {
+          "source_frame_index": 50,
+          "timestamp_seconds": 2.0833
+        },
+        {
+          "source_frame_index": 54,
+          "timestamp_seconds": 2.25
+        },
+        {
+          "source_frame_index": 58,
+          "timestamp_seconds": 2.4167
+        },
+        {
+          "source_frame_index": 62,
+          "timestamp_seconds": 2.5833
+        },
+        {
+          "source_frame_index": 66,
+          "timestamp_seconds": 2.75
+        },
+        {
+          "source_frame_index": 70,
+          "timestamp_seconds": 2.9167
+        },
+        {
+          "source_frame_index": 74,
+          "timestamp_seconds": 3.0833
+        },
+        {
+          "source_frame_index": 77,
+          "timestamp_seconds": 3.2083
+        },
+        {
+          "source_frame_index": 81,
+          "timestamp_seconds": 3.375
+        },
+        {
+          "source_frame_index": 85,
+          "timestamp_seconds": 3.5417
+        },
+        {
+          "source_frame_index": 89,
+          "timestamp_seconds": 3.7083
+        },
+        {
+          "source_frame_index": 93,
+          "timestamp_seconds": 3.875
+        }
+      ],
+      "E5": [
+        {
+          "source_frame_index": 97,
+          "timestamp_seconds": 4.0417
+        },
+        {
+          "source_frame_index": 101,
+          "timestamp_seconds": 4.2083
+        },
+        {
+          "source_frame_index": 105,
+          "timestamp_seconds": 4.375
+        }
+      ],
+      "E6": [
+        {
+          "source_frame_index": 108,
+          "timestamp_seconds": 4.5
+        },
+        {
+          "source_frame_index": 112,
+          "timestamp_seconds": 4.6667
+        },
+        {
+          "source_frame_index": 116,
+          "timestamp_seconds": 4.8333
+        },
+        {
+          "source_frame_index": 120,
+          "timestamp_seconds": 5.0
+        }
+      ]
+    },
+    "verification_coverage": {
+      "decoded_frames": 121,
+      "fps": 24.0,
+      "provided_frames": 32,
+      "all_decoded_frames_provided": false
+    },
+    "video_metadata": {
+      "decoded_frames": 121,
+      "fps": 24.0,
+      "width": 640,
+      "height": 480
+    },
+    "trace": [
+      {
+        "stage": "blind_observation",
+        "attempt": 1,
+        "response_id": "resp_021789705159774c237340934591b89d6de6b6a9271c1b9a7197a",
+        "messages_sha256": "dc9380794e5396edc789583369e7b8956cc71c34220d0dcf0e1f6130567cb675",
+        "request_payload_sha256": "2f99a9a51664c39a0b0b231e0074baf7bf9a1ea4284dc248a652285989508b1b",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 44593,
+          "output_tokens": 575,
+          "total_tokens": 45168,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                4,
+                8,
+                12
+              ],
+              "description": "A yellow shopping basket with a black handle sits empty on a white table. The right robotic gripper holds a red-and-white can on the table to the basket's right. Another black robotic gripper is partially visible at the left edge."
+            },
+            {
+              "id": "E2",
+              "frames": [
+                15,
+                19,
+                23,
+                27,
+                31,
+                35
+              ],
+              "description": "The left robotic arm moves from the left edge toward the basket, with its black gripper reaching over the basket's top edge near the black handle while the basket remains empty; the right gripper continues to hold the red-and-white can on the table."
+            },
+            {
+              "id": "E3",
+              "frames": [
+                39,
+                43
+              ],
+              "description": "A red patterned object appears inside the basket under the handle as the left gripper stays near the basket's top-left edge; the right gripper still holds the red-and-white can on the table."
+            },
+            {
+              "id": "E4",
+              "frames": [
+                46,
+                50
+              ],
+              "description": "The right gripper lifts the red-and-white can off the table and moves it over the basket. The left gripper remains in contact with the basket, and the red patterned object stays in the basket."
+            },
+            {
+              "id": "E5",
+              "frames": [
+                54,
+                58,
+                62,
+                66,
+                70,
+                74,
+                77,
+                81,
+                85
+              ],
+              "description": "The robotic arm places the red-and-white can into the basket and presses downward on the red patterned object beneath the black handle, compressing or repositioning that object inside the basket."
+            },
+            {
+              "id": "E6",
+              "frames": [
+                89,
+                93,
+                97
+              ],
+              "description": "The gripper releases and moves away from the basket, leaving the red-and-white can standing upright inside the basket as the arm withdraws to the left."
+            },
+            {
+              "id": "E7",
+              "frames": [
+                101,
+                105,
+                108
+              ],
+              "description": "The basket tilts; the previously upright red-and-white can disappears from view inside the basket, and the left gripper holds another red can above the white table to the left of the basket."
+            },
+            {
+              "id": "E8",
+              "frames": [
+                112,
+                116,
+                120
+              ],
+              "description": "The left gripper moves the red can over the basket and lowers it toward the basket interior, with the black handle still visible across the basket opening."
+            }
+          ],
+          "uncertainties": [
+            "The basket briefly tilts around frames 101-108, and the exact moment the first placed red-and-white can exits the basket is not captured in the sampled frames.",
+            "Due to motion blur and the top-down view, the precise identity and state of the red patterned object pressed under the handle cannot be fully determined."
+          ]
+        }
+      },
+      {
+        "stage": "task_contract_extraction",
+        "attempt": 1,
+        "response_id": "resp_021789705183094137f500080bf18603e76d17d12e7c43e52a9b0",
+        "messages_sha256": "8554253dbfd2e9742b018e0e071456c5fdc0719f7710b4d89ab52e299dd03258",
+        "request_payload_sha256": "761ef5f402746f4015bac3b3b2c4ef4b9ac0b515c697d7aa557287611acf2770",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 814,
+          "output_tokens": 247,
+          "total_tokens": 1061,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "task-contract-v1",
+          "task": {
+            "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+            "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+            "final_state_requirement": "红色可口可乐罐被右臂放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+          },
+          "requirements": [
+            {
+              "id": "R1",
+              "source_quote": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket",
+              "text": "使用右臂将红色可口可乐罐向下放入黄色塑料购物篮中"
+            },
+            {
+              "id": "R2",
+              "source_quote": "then move the left arm to grasp the basket's black handle",
+              "text": "在放入罐之后，移动左臂并抓住篮子的黑色把手"
+            }
+          ],
+          "coverage_notes": []
+        }
+      },
+      {
+        "stage": "task_contract_coverage_audit",
+        "attempt": 1,
+        "response_id": "resp_021789705187412b9f489096afc36acf45c00ec3935d23a20a49b",
+        "messages_sha256": "144dbd1b1cfd5688a9854f5a5f99cf886509e8b186ffb60e33ee1dc82593c463",
+        "request_payload_sha256": "c4c28f9dd807a09aa677e47f5521c0f9a74ad2cdd69273c04e484683faaf8dc1",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 1398,
+          "output_tokens": 250,
+          "total_tokens": 1648,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "task-contract-v1",
+          "task": {
+            "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+            "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+            "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+          },
+          "requirements": [
+            {
+              "id": "R1",
+              "source_quote": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket",
+              "text": "使用右臂将红色可口可乐罐向下放入黄色塑料购物篮中"
+            },
+            {
+              "id": "R2",
+              "source_quote": "then move the left arm to grasp the basket's black handle",
+              "text": "在完成前一动作后，移动左臂并抓住篮子的黑色把手"
+            }
+          ],
+          "coverage_notes": []
+        }
+      },
+      {
+        "stage": "assessment",
+        "attempt": 1,
+        "response_id": "resp_0217897051924267093713527b8c530401a403eec8fc152940c87",
+        "messages_sha256": "cd7a35b1ef46ee80692ba8ab859a54ff77262c435ae00f3d62e4ab94c61d4ef9",
+        "request_payload_sha256": "439dcf79435227d694b817625ca22a2f5db4fb7c68eb0bc5662c6f39e631a083",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 48895,
+          "output_tokens": 1745,
+          "total_tokens": 50640,
+          "input_tokens_details": {
+            "cached_tokens": 1848
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+            "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+            "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "not_met",
+              "evidence": [
+                "E2",
+                "E3",
+                "E6",
+                "E8",
+                "E9"
+              ],
+              "reason": "右臂未先将红色可口可乐罐向下放入篮中：在右臂仍夹持桌上红罐时，左臂先移动并接触篮子，且篮内出现另一红色物体；随后右臂将其夹持的红罐放入篮内下压，但该红罐在帧101仍在篮中后，到帧108已不在篮内，左臂却在桌面左侧持有红罐，并未保持“罐被右臂放入篮中”的要求结果。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "not_met",
+              "evidence": [
+                "E2",
+                "E3",
+                "E6",
+                "E7",
+                "E8",
+                "E9"
+              ],
+              "reason": "左臂在右臂完成放罐之前就已接近并接触篮子/把手区域，且到末态左臂并未抓住篮子的黑色把手：帧77-89可见右臂/右上臂与黑色把手处接触，随后帧101-120显示左臂退到左侧桌面并夹持一个红罐，最后将红罐放到篮子把手附近，黑色把手仍横在篮口，未被左臂抓住。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                4,
+                8,
+                12
+              ],
+              "description": "黄色塑料购物篮放在白色桌面上，篮口有黑色把手，篮内为空；画面右上角的机械臂夹爪握持一个红色白纹罐位于篮子右侧桌面；画面左下角露出另一黑色夹爪的一部分。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                15,
+                19,
+                23,
+                27,
+                31,
+                35
+              ],
+              "description": "左侧机械臂从画面左边向篮子移动，夹爪伸到篮子左上沿和黑色把手附近并接触篮子边缘/把手区域；此时右侧机械臂仍握持红罐停在桌面，篮内仍为空。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                39,
+                43
+              ],
+              "description": "篮内黑色把手下方出现一个横置的红色带纹理物体；左侧夹爪仍在篮子左上沿附近，右侧夹爪仍在桌面右侧握持红罐。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                46,
+                50
+              ],
+              "description": "右侧机械臂将红罐抬离桌面并移动到篮子上方；左侧夹爪仍靠在篮子侧边/把手附近。"
+            },
+            {
+              "id": "E5",
+              "frames": [
+                54,
+                58,
+                62,
+                66,
+                70,
+                74
+              ],
+              "description": "右侧机械臂将红罐向下压入篮内，夹爪从把手间伸入并向下按压，红罐在篮内被压正，罐顶白盖可见；篮内原有红色带纹理物体被压在其下。"
+            },
+            {
+              "id": "E6",
+              "frames": [
+                77,
+                81,
+                85,
+                89
+              ],
+              "description": "上方机械臂继续从把手处向下按压篮中红罐，夹爪穿过黑色把手之间与红罐顶部接触；红罐仍位于篮内。"
+            },
+            {
+              "id": "E7",
+              "frames": [
+                93,
+                97
+              ],
+              "description": "机械夹爪离开黑色把手并退到篮子左侧桌面上方；黑把手复位横跨篮口，篮内仍可见一个红罐站立/倾斜放置。"
+            },
+            {
+              "id": "E8",
+              "frames": [
+                101,
+                105
+              ],
+              "description": "左侧黑色夹爪在桌面左侧握持另一个红白罐；篮内的红罐仍可见，黑把手横跨篮口。"
+            },
+            {
+              "id": "E9",
+              "frames": [
+                108,
+                112,
+                116,
+                120
+              ],
+              "description": "帧108时篮内已看不到红罐，篮底为空；左侧夹爪握持的红罐被移向篮口并从黑色把手上方下降，帧116-120中该夹爪把红罐压在黑色把手/篮口处，未抓握黑色把手。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E4",
+              "E5",
+              "E8",
+              "E9"
+            ],
+            "reason": "已有实质进展：右臂确实将它握持的红罐抬起并向下放入黄色篮中；但顺序和末态不符合要求：左臂先于右臂完成放罐前就移动并接触篮子，且到最后并未抓住黑色把手，反而持有并移动另一个红罐；已放入篮中的红罐最终也不在篮内保持，故两项要求均未满足。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E5",
+              "E7",
+              "E9"
+            ],
+            "issues": [],
+            "reason": "可见动作主要由机械臂夹持、下压、释放和再次夹持构成；虽然采样间隔下未展示红罐从篮中消失的中间过程，但仅凭采样缺失不能确认物理异常，可见接触与位置变化未出现无法用遮挡/运动解释的确定穿模或悬浮。"
+          },
+          "visual_assessment": {
+            "verdict": "minor_degradation",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E5",
+              "E9"
+            ],
+            "reason": "俯视视角下黄色篮子、黑色把手、红色罐子和两只机械臂的主要动作均可辨认；局部运动模糊和夹爪遮挡在动作较快处存在，但未广泛妨碍任务关键状态判断。"
+          },
+          "uncertainties": [
+            "帧105到帧108之间篮内红罐消失的具体过程未被采样到，无法仅凭现有帧确定其是被取出、倾倒出视野还是被遮挡。",
+            "帧39开始出现在篮内的红色带纹理物体在俯视和运动模糊下无法确认其是否为另一罐或其他红色物品。",
+            "机械臂左右身份通过位置和动作推断，但部分帧中双臂靠近镜头切换，存在短暂遮挡。"
+          ]
+        }
+      },
+      {
+        "stage": "verification",
+        "attempt": 1,
+        "response_id": "resp_021789705243030f0b662e0a22462bcc30964e8c71cc76611cbb8",
+        "messages_sha256": "eed9f1afbfbba3ef84bd169be392bde2b1a15ea7baa7d395efccbf19f6903812",
+        "request_payload_sha256": "788203138e765ae5ee86f76c823b05947183af492c7c21abf1ebf1e04bbbb14b",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 50919,
+          "output_tokens": 1952,
+          "total_tokens": 52871,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+            "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+            "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "not_met",
+              "evidence": [
+                "E1",
+                "E2",
+                "E3",
+                "E4",
+                "E5",
+                "E6",
+                "E7",
+                "E8"
+              ],
+              "reason": "右臂确实曾将其夹持的红白罐向下放进黄色篮中并下压（E4-E6），但任务要求的最终状态是红色可口可乐罐被右臂放入篮中；后续可见篮内红色物体状态发生变化，到帧108篮底已看不到此前放入的红白罐，左/离开篮口的机械臂在桌面左侧持有红罐（E7-E8），不能证实最终仍是右臂放入并留在篮中，且左臂在右臂完成放罐前就已先移动到篮沿/把手附近（E2-E3），未满足“先用右臂放入”的要求。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "not_met",
+              "evidence": [
+                "E2",
+                "E3",
+                "E6",
+                "E7",
+                "E8",
+                "E9"
+              ],
+              "reason": "左臂在右臂完成放罐之前就从左侧进入并接触篮沿/黑色把手区域（E2-E3）；右臂放罐并撤离后，到末态帧120，黑色把手仍横跨篮口，可见的机械臂/夹爪并未抓握黑色把手，而是夹着红罐下探到篮口把手之间并压向篮内（E7-E9），未实现移动左臂抓住篮子黑色把手的最终要求。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                4,
+                8,
+                12
+              ],
+              "description": "黄色塑料购物篮置于白色桌面中央，黑色把手横跨篮口，篮内为空；画面右上方的黑色机械夹爪握持一个红白罐停在篮子右侧桌面；画面左侧仅露出另一黑色夹爪的一小部分。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                15,
+                19,
+                23,
+                27,
+                31,
+                35
+              ],
+              "description": "左侧机械臂从画面左边向篮子移动，夹爪伸到篮子左上沿及黑色把手附近，与篮沿/把手区域接触；此时右侧机械夹爪仍握持红白罐停在右侧桌面，篮内仍为空。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                39,
+                43
+              ],
+              "description": "篮内黑色把手下方出现一个横置的红色带纹理物体；左侧夹爪仍停在篮子左上沿/把手附近，右侧夹爪仍在桌面右侧握持红白罐。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                46,
+                50
+              ],
+              "description": "右侧机械臂将红白罐抬离桌面并移动到篮子上方；左侧夹爪仍靠在篮子左侧/把手附近，篮内红色带纹理物体仍在把手下方。"
+            },
+            {
+              "id": "E5",
+              "frames": [
+                54,
+                58,
+                62,
+                66,
+                70,
+                74
+              ],
+              "description": "机械夹爪从黑色把手之间伸入篮内，将红白罐向下放入篮中并下压，罐身被压到篮底附近，白色罐顶可见，原有红色带纹理物体被压在其下/被遮挡。"
+            },
+            {
+              "id": "E6",
+              "frames": [
+                77,
+                81,
+                85,
+                89
+              ],
+              "description": "夹爪继续在黑色把手之间向下按压篮中的红白罐，红罐保持在篮内；黑色把手仍横跨篮口，夹爪未抓握把手。"
+            },
+            {
+              "id": "E7",
+              "frames": [
+                93,
+                97,
+                101,
+                105
+              ],
+              "description": "下压的夹爪松开并离开篮口，撤向画面左上方；篮内可见红白罐仍以倾斜/竖立状态位于篮底，黑色把手复位横跨篮口，左侧夹爪在桌面左侧握持另一个红罐。"
+            },
+            {
+              "id": "E8",
+              "frames": [
+                108
+              ],
+              "description": "篮内已看不到此前可见的红白罐，篮底呈空黄色；左侧黑色夹爪仍在桌面左侧附近握持红罐。"
+            },
+            {
+              "id": "E9",
+              "frames": [
+                112,
+                116,
+                120
+              ],
+              "description": "夹爪握持红罐移向篮口，从黑色把手上方/之间下降并把红罐压向篮内；黑色把手仍横跨篮口，夹爪在接触红罐而非抓握黑色把手。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E4",
+              "E5",
+              "E7",
+              "E8",
+              "E9"
+            ],
+            "reason": "存在有效实质进展：右臂将原先握持的红白罐抬起、移到黄色购物篮上方并向下放入篮中（E4-E6）；但两项必要要求均未满足：左臂在右臂完成放罐前就先移动到篮沿/把手区域（E2-E3），违反先右后左的顺序；到最后可见状态，黑色把手未被左臂抓握，夹爪反而握持红罐再次下探篮口（E7-E9），且帧108篮内已看不到此前由右臂放入的红白罐（E8），未能达到“右臂放入罐留在篮中、左臂抓住黑色把手”的最终状态。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E5",
+              "E7",
+              "E9"
+            ],
+            "issues": [],
+            "reason": "可见交互以机械臂夹持、移动、下压和撤离为主，夹爪与把手/罐顶的重叠位于可解释的夹持和下压接触区域；虽然采样未覆盖帧105到108之间篮内红罐不可见的完整过程，但仅凭现有帧不能确认穿模、悬浮或不可能运动，未见可定位且难以由遮挡/视角/采样解释的明确物理错误。"
+          },
+          "visual_assessment": {
+            "verdict": "minor_degradation",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E5",
+              "E9"
+            ],
+            "reason": "俯视视角下黄色篮子、黑色把手、红罐和两只机械臂的主要位置与动作均可辨认；动作较快处存在运动模糊和局部遮挡，但未广泛妨碍任务关键状态的判断。"
+          },
+          "uncertainties": [
+            "帧105到108之间篮内先前所见红白罐消失的具体过程未被提供的采样帧覆盖，无法仅凭现有图像确定其是被遮挡、被夹出还是倾倒移位。",
+            "帧39起出现在篮内的红色带纹理物体在俯视角度和运动模糊下无法确认其具体身份，与后续被压入的红白罐是否为同一物体也无法完全分辨。",
+            "画面中左右机械臂身份主要依据初始位置和动作路径推断；在双臂靠近篮口的部分时刻存在遮挡，但不影响最终未见左臂抓握把手的判断。"
+          ]
+        }
+      },
+      {
+        "stage": "requirement_scope_audit",
+        "attempt": 1,
+        "response_id": "resp_02178970529160440d92d5266a85c14e28416df297f1b20cb028a",
+        "messages_sha256": "c2115a9a8ed3e85467036e2f3fa9fe0bcad005e84f95bb03dbf4533e44f96312",
+        "request_payload_sha256": "dc62dca7150f50e93aa63abe995ba4240b5c339d8d543599ab4b4413d1f73d53",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 2948,
+          "output_tokens": 253,
+          "total_tokens": 3201,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "requirement-scope-audit-v1",
+          "checks": [
+            {
+              "requirement_id": "R1",
+              "issues": [
+                {
+                  "kind": "added_condition",
+                  "claim_quote": "不能证实最终仍是右臂放入并留在篮中",
+                  "reference_requirement_ids": [],
+                  "reason": "R1 原文仅要求“使用右臂将红色可口可乐罐向下放入黄色塑料购物篮中”，并未额外规定放入后罐必须在最终状态持续留在篮内。该理由把“最终仍留在篮中”作为未满足条件，属于新增门槛。"
+                },
+                {
+                  "kind": "temporal_scope",
+                  "claim_quote": "未满足“先用右臂放入”的要求",
+                  "reference_requirement_ids": [
+                    "R2"
+                  ],
+                  "reason": "关于“先完成放罐、后移动左臂抓把手”的顺序条件在 R2 的“then move the left arm”中体现；R1 本身是右臂放罐动作要求。此处以左臂提前移动作为否定 R1 满足的理由，将顺序条件错用于判断 R1，属于阶段/要求范围串用。"
+                }
+              ]
+            },
+            {
+              "requirement_id": "R2",
+              "issues": []
+            }
+          ]
+        }
+      },
+      {
+        "stage": "verification_scope_repair",
+        "attempt": 1,
+        "response_id": "resp_0217897052988939255aa03547266d00c3fa3dce78057f15a79b4",
+        "messages_sha256": "f72375c4ec6db0f699cd70c28826e866fc9963299c3cc829780bfb172b1f5a0b",
+        "request_payload_sha256": "1fbf1d4df30b94ce011ddec2480559ca2a05649ddb2f8cc22d315c3b4ad89504",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 51402,
+          "output_tokens": 2218,
+          "total_tokens": 53620,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+            "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+            "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "partial",
+              "evidence": [
+                "E1",
+                "E2",
+                "E3",
+                "E4",
+                "E5",
+                "E6",
+                "E7"
+              ],
+              "reason": "可见右臂/右侧机械夹爪从桌面右侧夹持红白罐，抬起并移动到黄色篮上方，随后穿过黑色把手之间将该罐向下放入篮内并按压，在帧89-101罐已进入篮中并可见白色罐顶/红色罐身（E1-E6）。但在帧105-108篮内已看不到此前放入的红白罐，左侧夹爪在桌左持有一个红白罐，右臂放入的成果在后续可见状态中不再位于篮内；且右臂动作开始前左臂已先进入篮沿/把手附近，顺序问题由R2评价，不否定右臂已执行下放动作本身。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "not_met",
+              "evidence": [
+                "E2",
+                "E3",
+                "E6",
+                "E7",
+                "E8"
+              ],
+              "reason": "左臂/左侧机械夹爪在右臂尚未完成放罐之前，就从画面左侧移动到篮子左上沿及黑色把手附近（E2-E3）；在右臂完成放罐并撤离后，可见的左臂夹爪并未抓握黑色把手，反而夹持一个红罐从桌左移动到篮口并将该罐下探到篮内，末态中黑色把手仍横跨篮口，夹爪围绕红罐而非抓握把手（E6-E8），未实现“完成放罐后移动左臂抓住篮子黑色把手”的要求。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                4,
+                8,
+                12
+              ],
+              "description": "黄色塑料购物篮置于白色桌面中央，黑色把手横跨篮口，篮内为空；画面右上方的黑色机械夹爪握持一个红白易拉罐停在篮子右侧桌面；画面左侧仅露出另一黑色夹爪的一小部分。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                15,
+                19,
+                23,
+                27,
+                31,
+                35
+              ],
+              "description": "左侧机械臂从画面左边向篮子移动，夹爪到达篮子左上沿及黑色把手附近并靠在篮沿/把手区域；此时右侧机械夹爪仍握持红白罐停在右侧桌面，篮内仍为空。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                39,
+                43
+              ],
+              "description": "篮内黑色把手下方出现一个横置的红色带纹理物体；左侧夹爪仍停在篮子左上沿/把手附近，右侧夹爪仍在桌面右侧握持红白罐。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                46,
+                50
+              ],
+              "description": "右侧机械臂将红白罐抬离桌面并移动到篮子上方；左侧夹爪仍靠在篮子左侧/把手附近，篮内红色带纹理物体仍在把手下方。"
+            },
+            {
+              "id": "E5",
+              "frames": [
+                54,
+                58,
+                62,
+                66,
+                70,
+                74,
+                77,
+                81,
+                85
+              ],
+              "description": "右侧机械夹爪从黑色把手之间伸入篮内，将红白罐向下放入篮中并持续下压；罐的白色罐顶和红色罐身在篮内可见，原有红色带纹理物体被按压或遮挡在罐下，夹爪与罐顶接触但没有抓握黑色把手。"
+            },
+            {
+              "id": "E6",
+              "frames": [
+                89,
+                93,
+                97,
+                101
+              ],
+              "description": "下压的夹爪松开并开始撤离篮口，撤向画面左上方；篮内红白罐仍以竖立/倾斜状态位于篮底，黑色把手横跨篮口，左侧夹爪在桌面左侧握持一个红白罐。"
+            },
+            {
+              "id": "E7",
+              "frames": [
+                105,
+                108
+              ],
+              "description": "篮子处于倾斜后恢复的视角；帧105篮内仍可见红色物体但形态模糊，到帧108篮底呈黄色空态，此前可见的竖立红白罐已不可见；左侧黑色夹爪仍在桌面左侧附近握持红白罐。"
+            },
+            {
+              "id": "E8",
+              "frames": [
+                112,
+                116,
+                120
+              ],
+              "description": "左侧夹爪握持红白罐移向篮口，从黑色把手上方/之间下降并把红罐压向篮内；黑色把手仍横跨篮口，夹爪围绕红罐动作而非抓握黑色把手。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E2",
+              "E4",
+              "E5",
+              "E6",
+              "E7",
+              "E8"
+            ],
+            "reason": "已有有效实质进展：右臂确实夹起桌面右侧的红白罐，移动到黄色购物篮上方并向下放入篮中、下压，使罐一度进入篮内（E4-E6）。但任务未完整完成：左臂在右臂完成放罐前就先移动到篮沿/把手区域，违反R2的顺序要求；到末态帧120，左臂并未抓住黑色把手，反而夹着另一个红罐下探篮口（E2-E3,E8）；并且在帧108篮内看不到此前由右臂放入的红白罐，右臂放入篮中的可见成果未能在后续可见状态中保持在篮内（E7）。由于核心放罐动作已发生且不是完全无效尝试，整体判为partial而非failed。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "minor_defect",
+            "confidence": "medium",
+            "evidence": [
+              "E6",
+              "E7"
+            ],
+            "issues": [
+              {
+                "kind": "motion",
+                "severity": "minor",
+                "certainty": "uncertain",
+                "evidence": [
+                  "E6",
+                  "E7"
+                ],
+                "reason": "帧101时红白罐仍清晰位于篮中，左侧夹爪在桌左持有另一罐；到帧108篮内变空且左夹爪仍在桌左持罐，两帧之间篮内罐消失的连接过程未被采样覆盖。现有帧中看不到左臂从篮中取走第一个罐的明确动作，因此罐从可见在篮内到不可见的状态变化存在未解释的运动断层。",
+                "alternative_explanation": "可能是采样漏掉了右臂撤离后短暂接触/取走、篮子倾斜遮挡或物体被压入视角盲区等中间过程；由于缺少中间帧，无法确认是不可能运动还是普通采样遗漏。"
+              }
+            ],
+            "reason": "主要夹持、下放和按压动作在可见范围内基本可理解，夹爪与把手、罐顶的重叠可由下压接触和俯视遮挡解释；唯一具体疑点是帧101到帧108之间篮内红白罐从可见到消失的状态变化缺少可见连接，但该疑点仅在局部时段影响对物体去留的判断，未明确破坏整段交互的因果可理解性，因此保留为不确定的轻微时序疑点。"
+          },
+          "visual_assessment": {
+            "verdict": "minor_degradation",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E5",
+              "E8"
+            ],
+            "reason": "俯视视角下黄色篮子、黑色把手、红罐和两只机械臂的位置及主要动作均可辨认；动作较快处存在运动模糊，篮内红色带纹理物体和帧105附近的罐状态细节受运动/遮挡影响不够锐利，但未广泛妨碍关键动作和末态的判断。"
+          },
+          "uncertainties": [
+            "帧101到108之间篮内先前所见红白罐不可见的具体过程未被提供的采样帧覆盖，无法仅凭现有图像确定其是被取出、被遮挡移位还是视角造成的不可见。",
+            "帧39起出现在篮内的红色带纹理物体在俯视角度和运动模糊下无法确认其具体身份；在帧62之后它被放入的红白罐及夹爪遮挡，与被压罐的相对位置不能完全分辨。",
+            "画面中左右机械臂的身份主要依据初始位置和动作路径判断；双臂靠近篮口的部分时刻存在运动模糊和遮挡，但不影响末态未见左臂抓握把手的观察。"
+          ]
+        },
+        "validation_error": "physics_assessment: minor_defect requires confirmed minor issues and no confirmed major issue"
+      },
+      {
+        "stage": "verification_scope_repair",
+        "attempt": 2,
+        "response_id": "resp_0217897053541143d763aaa7a5e423f9e5323a8c500bc9f3de8eb",
+        "messages_sha256": "56aebeeff6de5366c34ddf94f44db6b5af44f2b0ee20ad9da9582bae0fc8a6b6",
+        "request_payload_sha256": "5cb2c43e70022a8a80617f44c342b5e504fa3a535706c3578f3a5be913ffa5bd",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 51460,
+          "output_tokens": 1769,
+          "total_tokens": 53229,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "先用右臂将红色可口可乐罐向下放入黄色塑料购物篮，再移动左臂抓住篮子的黑色把手",
+            "target_description": "红色可口可乐罐、黄色塑料购物篮、篮子的黑色把手、右臂、左臂",
+            "final_state_requirement": "红色可口可乐罐被右臂向下放入黄色塑料购物篮中，且左臂抓住篮子的黑色把手"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E2",
+                "E3",
+                "E4"
+              ],
+              "reason": "帧0到帧43期间，右侧机械臂一直握持桌面上的红白红色罐；自帧46起该臂将红罐抬离桌面、移到黄色篮上方，并经黑色把手之间向下放入篮内，到帧93可见红罐已位于篮中。R1仅要求右臂完成向下放入黄色购物篮的动作，该动作在可见画面中已发生；R1不单独要求罐在最终时刻仍留在篮内或必须等左臂完全静止后才开始后续动作。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "not_met",
+              "evidence": [
+                "E2",
+                "E3",
+                "E5",
+                "E6"
+              ],
+              "reason": "左侧机械臂在右臂尚未把红罐放入篮之前就已经从左侧移动到篮沿并接触黑色把手区域；在右臂放罐并撤离后，末态帧112、116、120中该左臂夹爪仍握持红罐并把红罐压向篮口/篮内，没有呈现抓住篮子黑色把手的状态，未完成“在完成前一动作后移动左臂并抓住黑色把手”的要求。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                4,
+                8,
+                12
+              ],
+              "description": "黄色塑料购物篮位于白色桌面中央，黑色把手横跨篮口，篮内为空；画面右上方的黑色机械夹爪握持一个红白色罐，停在篮子右侧桌面；画面左侧仅露出另一黑色夹爪的一小部分。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                15,
+                19,
+                23,
+                27,
+                31,
+                35
+              ],
+              "description": "左侧机械臂从画面左边向篮子移动，夹爪到达篮子左上沿及黑色把手附近并与篮沿/把手区域接触；此时右侧机械夹爪仍握持红白罐停在右侧桌面，篮内仍为空。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                39,
+                43
+              ],
+              "description": "篮内黑色把手下方出现一个横置的红色带纹理物体；左侧夹爪仍停在篮子左上沿/把手附近，右侧夹爪仍在桌面右侧握持红白罐。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                46,
+                50,
+                54,
+                58,
+                62,
+                66,
+                70,
+                74,
+                77,
+                81,
+                85,
+                89,
+                93
+              ],
+              "description": "右侧机械臂将红白罐抬离桌面并移至篮口上方，从黑色把手之间伸入篮内，把红白罐向下放入篮中并下压；红罐白色罐顶可见，位于篮内；随后夹爪松开并向左上方撤离，篮内仍可见红罐。"
+            },
+            {
+              "id": "E5",
+              "frames": [
+                97,
+                101,
+                105
+              ],
+              "description": "撤离到左侧的机械臂在桌面左侧握持另一个红白罐；篮子发生倾斜，篮内仍可见红罐，但罐身外观/角度发生变化。"
+            },
+            {
+              "id": "E6",
+              "frames": [
+                108,
+                112,
+                116,
+                120
+              ],
+              "description": "篮底视野中先前所见红罐不再清晰可见，随后左侧机械夹爪握持红罐移回篮口，从黑色把手之间下降并把红罐压向篮内；黑色把手仍横跨篮口，夹爪接触的是红罐而非抓握黑色把手。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5",
+              "E6"
+            ],
+            "reason": "已有有效核心进展：右臂确实将原先握持的红白色罐抬离桌面、移到黄色购物篮上方并向下放入篮中，满足了第一个动作要求（E1-E4）。但第二个要求未完成：左臂在右臂放罐完成前已先移动到篮沿/把手附近，且到最后可见状态，左臂夹爪握持红罐下探篮口，并未抓住篮子的黑色把手（E2,E3,E5,E6）。此外，帧105到108之间篮内先前红罐的状态变化未被采样帧完整覆盖，存在遮挡/倾倒/移位的可能，因此最终篮内是否仍保留由右臂放入的那一罐存在不确定性，但这不否定右臂已执行放入动作。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E4",
+              "E6"
+            ],
+            "issues": [],
+            "reason": "可见交互以机械臂夹持、移动、下压、释放和再次夹持红罐为主；夹爪与把手、罐顶的重叠位于正常夹持和下压接触区域，运动模糊和俯视遮挡可解释多数局部重叠。帧105到108之间缺少完整中间过程，但现有画面只显示篮体倾斜和红罐状态改变，没有可定位且难以由正常接触、遮挡或采样间隔解释的明确穿模、悬浮或不可能运动证据，因此不认定已发生物理缺陷。"
+          },
+          "visual_assessment": {
+            "verdict": "minor_degradation",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E4",
+              "E6"
+            ],
+            "reason": "俯视视角下黄色篮子、黑色把手、红罐和两只机械臂的主要位置与动作可辨认；动作较快时存在运动模糊，尤其在臂部移动和夹爪下压阶段有局部遮挡，但这些退化没有广泛妨碍对“右臂放罐”和“左臂未抓把手而握罐”这些关键状态的判断。"
+          },
+          "uncertainties": [
+            "帧105到108之间篮内先前红罐从可见变为不可见/变形的具体过程未被提供的采样帧覆盖，无法仅凭现有图像确定其是被遮挡、倾倒、移位还是被重新抓取。",
+            "帧39起出现在篮内的红色带纹理物体在俯视角度和运动模糊下无法完全确认其身份及与后续被放入红白罐的关系。",
+            "双臂身份主要依据初始位置和动作路径推断；在双臂靠近篮口的部分时刻存在遮挡，但不影响“左臂最终未抓握黑色把手”的判断。"
+          ]
+        }
+      },
+      {
+        "stage": "requirement_scope_reaudit",
+        "attempt": 1,
+        "response_id": "resp_021789705394426031cf6218c12fc0ace26887030dd7ea88724bd",
+        "messages_sha256": "d6c2fdb50b47912977d00422b62ca077ec88576611151bc73ef47712b3ca4a6f",
+        "request_payload_sha256": "d9e7c205466ff7b017e49a2ef261588d4b6fad88d75d893f28046331bd899603",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 2816,
+          "output_tokens": 48,
+          "total_tokens": 2864,
+          "input_tokens_details": {
+            "cached_tokens": 0
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "requirement-scope-audit-v1",
+          "checks": [
+            {
+              "requirement_id": "R1",
+              "issues": []
+            },
+            {
+              "requirement_id": "R2",
+              "issues": []
+            }
+          ]
+        }
+      }
+    ],
+    "elapsed_seconds": 236.846
+  },
+  "model": "doubao-seed-2-1-pro-260628",
+  "provider": "doubao"
+}

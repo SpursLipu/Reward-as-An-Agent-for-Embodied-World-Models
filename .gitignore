@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+.env
+runs/
+*.log
+dist/
+build/
+*.egg-info/
+
+# Local experiment archives and filesystem metadata are kept outside Git.
+._*
+backups/
+evaluation_20260910/
+experiments/
+.reward_as_agent_commit
