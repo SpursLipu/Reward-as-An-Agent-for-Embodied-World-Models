@@ -21,15 +21,18 @@ task progress, physical plausibility, and visual quality with traceable evidence
 ## Framework
 
 <p align="center">
-  <img src="assets/reward_as_agent_framework.png" alt="Planning, gated multi-dimensional reward, and reflection with extensible external tools" width="1100">
+  <img src="assets/reward_as_agent_framework_v2.png" alt="Current evidence pipeline: assessment, verification, WMReward reflection, scope audit, configured gates, and separate training and diagnostic scores" width="1100">
 </p>
 
-- **Planning Module:** freezes task requirements and records task-blind observations.
-- **Gated Multi-dimensional Reward Module:** assesses task completion, physics, and visuals.
-- **Reflection Module:** rechecks frames and requirement scope using external-tool feedback.
+- **Evidence and verification:** task-blind observations and frozen requirements feed frame-cited assessment, followed by refined-frame verification.
+- **Tools and scope audit:** the WMReward batch runner supplies real tool evidence for reflection; requirement audits preserve prerequisites and remove unsupported conditions.
+- **Reward contract:** configured process/completion gates precede the training-reward decision. Evidence-backed decisive failure returns zero; unresolved cases return `null`. Diagnostic scores remain separate.
 
-WMReward is integrated as the reference external tool. Other tools can be added
-through the same worker protocol and Reflection hook.
+The HTTP service is model-only by default. WMReward is enabled by the external-tool
+runner; process gates and required-tool checks depend on configuration. Custom
+adapters and SAM2/CoTracker experiments are not enabled by default.
+
+[Editable framework (SVG)](assets/reward_as_agent_framework_v2.svg).
 
 ## Quick Start
 

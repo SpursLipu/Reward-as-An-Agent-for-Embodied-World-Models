@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="1250" viewBox="0 0 1680 1250" role="img" aria-labelledby="title desc"><title id="title">Current reward agent evidence and training reward pipeline</title><desc id="desc">Task-blind observations and frozen requirements feed assessment and verification. Optional WMReward feedback enters reflection, followed by scope audit, configured gates, and evidence-backed training reward selection. Diagnostic scores remain separate.</desc><defs><marker id="a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M1 1 L8 5 L1 9" fill="none" stroke="#657a89" stroke-width="1.5"/></marker></defs><style>text{font-family:Arial,sans-serif;fill:#203748}.body{font-size:20px;fill:#486171}.label{font-size:16px;letter-spacing:1.6px;font-weight:700;fill:#647d8d}</style><rect width="1680" height="1250" fill="#f7f9fc"/>
+<text x="60" y="65" font-size="42" class="">Reward as an Agent</text>
+<text x="60" y="104" font-size="24" class="body">Current implementation · Evidence → verification → gated training reward</text>
+<text x="60" y="155" font-size="16" class="label">01  INPUT &amp; PLANNING</text>
+<text x="580" y="155" font-size="16" class="label">02  ASSESSMENT &amp; REFLECTION</text>
+<text x="1130" y="155" font-size="16" class="label">03  TOOL EVIDENCE</text>
+<rect x="60" y="180" width="430" height="160" rx="18" fill="#eaf1ff" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="84" y="218" font-size="25" class="">Video → blind observation</text>
+<text x="84" y="253" font-size="20" class="body">Decode frames and record timestamps</text>
+<text x="84" y="281" font-size="20" class="body">Describe visible actions and changes</text>
+<text x="84" y="309" font-size="20" class="body">Task prompt hidden at this stage</text>
+<rect x="60" y="385" width="430" height="160" rx="18" fill="#fff3df" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="84" y="423" font-size="25" class="">Task → frozen requirements</text>
+<text x="84" y="458" font-size="20" class="body">Requested action and target object</text>
+<text x="84" y="486" font-size="20" class="body">Required outcome and prerequisites</text>
+<text x="84" y="514" font-size="20" class="body">No invented task requirements</text>
+<rect x="580" y="180" width="440" height="160" rx="18" fill="#edf5e9" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="604" y="218" font-size="25" class="">Grounded assessment</text>
+<text x="604" y="253" font-size="20" class="body">Task progress / target identity</text>
+<text x="604" y="281" font-size="20" class="body">Physical plausibility / visual quality</text>
+<text x="604" y="309" font-size="20" class="body">Frame-cited requirement checks</text>
+<rect x="580" y="385" width="440" height="160" rx="18" fill="#edf5e9" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="604" y="423" font-size="25" class="">Visual verification</text>
+<text x="604" y="458" font-size="20" class="body">Refine frames around cited evidence</text>
+<text x="604" y="486" font-size="20" class="body">Recheck draft against source frames</text>
+<text x="604" y="514" font-size="20" class="body">Distinguish sampling gaps from jumps</text>
+<rect x="1130" y="180" width="490" height="230" rx="18" fill="#e4f2f5" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="1154" y="218" font-size="25" class="">WMReward worker</text>
+<text x="1154" y="253" font-size="20" class="body">Video SHA → isolated worker request</text>
+<text x="1154" y="281" font-size="20" class="body">Prediction-based physics signal</text>
+<text x="1154" y="309" font-size="20" class="body">Structured evidence → visual reflection</text>
+<text x="1154" y="337" font-size="20" class="body">Required completion checked if enabled</text>
+<text x="1154" y="393" font-size="16" class="label">OPTIONAL HOOK · BATCH RUNNER</text>
+<rect x="1130" y="450" width="490" height="135" rx="18" fill="#f0f3f7" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="1154" y="488" font-size="25" class="">Other tools / process events</text>
+<text x="1154" y="523" font-size="20" class="body">Adapter and integration required</text>
+<text x="1154" y="551" font-size="20" class="body">SAM2 / CoTracker not default here</text>
+<rect x="580" y="620" width="440" height="145" rx="18" fill="#eeeafa" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="604" y="658" font-size="25" class="">Requirement scope audit</text>
+<text x="604" y="693" font-size="20" class="body">Audit → bounded repair → re-audit</text>
+<text x="604" y="721" font-size="20" class="body">Preserve genuine prerequisites</text>
+<text x="604" y="749" font-size="20" class="body">Reject unsupported extra conditions</text>
+<path d="M490 260 H580" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<path d="M490 465 H530 V295 H580" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<path d="M800 340 V385" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<path d="M1020 465 H1070 V340 H1130" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)" stroke-dasharray="7 6"/>
+<path d="M1375 410 V429 H1100 V602 H800 V620" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)" stroke-dasharray="7 6"/>
+<path d="M800 545 V620" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<text x="60" y="645" font-size="16" class="label">CONFIGURATION MATTERS</text>
+<text x="60" y="685" font-size="21" class="">HTTP serve: model-only by default</text>
+<text x="60" y="721" font-size="21" class="">WMReward runner: tool + reflection</text>
+<text x="60" y="757" font-size="21" class="">Process gates: selected by policy</text>
+<text x="1130" y="640" font-size="16" class="label">EVIDENCE IS NOT A VERDICT</text>
+<text x="1130" y="680" font-size="21" class="">Tool success ≠ task success</text>
+<text x="1130" y="716" font-size="21" class="">Predictability ≠ physical correctness</text>
+<text x="1130" y="752" font-size="21" class="">Missing evidence stays unresolved</text>
+<text x="60" y="818" font-size="16" class="label">04  SCORING &amp; OUTPUT CONTRACT</text>
+<rect x="60" y="850" width="440" height="200" rx="18" fill="#fcefe6" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="84" y="888" font-size="25" class="">Scoring and configured gates</text>
+<text x="84" y="923" font-size="20" class="body">Deterministic diagnostic reducer</text>
+<text x="84" y="951" font-size="20" class="body">Optional process / execution audit</text>
+<text x="84" y="979" font-size="20" class="body">Optional temporal hard checks</text>
+<text x="84" y="1007" font-size="20" class="body">Required tool completion / SHA check</text>
+<rect x="580" y="850" width="440" height="200" rx="18" fill="#e8f0ff" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="604" y="888" font-size="25" class="">Training reward decision</text>
+<text x="604" y="923" font-size="20" class="body">Scope-clean evidence of task failure?</text>
+<text x="604" y="951" font-size="20" class="body">Bounded visual resolution if needed</text>
+<text x="604" y="979" font-size="20" class="body">Decisive failure → training score 0</text>
+<text x="604" y="1007" font-size="20" class="body">Other cases retain score / review</text>
+<rect x="1130" y="850" width="490" height="90" rx="18" fill="#eaf5e8" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="1154" y="888" font-size="25" class="">Eligible result</text>
+<text x="1154" y="923" font-size="20" class="body">Numeric training score + report</text>
+<rect x="1130" y="960" width="490" height="90" rx="18" fill="#fff1db" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="1154" y="998" font-size="25" class="">Needs review</text>
+<text x="1154" y="1033" font-size="20" class="body">Training score = null + reasons</text>
+<path d="M800 765 V799 H535 V830 H280 V850" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<path d="M500 950 H580" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<path d="M1020 950 H1070 V895 H1130" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<path d="M1070 950 V1005 H1130" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+<rect x="60" y="1100" width="1560" height="96" rx="18" fill="#ffffff" stroke="#c6d3de" stroke-width="1.5"/>
+<text x="84" y="1138" font-size="25" class="">Audit trail is retained separately</text>
+<text x="84" y="1173" font-size="20" class="body">Source identity • frame citations • model / tool traces • diagnostic score • review reasons • configuration</text>
+<path d="M800 1050 V1100" fill="none" stroke="#657a89" stroke-width="2.3" marker-end="url(#a)"/>
+</svg>
