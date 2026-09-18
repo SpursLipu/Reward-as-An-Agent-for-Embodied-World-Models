@@ -33,7 +33,7 @@ dev = [
 reward-as-agent = "reward_as_agent.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["reward_as_agent*"]
+include = ["reward_as_agent*", "scripts.frozen_v41*"]
 
 [tool.ruff]
 line-length = 100

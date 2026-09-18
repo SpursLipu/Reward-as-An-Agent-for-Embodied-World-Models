@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# Development-only service entrypoint.  It does not inject the required
-# WMReward hook used by the frozen v4.1 evaluation protocol; use
-# scripts/frozen_v41/evaluate_frozen_v41.py for protocol-faithful offline evaluation.
+# Full service entrypoint: WMReward and tool-grounded Reflection are required.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export REWARD_AS_AGENT_PORT="${REWARD_AS_AGENT_PORT:-17027}"
 export REWARD_AS_AGENT_MAX_TOKENS="${REWARD_AS_AGENT_MAX_TOKENS:-8192}"

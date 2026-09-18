@@ -143,7 +143,7 @@ class EvidencePipeline:
         self.evaluator_version = PIPELINE_VERSION + '-' + digest.hexdigest()[:16]
         if physics_hook is not None:
             import inspect
-            from visibility_evidence import inspect_frame_bytes
+            from scripts.frozen_v41.visibility_evidence import inspect_frame_bytes
             digest.update(inspect.getsource(type(physics_hook)).encode())
             digest.update(inspect.getsource(inspect_frame_bytes).encode())
             digest.update(physics_hook.mode.encode())
@@ -369,7 +369,7 @@ class EvidencePipeline:
              'pipeline_version': MODEL_CONTEXT_VERSION}, verify_frames, refined, report_validator, trace)
         physics_evidence = None
         if self.physics_hook is not None:
-            from visibility_evidence import inspect_frame_bytes
+            from scripts.frozen_v41.visibility_evidence import inspect_frame_bytes
             input_visibility = inspect_frame_bytes(
                 (frame.shape[1], frame.shape[0], frame.tobytes()) for frame in video.frames)
             if await asyncio.to_thread(video_sha256, video_path) != source_digest:

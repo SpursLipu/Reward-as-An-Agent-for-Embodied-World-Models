@@ -75,7 +75,7 @@ async def run(args: argparse.Namespace, demo: str) -> int:
     from reward_as_agent.config import get_settings
     from reward_as_agent.evidence_pipeline import EvidencePipeline
     from reward_as_agent.pipeline import process_one_video_safe
-    from scripts.frozen_v41.physics_integration import PhysicsEvidenceHook
+    from reward_as_agent.tool_runtime import RequiredPhysicsHook
     from scripts.frozen_v41.worker_client import WorkerClient
 
     payload, inputs = load_case(demo)
@@ -133,7 +133,7 @@ async def run(args: argparse.Namespace, demo: str) -> int:
     errors = []
     started = time.monotonic()
     try:
-        hook = PhysicsEvidenceHook({"wmreward": client}, mode="reflect")
+        hook = RequiredPhysicsHook({"wmreward": client}, mode="reflect")
         pipeline = EvidencePipeline(settings, physics_hook=hook)
         metadata.update(
             evaluator_version=pipeline.evaluator_version,

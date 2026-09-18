@@ -19,6 +19,8 @@ import requests
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 
 def discover_demos(repo_root: Path | None = None) -> tuple[str, ...]:
@@ -41,6 +43,7 @@ PUBLIC_HEALTH_FIELDS = (
     "status", "model", "provider", "pipeline", "dp_size",
     "max_inflight_per_dp", "max_tokens", "heartbeat_interval",
     "motion_quality_enabled", "motion_quality_available",
+    "external_tools", "tool_reflection_required", "tool_runtime_initialized",
 )
 
 
@@ -169,6 +172,19 @@ def run_case(
             raise ValueError("API final result has an unexpected video index")
         if not isinstance(response_record.get("details"), dict):
             raise ValueError("API final result omitted requested details")
+        from scripts.run_wmreward_demo import inspect_tool_completion
+        details = response_record['details']
+        evidence, errors = inspect_tool_completion(
+            details, details.get('trace', []), sha256_file(inputs[-1]))
+        if errors:
+            raise ValueError('Required tool evaluation incomplete: ' + '; '.join(errors))
+        write_json(directory / 'tools.json', evidence)
+        write_json(directory / 'reports.json', {
+            'before_tool_reflection': evidence.get('pre_tool_report'),
+            'after_tool_reflection': next((entry.get('output') for entry in reversed(details.get('trace', []))
+                                          if entry.get('stage') == 'physics_tool_reflection'), None),
+            'final_after_scope_audit': details.get('evidence_report'),
+        })
         if status == "needs_review" and response_record.get("score") is not None:
             raise ValueError("needs_review response must preserve score: null")
     except (requests.RequestException, OSError, ValueError, RuntimeError) as exc:
@@ -228,6 +244,10 @@ def main(argv: list[str] | None = None) -> int:
             health = response.json()
         if health.get("status") != "ok" or health.get("pipeline") != "evidence" or health.get("provider") != "doubao":
             raise ValueError("service must be healthy with pipeline=evidence and provider=doubao")
+        if (health.get('external_tools') != ['wmreward']
+                or health.get('tool_reflection_required') is not True
+                or health.get('tool_runtime_initialized') is not True):
+            raise ValueError('service must have the required WMReward runtime initialized')
         configuration = {key: health[key] for key in PUBLIC_HEALTH_FIELDS if key in health}
         args.output.mkdir(parents=True, exist_ok=True)
         with ThreadPoolExecutor(max_workers=args.jobs) as executor:

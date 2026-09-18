@@ -139,7 +139,11 @@ def main():
         try:
             request = json.loads(line)
             with contextlib.redirect_stdout(sys.stderr):
-                result = worker.evaluate(request)
+                if request == {'operation': 'health'}:
+                    result = {'status': 'ok', 'raw_score': None,
+                              'model_revision': worker.model_revision}
+                else:
+                    result = worker.evaluate(request)
         except Exception as exc:
             result = {'status': 'error', 'raw_score': None, 'error_type': type(exc).__name__}
         print(json.dumps(result, ensure_ascii=False, allow_nan=False), flush=True)

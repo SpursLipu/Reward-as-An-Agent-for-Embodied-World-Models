@@ -31,7 +31,8 @@ English: Verify that the health endpoint returns service status."""
     response = client.get("/health")
 
     assert response.status_code == 200
-    assert response.json()["status"] == "ok"
+    # Without lifespan startup no tool worker has been loaded.
+    assert response.json()["status"] == "not_ready"
     assert "api_base" in response.json()
 
 

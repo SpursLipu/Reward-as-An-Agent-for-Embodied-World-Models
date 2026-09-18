@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -23,12 +24,29 @@ SETTINGS = get_settings()
 MOTION_QUALITY = MotionQualityMetrics(SETTINGS)
 MOTION_QUALITY_AVAILABLE = MOTION_QUALITY.available
 PIPELINE_NAME = 'evidence'
-PIPELINE = EvidencePipeline(SETTINGS)
+PIPELINE = None
+
+
+@asynccontextmanager
+async def lifespan(app):
+    global PIPELINE
+    from reward_as_agent.tool_runtime import configured_hook
+    hook, client = configured_hook(SETTINGS)
+    try:
+        ready = await client.evaluate({'operation': 'health'})
+        if ready.get('status') != 'ok':
+            raise RuntimeError('WMReward startup failed; inspect wmreward.stderr.log')
+        PIPELINE = EvidencePipeline(SETTINGS, physics_hook=hook)
+        yield
+    finally:
+        PIPELINE = None
+        await client.close()
 
 app = FastAPI(
     title="Reward as An Agent for Embodied World Models",
     description="Agentic reward evaluation service for embodied world-model videos.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 
@@ -151,10 +169,13 @@ async def health():
     """中文：返回服务健康状态和关键运行配置。
 English: Return service health status and key runtime configuration."""
     return {
-        "status": "ok",
+        "status": "ok" if PIPELINE is not None else "not_ready",
         "model": SETTINGS.model,
         "provider": SETTINGS.provider,
         "pipeline": PIPELINE_NAME,
+        "external_tools": ["wmreward"],
+        "tool_reflection_required": True,
+        "tool_runtime_initialized": PIPELINE is not None,
         "api_base": SETTINGS.api_base,
         "dp_size": SETTINGS.dp_size,
         "max_inflight_per_dp": SETTINGS.max_inflight_per_dp,
@@ -171,6 +192,8 @@ async def eval_video(data: VideoRequest):
     """中文：接收批量视频评估请求，并以 JSONL 流式返回 reward 分数。
 English: Accept a batch video evaluation request and stream reward scores as JSONL."""
     validate_request(data)
+    if PIPELINE is None:
+        raise HTTPException(status_code=503, detail="Required WMReward runtime is not initialized")
     current_folder = None
     if SETTINGS.save_inputs:
         current_folder = await save_video_and_prompt(data.video_path, data.prompt)

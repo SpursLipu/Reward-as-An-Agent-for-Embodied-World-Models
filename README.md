@@ -25,11 +25,11 @@ task progress, physical plausibility, and visual quality with traceable evidence
 </p>
 
 - **Evidence and verification:** task-blind observations and frozen requirements feed frame-cited assessment, followed by refined-frame verification.
-- **Tools and scope audit:** the WMReward batch runner supplies real tool evidence for reflection; requirement audits preserve prerequisites and remove unsupported conditions.
+- **Tools and scope audit:** the default service and both demo runners require real WMReward evidence for reflection; requirement audits preserve prerequisites and remove unsupported conditions.
 - **Reward contract:** configured process/completion gates precede the training-reward decision. Evidence-backed decisive failure returns zero; unresolved cases return `null`. Diagnostic scores remain separate.
 
-The HTTP service is model-only by default. WMReward is enabled by the external-tool
-runner; process gates and required-tool checks depend on configuration. Custom
+The HTTP service starts with WMReward enabled and requires tool-backed Reflection.
+Additional process gates remain configurable. Custom
 adapters and SAM2/CoTracker experiments are not enabled by default.
 
 [Editable framework (SVG)](assets/reward_as_agent_framework.svg).
@@ -41,14 +41,16 @@ Install with Python 3.10+ and configure your model endpoint and credentials:
 ```bash
 python -m pip install -e .
 cp .env.example .env
-# Edit .env for your provider, endpoint, model, and credentials.
+# Edit .env for the model endpoint, credentials, and REWARD_WMREWARD_* paths.
 python -m reward_as_agent.cli serve
 ```
 
-This starts the model-only HTTP service, not the WMReward worker. For the
-complete tool-backed path, follow [WMReward deployment](#wmreward-external-tool-deployment)
-and use the batch runner below; it calls the Agent directly and needs no HTTP
-server. Merely installing WMReward does not enable it in `serve`.
+This starts the full Agent with a resident WMReward worker. First follow
+[WMReward deployment](#wmreward-external-tool-deployment) and configure the five
+`REWARD_WMREWARD_*` values in [.env.example](.env.example). Startup validates the
+configuration and loads the checkpoint before accepting requests. Missing tools
+or failed worker initialization stop startup; evaluation never silently falls
+back to a model-only reward. Tool/Reflection failures return an API error.
 
 Alternatively, use `bash scripts/setup_env.sh` to create an environment.
 See [.env.example](.env.example) for configuration and
@@ -69,7 +71,7 @@ REWARD_AS_AGENT_HOST=127.0.0.1 REWARD_AS_AGENT_PORT=7024 \
 REWARD_AS_AGENT_MAX_TOKENS=8192 REWARD_AS_AGENT_LLM_TIMEOUT=240 \
 REWARD_AS_AGENT_MAX_RETRIES=2 REWARD_EVIDENCE_FRAMES=32 \
 REWARD_REQUIREMENT_AUDIT_MODE=joint REWARD_GATE_POLICY=off \
-REWARD_PHYSICS_COMPLETION=optional REWARD_AS_AGENT_CACHE_BYPASS=1 \
+REWARD_PHYSICS_COMPLETION=required REWARD_AS_AGENT_CACHE_BYPASS=1 \
 python -m reward_as_agent.cli serve
 ```
 
@@ -105,7 +107,15 @@ evaluation used the original full-duration videos.
 ### Run the demos
 
 Each `examples/demo_XX/` contains the video, `prompt.txt`, and request payload.
-The standard tool-backed path is:
+With the default service running, evaluate all seven cases with tools:
+
+```bash
+python scripts/run_demos.py --output runs/my_tool_demos --jobs 2
+```
+
+The runner rejects services without required WMReward Reflection and checks
+every result for actual tool completion, matching video identity, and a
+successful Reflection trace. A standalone alternative (no HTTP service) is:
 
 ```bash
 python scripts/run_wmreward_demo.py \
@@ -118,10 +128,9 @@ python scripts/run_wmreward_demo.py \
 ```
 
 Use a new output directory for each run; existing cases are never overwritten.
-The command runs all bundled cases with WMReward Reflection. Repeat
-`--demo demo_XX` to select a subset. For model-only service debugging,
-`scripts/run_demos.py` remains available, but its outputs are not the standard
-tool-backed reward path.
+Both runners evaluate all bundled cases with WMReward Reflection. Repeat
+`--demo demo_XX` to select a subset. The HTTP runner reuses the service worker;
+the standalone runner currently reloads the model for each case.
 
 ### WMReward external-tool deployment
 
@@ -190,7 +199,7 @@ REWARD_AS_AGENT_MODEL=doubao-seed-2-1-pro-260628 \
 REWARD_AS_AGENT_MAX_TOKENS=8192 REWARD_AS_AGENT_LLM_TIMEOUT=240 \
 REWARD_AS_AGENT_MAX_RETRIES=2 REWARD_EVIDENCE_FRAMES=32 \
 REWARD_REQUIREMENT_AUDIT_MODE=joint REWARD_GATE_POLICY=off \
-REWARD_PHYSICS_COMPLETION=optional \
+REWARD_PHYSICS_COMPLETION=required \
 python scripts/run_wmreward_demo.py \
   --output runs/my_wmreward_demos \
   --worker-python /path/to/WMReward/.venv-worker/bin/python \
@@ -207,8 +216,8 @@ and after Reflection reports, trace, and provenance. Tool errors remain errors;
 uncertain evaluations retain `score: null`.
 Check `metadata.json`: require `tool_demo_completed: true`,
 `reflection_applied: true`, and an empty `execution_errors` list before using a
-result as tool-backed. A failed tool/reflection can leave a baseline response
-in `response.json` for diagnostics; **do not use that score for training**.
+result as tool-backed. A failed tool/reflection produces an error, not a usable
+baseline score; **do not use error results for training**.
 The runner exits nonzero on integration failure. GPU OOM requires more free
 memory; missing imports require repairing the worker environment; checkpoint
 mismatches require checking the download, not bypassing validation.
@@ -253,7 +262,10 @@ Weights are provisional, not human-calibrated. See
 
 ## API
 
-`GET /health` reports service configuration. `POST /eval_video` streams JSONL,
+`GET /health` reports `external_tools: ["wmreward"]`,
+`tool_reflection_required: true`, and `tool_runtime_initialized: true` after
+worker startup. A worker is shared and its GPU requests are serialized; Agent
+requests can still overlap. `POST /eval_video` streams JSONL,
 one result per video:
 
 ```bash
