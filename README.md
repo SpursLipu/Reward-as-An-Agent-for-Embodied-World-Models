@@ -21,7 +21,7 @@ task progress, physical plausibility, and visual quality with traceable evidence
 ## Framework
 
 <p align="center">
-  <img src="assets/reward_as_agent_framework_v2.png" alt="Current evidence pipeline: assessment, verification, WMReward reflection, scope audit, configured gates, and separate training and diagnostic scores" width="1100">
+  <img src="assets/reward_as_agent_framework.png" alt="Planning, gated multi-dimensional reward, and reflection with extensible external tools" width="1100">
 </p>
 
 - **Evidence and verification:** task-blind observations and frozen requirements feed frame-cited assessment, followed by refined-frame verification.
@@ -32,7 +32,7 @@ The HTTP service is model-only by default. WMReward is enabled by the external-t
 runner; process gates and required-tool checks depend on configuration. Custom
 adapters and SAM2/CoTracker experiments are not enabled by default.
 
-[Editable framework (SVG)](assets/reward_as_agent_framework_v2.svg).
+[Editable framework (SVG)](assets/reward_as_agent_framework.svg).
 
 ## Quick Start
 
