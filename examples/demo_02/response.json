@@ -1,10 +1,10 @@
 {
   "index": 0,
-  "score": 0.615,
+  "score": 0.595,
   "status": "success",
   "task_verdict": "partial",
   "training_eligible": true,
-  "diagnostic_score": 0.615,
+  "diagnostic_score": 0.595,
   "diagnostic_review_required": false,
   "diagnostic_review_reasons": [],
   "details": {
@@ -13,47 +13,60 @@
       "score": "partial",
       "status": "success"
     },
-    "total_score": 0.615,
+    "total_score": 0.595,
     "pipeline_version": "evidence-v7.0-focused1",
     "evidence_report": {
       "schema_version": "evidence-v2",
       "task": {
-        "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-        "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-        "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+        "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+        "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+        "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
       },
       "requirement_checks": [
         {
           "requirement_id": "R1",
           "status": "not_met",
           "evidence": [
-            "E1"
+            "E1",
+            "E2"
           ],
-          "reason": "左侧机械臂在0帧位于纸板箱开口上方，但其末端夹爪在24至41帧期间向箱内包装袋移动并夹起/抬起箱内包装，42帧以后该包装被夹在夹爪处，没有在整个过程中保持静止在纸板箱上方的状态。"
+          "reason": "左侧白色机械臂在帧0位于棕色纸箱上方，但帧22-41其黑色末端相对纸箱有明显位移：夹爪向纸箱内动作，箱内浅白色包装袋位置变化并露出红白包装，因此它没有在任务过程中保持静止于纸箱上方；帧42-80它停在纸箱上方且纸箱内包装袋可见，但不能满足“保持静止”的要求。"
         },
         {
           "requirement_id": "R2",
           "status": "met",
           "evidence": [
-            "E2"
+            "E1",
+            "E3",
+            "E4"
           ],
-          "reason": "右侧机械臂初始在抽屉右侧，0至18帧从右侧红色包装区域移动到抽屉的黑色竖向把手处，18至59帧可见夹爪位于抽屉右侧并闭合接触/握住该黑色把手。"
+          "reason": "右侧白色机械臂从帧0开始一直位于冰箱抽屉右侧，并在黑色把手的右侧/右外侧活动，随后拉动时保持在抽屉右侧，符合“位于抽屉右侧”的位置要求。"
         },
         {
           "requirement_id": "R3",
           "status": "met",
           "evidence": [
+            "E1",
             "E3"
           ],
-          "reason": "右侧机械臂握住把手后，抽屉从较初始位置被持续向外拉动；到73至80帧抽屉内部深处与后方空仓区域大面积露出，末态抽屉处于明显完全拉开的状态。"
+          "reason": "右侧夹爪在帧8-21向黑色把手靠近并接触，帧49-74夹爪与黑色把手一起向右移动，抽屉同步外移，显示夹爪已握持把手并带动抽屉运动；玻璃反光使钳口细节不锐利，但整体夹持带动关系可见。"
         },
         {
           "requirement_id": "R4",
+          "status": "met",
+          "evidence": [
+            "E3",
+            "E4"
+          ],
+          "reason": "帧49-80右侧机械臂带动黑色把手持续向右移动，透明抽屉明显外移；到帧73-80抽屉内部更多包装食品和后部空间暴露，右后侧抽屉金属框可见，抽屉达到可见的完全打开状态。"
+        },
+        {
+          "requirement_id": "R5",
           "status": "not_met",
           "evidence": [
-            "E3"
+            "E4"
           ],
-          "reason": "抽屉已被拉开到末态，但在末帧80以及相邻末段62至80帧中，右侧机械臂夹爪仍与黑色把手保持接触/夹持，没有可见的张开释放或脱离把手的状态，因此未完成释放把手。"
+          "reason": "在末帧80，右侧机械臂的黑色夹爪仍与黑色抽屉把手保持接触，夹爪没有离开把手，未出现完全拉开后释放把手并与把手分离的可见状态。"
         }
       ],
       "observations": [
@@ -61,50 +74,54 @@
           "id": "E1",
           "frames": [
             0,
-            24,
-            26,
+            3,
+            5,
+            8,
+            10,
+            13,
+            15,
+            18,
+            21
+          ],
+          "description": "初始场景：冰箱左侧台面上有棕色纸箱，箱内可见一包浅色包装物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，黑色夹爪从画面右侧向抽屉黑色把手移动，到帧8-10前后接近并接触黑色把手附近；抽屉此时较闭合，内部可见红黄等包装食品，右侧背景可见木质搁板。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            22,
+            25,
             28,
             31,
             34,
             36,
             39,
-            41,
-            80
+            41
           ],
-          "description": "0帧时左侧白色机械臂的黑色夹爪悬在左侧纸板箱开口上方；24至41帧该夹爪向箱内包装袋移动并夹起/抬起一包包装，箱内原本位于后部的包装被带动至夹爪处；到80帧该机械臂仍位于纸箱上方并夹持有该包装，未全程保持静止。"
-        },
-        {
-          "id": "E2",
-          "frames": [
-            0,
-            5,
-            10,
-            15,
-            18,
-            21,
-            23,
-            30,
-            40,
-            50,
-            59
-          ],
-          "description": "0帧右侧机械臂夹爪位于抽屉右侧、朝向抽屉内红色包装区域；5至18帧夹爪向左移动并靠拢抽屉竖向黑色把手；18至59帧夹爪闭合并接触/握住该黑色把手，机械臂主体始终处于抽屉右侧。"
+          "description": "帧22起左侧机械臂相对纸箱发生可见位移，夹爪向纸箱口/箱内动作；到帧28-41，纸箱内原浅色包装袋被移动/翻动，红白包装物品被露出/调整，左侧夹爪停在纸箱上方附近，并非全程静止。此阶段右侧机械臂保持在黑色把手处，抽屉尚未明显外移。"
         },
         {
           "id": "E3",
           "frames": [
-            21,
-            40,
-            50,
-            59,
+            49,
+            52,
+            55,
+            58,
             62,
             65,
-            68,
+            67
+          ],
+          "description": "右侧机械臂保持与黑色把手接触并向右运动，抽屉随把手持续外移；抽屉内黄色、绿色、红色包装食品随抽屉外移逐渐更多暴露。左侧机械臂在纸箱上方基本不再大幅移动。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            70,
             73,
+            75,
             77,
             80
           ],
-          "description": "21帧时抽屉开度较小、内侧可见范围有限；40至59帧夹爪保持与黑色把手接触，抽屉随右侧机械臂向外移动，内部黄、绿、红色包装逐渐露出；62至80帧抽屉被继续拉开，后部空仓和更多内部物品清晰露出；末帧80抽屉处于大幅完全拉开状态，但右侧夹爪仍与黑色把手保持接触，未离开把手。"
+          "description": "抽屉进一步外移至明显打开状态，抽屉内部后部空间和更多包装食品可见，右后侧抽屉框暴露；到帧80，右侧机械臂黑色夹爪仍与黑色把手保持接触，未见释放后与把手分离。左侧机械臂仍位于棕色纸箱上方，箱内可见被调整后的包装袋。"
         }
       ],
       "task_assessment": {
@@ -113,83 +130,484 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4"
         ],
-        "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧、握住黑色把手并将抽屉拉至明显完全拉开的状态；但两个要求未满足：左侧机械臂未保持静止，而是在纸箱上方夹起箱内包装并改变夹持状态；右侧机械臂到末帧仍握持把手，未完成释放。因此任务未完整完成，但核心拉开抽屉的进展已发生。",
+        "reason": "已完成的有效核心进展：右侧机械臂位于抽屉右侧，接触并握持黑色把手，将抽屉从较闭合状态拉到帧73-80明显完全打开的状态。但任务要求的两项条件未满足：左侧机械臂在帧22-41相对纸箱有可见动作并翻动/调整箱内包装，并非保持静止在纸箱上方；到末帧80右侧机械臂仍未释放黑色把手。因此整体为取得核心拉开进展但未满足全部要求的 partial。",
         "target_match": "match"
       },
       "physics_assessment": {
         "verdict": "plausible",
-        "confidence": "high",
+        "confidence": "medium",
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4"
         ],
         "issues": [],
-        "reason": "可辨认范围内，左侧机械臂夹取箱内包装、右侧机械臂握持把手并拉动抽屉的接触和位移关系连贯；抽屉被拉开时内部包装随抽屉同步显露，未见可确认的穿模、悬浮、几何不一致或明显因果断裂。"
+        "reason": "在提供帧范围内，右侧夹爪接触把手后抽屉沿拉动方向持续外移，包装食品随抽屉整体移动；左侧机械臂对纸箱内包装的移动呈现为正常接触与调整，没有出现无法由正常夹持、遮挡或视角解释的明确穿模、悬浮或数量反复跳变。玻璃表面反光限制了部分钳口细节，但未见已确认的物理异常。"
       },
       "visual_assessment": {
-        "verdict": "clear",
+        "verdict": "minor_degradation",
         "confidence": "high",
         "evidence": [
           "E1",
-          "E2",
-          "E3"
+          "E4"
         ],
-        "reason": "画面存在反光和局部运动模糊，但两个机械臂、纸板箱、抽屉黑色把手、包装食品以及抽屉拉开末态均能清楚辨认，足以判断主要动作和结果。"
+        "reason": "整体场景、两个机械臂、棕色纸箱、黑色把手和抽屉拉开结果均可辨认；但玻璃/透明表面存在明显反光，部分夹爪与把手的细小钳口关系略有模糊，属于局部画质退化，未妨碍主要动作和末态判断。"
       },
       "uncertainties": [
-        "俯拍二维视角下无法精确测量抽屉是否到达机械极限，但末态相对初始状态已大幅拉开并显著露出内部深处与后部空间；是否为绝对机械行程极限存在普通视角限制。"
+        "透明盖板反光使右侧夹爪钳口与黑色把手的精细咬合细节在部分帧不够清晰；但夹爪带动把手和抽屉整体外移的关系在多帧中仍可判断。"
       ]
     },
-    "physics_evidence": null,
+    "physics_evidence": {
+      "mode": "reflect",
+      "tool_records": [
+        {
+          "worker": "wmreward",
+          "request": {
+            "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_02/video_1.mp4",
+            "video_sha256": "8764a1282b8b0929d2bd27ed9442c2a66c2edc60119fbe78899099a3b6eee984",
+            "operation": "check_physics"
+          },
+          "result": {
+            "status": "ok",
+            "tool_name": "wmreward",
+            "raw_score": 0.4551412761211395,
+            "score_direction": "lower_better",
+            "score_semantics": "mean_one_minus_cosine",
+            "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+            "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+            "cache_hit": false,
+            "observations": [],
+            "artifact_refs": [],
+            "evidence_scope": "whole_sampled_video",
+            "peak_memory_mb": 8355.1689453125,
+            "cold_start_ms": 56207.701639970765,
+            "params": {
+              "window_size": 16,
+              "context_frames": 8,
+              "stride": 8,
+              "seed": 42,
+              "max_frames": 49
+            },
+            "evidence_id": "91c024a79bd5243c1b4976201dd8fd176b49a574ab02afb2a0c4b95a6fc454cd",
+            "video_sha256": "8764a1282b8b0929d2bd27ed9442c2a66c2edc60119fbe78899099a3b6eee984",
+            "decoded_frames": 81,
+            "original_fps": 16.0,
+            "frame_indices": [
+              0,
+              1,
+              3,
+              5,
+              6,
+              8,
+              10,
+              11,
+              13,
+              15,
+              16,
+              18,
+              20,
+              21,
+              23,
+              25,
+              26,
+              28,
+              30,
+              31,
+              33,
+              35,
+              36,
+              38,
+              40,
+              41,
+              43,
+              45,
+              46,
+              48,
+              50,
+              51,
+              53,
+              55,
+              56,
+              58,
+              60,
+              61,
+              63,
+              65,
+              66,
+              68,
+              70,
+              71,
+              73,
+              75,
+              76,
+              78,
+              80
+            ],
+            "timestamps_s": [
+              0.0,
+              0.0625,
+              0.1875,
+              0.3125,
+              0.375,
+              0.5,
+              0.625,
+              0.6875,
+              0.8125,
+              0.9375,
+              1.0,
+              1.125,
+              1.25,
+              1.3125,
+              1.4375,
+              1.5625,
+              1.625,
+              1.75,
+              1.875,
+              1.9375,
+              2.0625,
+              2.1875,
+              2.25,
+              2.375,
+              2.5,
+              2.5625,
+              2.6875,
+              2.8125,
+              2.875,
+              3.0,
+              3.125,
+              3.1875,
+              3.3125,
+              3.4375,
+              3.5,
+              3.625,
+              3.75,
+              3.8125,
+              3.9375,
+              4.0625,
+              4.125,
+              4.25,
+              4.375,
+              4.4375,
+              4.5625,
+              4.6875,
+              4.75,
+              4.875,
+              5.0
+            ],
+            "raw_output": {
+              "surprise": 0.4551412761211395
+            },
+            "window_frame_indices": [
+              [
+                0,
+                1,
+                3,
+                5,
+                6,
+                8,
+                10,
+                11,
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25
+              ],
+              [
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25,
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38
+              ],
+              [
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38,
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51
+              ],
+              [
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51,
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65
+              ],
+              [
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78
+              ]
+            ],
+            "latency_ms": 1548.3678809832782,
+            "transport": {
+              "cold_start_request": false,
+              "timeout_s": 900
+            }
+          }
+        }
+      ],
+      "input_visibility": {
+        "method": "exact-spatially-uniform-rgb-v1",
+        "decoded_frames": 81,
+        "spatially_uniform_frames": 0,
+        "all_frames_spatially_uniform": false,
+        "limit": "Only detects exactly uniform decoded frames; does not judge general visibility, task completion, or physics."
+      },
+      "tool_records_sha256": "c91252de4ce69d6b5f3aee6dfd40c8fb7084eb31cc7b12de70d7aeb2e367bb97",
+      "pre_tool_report": {
+        "schema_version": "evidence-v2",
+        "task": {
+          "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+          "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+          "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
+        },
+        "requirement_checks": [
+          {
+            "requirement_id": "R1",
+            "status": "not_met",
+            "evidence": [
+              "E1",
+              "E2"
+            ],
+            "reason": "左侧机械臂在初始帧位于纸箱上方，但在帧22至帧46期间夹爪明显向纸箱内部移动并调整纸箱内包装袋的位置，并非在整个序列中保持“静止在纸箱上方”；末帧虽仍在纸箱上方，但中途有可见动作。"
+          },
+          {
+            "requirement_id": "R2",
+            "status": "met",
+            "evidence": [
+              "E1",
+              "E3"
+            ],
+            "reason": "右侧白色机械臂自起始阶段至末帧都位于冰箱抽屉右侧区域，其黑色末端执行器始终处在抽屉右侧并围绕黑色把手/抽屉右缘活动，符合“在抽屉右侧”的位置要求。"
+          },
+          {
+            "requirement_id": "R3",
+            "status": "met",
+            "evidence": [
+              "E1",
+              "E3"
+            ],
+            "reason": "右侧机械臂夹爪在帧9前后接近并接触黑色把手，后续拉动阶段夹爪与黑色把手一同向右移动，显示已握持把手并带动抽屉外移；虽然透明盖板反光使钳口细节不是特别锐利，但夹持带动抽屉的关系在多帧中可见。"
+          },
+          {
+            "requirement_id": "R4",
+            "status": "met",
+            "evidence": [
+              "E3",
+              "E4"
+            ],
+            "reason": "从帧49到帧80，右侧夹爪带动黑色把手持续向右移动，透明抽屉外移，抽屉内部更多包装食品暴露；到帧73-80，抽屉已大幅打开，可见内部较深层空间与后部包装，达到可见的完全拉开状态。"
+          },
+          {
+            "requirement_id": "R5",
+            "status": "not_met",
+            "evidence": [
+              "E4"
+            ],
+            "reason": "在末帧80，右侧机械臂夹爪仍然与黑色抽屉把手保持接触/握持，夹爪没有离开把手，也没有出现释放后与把手分离的可见状态，因此未满足“完全拉开后释放把手”。"
+          }
+        ],
+        "observations": [
+          {
+            "id": "E1",
+            "frames": [
+              0,
+              3,
+              5,
+              8,
+              10,
+              13,
+              15,
+              18,
+              21
+            ],
+            "description": "初始场景：冰箱左侧台面上有棕色纸箱，箱内已有一包浅底带深色/红色包装的物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，夹爪从画面右侧向抽屉的黑色把手移动，至帧10前后接触黑色把手附近；抽屉此时处于较闭合状态，内部可见红黄等包装食品，右侧背景可见木质搁板。"
+          },
+          {
+            "id": "E2",
+            "frames": [
+              22,
+              26,
+              28,
+              31,
+              34,
+              36,
+              39,
+              41,
+              44,
+              46
+            ],
+            "description": "左侧机械臂在帧22开始相对初始位置发生可见位移，夹爪伸入纸箱口内；到帧26-46，纸箱内原本的包装袋被移动/翻动，新增或露出带有红白包装的物品，左侧夹爪停在纸箱上方/箱内附近，并非全程静止。此阶段右侧机械臂位置基本保持在黑色把手处，抽屉尚未明显外移。"
+          },
+          {
+            "id": "E3",
+            "frames": [
+              49,
+              52,
+              54,
+              57,
+              59,
+              62,
+              65,
+              67
+            ],
+            "description": "右侧机械臂保持与黑色把手接触并向右运动，抽屉随把手持续外移；抽屉内黄色、绿色、红色包装食品随抽屉外移逐渐更多暴露。左侧机械臂在纸箱上方基本不再大幅移动。"
+          },
+          {
+            "id": "E4",
+            "frames": [
+              70,
+              72,
+              75,
+              77,
+              80
+            ],
+            "description": "抽屉进一步外移至较完全打开状态，抽屉内部后部空间和更多包装食品可见；到末帧80，右侧机械臂黑色夹爪仍与黑色把手保持接触，未见释放后与把手分离。左侧机械臂仍位于棕色纸箱上方。"
+          }
+        ],
+        "task_assessment": {
+          "verdict": "partial",
+          "confidence": "high",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4"
+          ],
+          "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧，接触并握持黑色把手，将抽屉从较闭合状态拉到末帧明显大幅打开的状态。但任务要求的两个末态/全程条件未满足：左侧机械臂并非全程静止在纸箱上方，帧22-46有可见伸入纸箱并移动包装的动作；且右侧机械臂到末帧80仍未释放黑色把手。因此整体为已取得核心拉开进展但未满足全部要求的 partial。",
+          "target_match": "match"
+        },
+        "physics_assessment": {
+          "verdict": "plausible",
+          "confidence": "medium",
+          "evidence": [
+            "E1",
+            "E3",
+            "E4"
+          ],
+          "issues": [],
+          "reason": "在提供的全部帧中，右侧夹爪接触把手后抽屉沿拉动方向持续外移，包装食品随抽屉整体移动；左侧机械臂对纸箱内物品的移动也在可见范围内呈现为正常接触与搬运，没有出现无法由正常夹持/遮挡解释的明确穿模、悬浮或物体数量反复跳变。透明玻璃盖板反光限制了部分接触细节，但未见已确认的物理异常。"
+        },
+        "visual_assessment": {
+          "verdict": "minor_degradation",
+          "confidence": "high",
+          "evidence": [
+            "E1",
+            "E4"
+          ],
+          "reason": "整体场景、两个机械臂、棕色纸箱、黑色把手和抽屉拉开结果均可辨认；但透明/玻璃表面存在明显反光，部分包装文字和夹爪与把手接触的细小编夹关系略有模糊，属于局部画质退化，未完全妨碍主要动作和末态判断。"
+        },
+        "uncertainties": [
+          "透明盖板反光使右侧夹爪钳口与黑色把手的精细咬合关系在部分帧不够清晰；但夹爪带动把手和抽屉整体外移的关系在多帧中仍可判断。"
+        ]
+      },
+      "fallback_to_baseline": false,
+      "reflection_applied": true
+    },
     "process_event_evidence": null,
-    "evaluator_version": "evidence-v7.0-focused1-4fae127f66af5465",
+    "evaluator_version": "evidence-v7.0-focused1-9742de6c4611c0e7-physics-ff6162e018ac4d4a",
     "task_contract": {
       "schema_version": "task-contract-v1",
       "task": {
-        "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-        "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-        "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+        "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+        "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+        "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
       },
       "requirements": [
         {
           "id": "R1",
           "source_quote": "One arm remains stationary above the cardboard box",
-          "text": "一个机械臂必须保持静止在纸板箱上方"
+          "text": "One robotic arm must remain stationary above the cardboard box."
         },
         {
           "id": "R2",
-          "source_quote": "the other arm is positioned at the right side of the drawer, gripping its black handle",
-          "text": "另一个机械臂必须位于抽屉右侧，并握住抽屉的黑色把手"
+          "source_quote": "the other arm is positioned at the right side of the drawer",
+          "text": "The other robotic arm must be positioned at the right side of the drawer."
         },
         {
           "id": "R3",
-          "source_quote": "The arm holding the drawer handle pulls the drawer fully open",
-          "text": "握住抽屉把手的机械臂必须将抽屉完全拉开"
+          "source_quote": "gripping its black handle",
+          "text": "The arm positioned at the right side of the drawer must grip the drawer's black handle."
         },
         {
           "id": "R4",
+          "source_quote": "pulls the drawer fully open",
+          "text": "The arm holding the drawer handle must pull the drawer fully open."
+        },
+        {
+          "id": "R5",
           "source_quote": "then releases the handle",
-          "text": "机械臂在将抽屉完全拉开后必须释放把手"
+          "text": "After pulling the drawer fully open, the arm must release the handle."
         }
       ],
       "coverage_notes": [
-        "“Two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods; a cardboard box rests on the refrigerator surface to the left, and wooden shelves are visible in the background.”主要为场景背景描述，未要求改变机械臂颜色、末端执行器颜色、食品包装、纸板箱位置、背景木架等未被动作指令涉及的状态。",
-        "原文称抽屉初始为“an open refrigerator drawer”，但明确动作指令是将其“pulls the drawer fully open”，动作完成末态以抽屉被完全拉开为准；初始“open”与“fully open”之间的具体开度差异未进一步定义。",
-        "原文未规定机械臂释放把手后的额外复位位置、等待时长或速度参数。"
+        "Scene-setting details: 'Two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods; a cardboard box rests on the refrigerator surface to the left, and wooden shelves are visible in the background' includes background elements such as wooden shelves and initial scene state; these are not treated as separate verifiable action requirements beyond the explicitly required arm actions and drawer/handle states."
       ],
       "source_text": "Two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods; a cardboard box rests on the refrigerator surface to the left, and wooden shelves are visible in the background. One arm remains stationary above the cardboard box, while the other arm is positioned at the right side of the drawer, gripping its black handle. The arm holding the drawer handle pulls the drawer fully open, then releases the handle.",
       "source_sha256": "385761ae7a01c7174131c0f2c2bf7a1444501511326d483508f8b83e58ade9d5",
-      "contract_sha256": "c95a54679813f62b7ef0327249d9acb00d9befe1f79a4e8d80376a0921ec0aa3"
+      "contract_sha256": "854fc62ad6c17e3804d7b5d3965d7d20715462560b886855850f48ca43c2ee53"
     },
-    "task_contract_sha256": "c95a54679813f62b7ef0327249d9acb00d9befe1f79a4e8d80376a0921ec0aa3",
+    "task_contract_sha256": "854fc62ad6c17e3804d7b5d3965d7d20715462560b886855850f48ca43c2ee53",
     "task_contract_registry_sha256": null,
     "task_contract_review": null,
     "requirement_scope_audits": [
       {
-        "report_sha256": "2df4d8404ff9bd9c242c9dc99ba682bddef3d0fc46665a0f70a1ba05d8b35d15",
+        "report_sha256": "27c950ca2cc2a037d1d2e4e281b07b0d14b3b4c56f69b99737d86f28bf1bc92d",
         "audit": {
           "schema_version": "requirement-scope-audit-v1",
           "checks": [
@@ -208,6 +626,10 @@
             {
               "requirement_id": "R4",
               "issues": []
+            },
+            {
+              "requirement_id": "R5",
+              "issues": []
             }
           ]
         }
@@ -216,42 +638,55 @@
     "pre_scope_repair_report": {
       "schema_version": "evidence-v2",
       "task": {
-        "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-        "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-        "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+        "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+        "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+        "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
       },
       "requirement_checks": [
         {
           "requirement_id": "R1",
           "status": "not_met",
           "evidence": [
-            "E1"
+            "E1",
+            "E2"
           ],
-          "reason": "左侧机械臂在0帧位于纸板箱开口上方，但其末端夹爪在24至41帧期间向箱内包装袋移动并夹起/抬起箱内包装，42帧以后该包装被夹在夹爪处，没有在整个过程中保持静止在纸板箱上方的状态。"
+          "reason": "左侧白色机械臂在帧0位于棕色纸箱上方，但帧22-41其黑色末端相对纸箱有明显位移：夹爪向纸箱内动作，箱内浅白色包装袋位置变化并露出红白包装，因此它没有在任务过程中保持静止于纸箱上方；帧42-80它停在纸箱上方且纸箱内包装袋可见，但不能满足“保持静止”的要求。"
         },
         {
           "requirement_id": "R2",
           "status": "met",
           "evidence": [
-            "E2"
+            "E1",
+            "E3",
+            "E4"
           ],
-          "reason": "右侧机械臂初始在抽屉右侧，0至18帧从右侧红色包装区域移动到抽屉的黑色竖向把手处，18至59帧可见夹爪位于抽屉右侧并闭合接触/握住该黑色把手。"
+          "reason": "右侧白色机械臂从帧0开始一直位于冰箱抽屉右侧，并在黑色把手的右侧/右外侧活动，随后拉动时保持在抽屉右侧，符合“位于抽屉右侧”的位置要求。"
         },
         {
           "requirement_id": "R3",
           "status": "met",
           "evidence": [
+            "E1",
             "E3"
           ],
-          "reason": "右侧机械臂握住把手后，抽屉从较初始位置被持续向外拉动；到73至80帧抽屉内部深处与后方空仓区域大面积露出，末态抽屉处于明显完全拉开的状态。"
+          "reason": "右侧夹爪在帧8-21向黑色把手靠近并接触，帧49-74夹爪与黑色把手一起向右移动，抽屉同步外移，显示夹爪已握持把手并带动抽屉运动；玻璃反光使钳口细节不锐利，但整体夹持带动关系可见。"
         },
         {
           "requirement_id": "R4",
+          "status": "met",
+          "evidence": [
+            "E3",
+            "E4"
+          ],
+          "reason": "帧49-80右侧机械臂带动黑色把手持续向右移动，透明抽屉明显外移；到帧73-80抽屉内部更多包装食品和后部空间暴露，右后侧抽屉金属框可见，抽屉达到可见的完全打开状态。"
+        },
+        {
+          "requirement_id": "R5",
           "status": "not_met",
           "evidence": [
-            "E3"
+            "E4"
           ],
-          "reason": "抽屉已被拉开到末态，但在末帧80以及相邻末段62至80帧中，右侧机械臂夹爪仍与黑色把手保持接触/夹持，没有可见的张开释放或脱离把手的状态，因此未完成释放把手。"
+          "reason": "在末帧80，右侧机械臂的黑色夹爪仍与黑色抽屉把手保持接触，夹爪没有离开把手，未出现完全拉开后释放把手并与把手分离的可见状态。"
         }
       ],
       "observations": [
@@ -259,50 +694,54 @@
           "id": "E1",
           "frames": [
             0,
-            24,
-            26,
+            3,
+            5,
+            8,
+            10,
+            13,
+            15,
+            18,
+            21
+          ],
+          "description": "初始场景：冰箱左侧台面上有棕色纸箱，箱内可见一包浅色包装物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，黑色夹爪从画面右侧向抽屉黑色把手移动，到帧8-10前后接近并接触黑色把手附近；抽屉此时较闭合，内部可见红黄等包装食品，右侧背景可见木质搁板。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            22,
+            25,
             28,
             31,
             34,
             36,
             39,
-            41,
-            80
+            41
           ],
-          "description": "0帧时左侧白色机械臂的黑色夹爪悬在左侧纸板箱开口上方；24至41帧该夹爪向箱内包装袋移动并夹起/抬起一包包装，箱内原本位于后部的包装被带动至夹爪处；到80帧该机械臂仍位于纸箱上方并夹持有该包装，未全程保持静止。"
-        },
-        {
-          "id": "E2",
-          "frames": [
-            0,
-            5,
-            10,
-            15,
-            18,
-            21,
-            23,
-            30,
-            40,
-            50,
-            59
-          ],
-          "description": "0帧右侧机械臂夹爪位于抽屉右侧、朝向抽屉内红色包装区域；5至18帧夹爪向左移动并靠拢抽屉竖向黑色把手；18至59帧夹爪闭合并接触/握住该黑色把手，机械臂主体始终处于抽屉右侧。"
+          "description": "帧22起左侧机械臂相对纸箱发生可见位移，夹爪向纸箱口/箱内动作；到帧28-41，纸箱内原浅色包装袋被移动/翻动，红白包装物品被露出/调整，左侧夹爪停在纸箱上方附近，并非全程静止。此阶段右侧机械臂保持在黑色把手处，抽屉尚未明显外移。"
         },
         {
           "id": "E3",
           "frames": [
-            21,
-            40,
-            50,
-            59,
+            49,
+            52,
+            55,
+            58,
             62,
             65,
-            68,
+            67
+          ],
+          "description": "右侧机械臂保持与黑色把手接触并向右运动，抽屉随把手持续外移；抽屉内黄色、绿色、红色包装食品随抽屉外移逐渐更多暴露。左侧机械臂在纸箱上方基本不再大幅移动。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            70,
             73,
+            75,
             77,
             80
           ],
-          "description": "21帧时抽屉开度较小、内侧可见范围有限；40至59帧夹爪保持与黑色把手接触，抽屉随右侧机械臂向外移动，内部黄、绿、红色包装逐渐露出；62至80帧抽屉被继续拉开，后部空仓和更多内部物品清晰露出；末帧80抽屉处于大幅完全拉开状态，但右侧夹爪仍与黑色把手保持接触，未离开把手。"
+          "description": "抽屉进一步外移至明显打开状态，抽屉内部后部空间和更多包装食品可见，右后侧抽屉框暴露；到帧80，右侧机械臂黑色夹爪仍与黑色把手保持接触，未见释放后与把手分离。左侧机械臂仍位于棕色纸箱上方，箱内可见被调整后的包装袋。"
         }
       ],
       "task_assessment": {
@@ -311,34 +750,35 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4"
         ],
-        "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧、握住黑色把手并将抽屉拉至明显完全拉开的状态；但两个要求未满足：左侧机械臂未保持静止，而是在纸箱上方夹起箱内包装并改变夹持状态；右侧机械臂到末帧仍握持把手，未完成释放。因此任务未完整完成，但核心拉开抽屉的进展已发生。",
+        "reason": "已完成的有效核心进展：右侧机械臂位于抽屉右侧，接触并握持黑色把手，将抽屉从较闭合状态拉到帧73-80明显完全打开的状态。但任务要求的两项条件未满足：左侧机械臂在帧22-41相对纸箱有可见动作并翻动/调整箱内包装，并非保持静止在纸箱上方；到末帧80右侧机械臂仍未释放黑色把手。因此整体为取得核心拉开进展但未满足全部要求的 partial。",
         "target_match": "match"
       },
       "physics_assessment": {
         "verdict": "plausible",
-        "confidence": "high",
+        "confidence": "medium",
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4"
         ],
         "issues": [],
-        "reason": "可辨认范围内，左侧机械臂夹取箱内包装、右侧机械臂握持把手并拉动抽屉的接触和位移关系连贯；抽屉被拉开时内部包装随抽屉同步显露，未见可确认的穿模、悬浮、几何不一致或明显因果断裂。"
+        "reason": "在提供帧范围内，右侧夹爪接触把手后抽屉沿拉动方向持续外移，包装食品随抽屉整体移动；左侧机械臂对纸箱内包装的移动呈现为正常接触与调整，没有出现无法由正常夹持、遮挡或视角解释的明确穿模、悬浮或数量反复跳变。玻璃表面反光限制了部分钳口细节，但未见已确认的物理异常。"
       },
       "visual_assessment": {
-        "verdict": "clear",
+        "verdict": "minor_degradation",
         "confidence": "high",
         "evidence": [
           "E1",
-          "E2",
-          "E3"
+          "E4"
         ],
-        "reason": "画面存在反光和局部运动模糊，但两个机械臂、纸板箱、抽屉黑色把手、包装食品以及抽屉拉开末态均能清楚辨认，足以判断主要动作和结果。"
+        "reason": "整体场景、两个机械臂、棕色纸箱、黑色把手和抽屉拉开结果均可辨认；但玻璃/透明表面存在明显反光，部分夹爪与把手的细小钳口关系略有模糊，属于局部画质退化，未妨碍主要动作和末态判断。"
       },
       "uncertainties": [
-        "俯拍二维视角下无法精确测量抽屉是否到达机械极限，但末态相对初始状态已大幅拉开并显著露出内部深处与后部空间；是否为绝对机械行程极限存在普通视角限制。"
+        "透明盖板反光使右侧夹爪钳口与黑色把手的精细咬合细节在部分帧不够清晰；但夹爪带动把手和抽屉整体外移的关系在多帧中仍可判断。"
       ]
     },
     "requirement_summary": {
@@ -347,7 +787,8 @@
         "R1": "not_met",
         "R2": "met",
         "R3": "met",
-        "R4": "not_met"
+        "R4": "met",
+        "R5": "not_met"
       },
       "unresolved_requirement_ids": [],
       "review_required": false
@@ -355,62 +796,57 @@
     "draft_report": {
       "schema_version": "evidence-v2",
       "task": {
-        "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-        "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-        "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+        "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+        "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+        "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
       },
       "requirement_checks": [
         {
           "requirement_id": "R1",
           "status": "not_met",
           "evidence": [
-            "E1"
+            "E1",
+            "E2"
           ],
-          "reason": "左侧机械臂在0帧位于纸板箱上方，但在26至41帧期间其末端执行器与纸箱内包装发生相对位移并夹起包装，没有保持静止；末态80帧时它仍停在纸箱上方夹持有包装。"
+          "reason": "左侧机械臂在帧0-23位于纸箱上方，但在帧26-41明显向纸箱内的包装袋移动并放下一包物品，说明它并未全程保持在纸箱上方静止，因此未满足“保持静止在纸箱上方”的要求。"
         },
         {
           "requirement_id": "R2",
           "status": "met",
           "evidence": [
-            "E2"
+            "E3"
           ],
-          "reason": "0帧时右侧机械臂在抽屉右侧、夹爪朝向黑色把手区域；18至62帧可见其位于抽屉右侧并闭合夹爪握住黑色抽屉把手开始拉动。"
+          "reason": "右侧白色机械臂始终位于冰箱抽屉右侧区域，其末端执行器靠近黑色抽屉把手，位置符合“在抽屉右侧”的要求。"
         },
         {
           "requirement_id": "R3",
-          "status": "met",
+          "status": "partial",
           "evidence": [
-            "E3"
+            "E3",
+            "E4"
           ],
-          "reason": "从18到80帧，抽屉随右侧机械臂持续向外移动，抽屉内部更多包装食品露出；到80帧时抽屉已处于明显完全拉开的状态。"
+          "reason": "右侧机械臂在帧8-21接近黑色把手，在帧21之后与黑色把手保持接触并随其一起向右运动，显示有握持并拉动，但受反光和视角影响，夹爪闭合细节不够清晰；末帧80仍保持与把手接触。可见其已作用于把手，但对“明确夹取”的钳口包围关系存在视觉局限。"
         },
         {
           "requirement_id": "R4",
+          "status": "met",
+          "evidence": [
+            "E4"
+          ],
+          "reason": "右侧机械臂与黑色把手一起向右移动，抽屉从帧49的较闭合状态被持续拉开；到帧77-80，透明抽屉内部大面积暴露，抽屉处于完全拉开状态。"
+        },
+        {
+          "requirement_id": "R5",
           "status": "not_met",
           "evidence": [
-            "E3"
+            "E4"
           ],
-          "reason": "抽屉被拉到末态80帧时，右侧机械臂的夹爪仍夹在黑色把手上，没有可见的释放动作或脱离把手的状态。"
+          "reason": "在末帧80，右侧机械臂的夹爪仍与黑色把手接触，没有可见的释放、离开把手后的分离状态，因此未完成“把抽屉完全拉开后释放把手”。"
         }
       ],
       "observations": [
         {
           "id": "E1",
-          "frames": [
-            0,
-            26,
-            28,
-            31,
-            34,
-            36,
-            39,
-            41,
-            80
-          ],
-          "description": "0帧时左侧白色机械臂的黑色夹爪悬在左侧纸箱开口上方；26至41帧期间该夹爪向箱内包装移动并夹起一包带红白包装的物品，包装从箱底被提起到夹爪处；到80帧时左侧机械臂仍位于纸箱上方并保持夹持该包装，未完全静止不动。"
-        },
-        {
-          "id": "E2",
           "frames": [
             0,
             3,
@@ -423,13 +859,42 @@
             21,
             23
           ],
-          "description": "0至10帧右侧机械臂从右侧抽屉内红色包装区域向左移动并靠近黑色把手；13至23帧其夹爪到达黑色把手位置并闭合，呈现握住该黑色把手的状态，机械臂始终位于抽屉右侧。"
+          "description": "初始场景中，冰箱左侧台面上放有棕色纸箱，箱内可见一包物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，夹爪从画面右侧向抽屉的黑色把手移动并靠近/接触把手；抽屉此时处于较闭合状态，内部可见红、黄等包装食品，背景右侧有木质搁板。"
+        },
+        {
+          "id": "E2",
+          "frames": [
+            26,
+            28,
+            31,
+            34,
+            36,
+            39,
+            41,
+            44,
+            46
+          ],
+          "description": "左侧机械臂夹爪向纸箱内运动，将一包带白色/红色包装的物品放入纸箱；纸箱内该包物品位置变化并露出更多包装表面，左侧夹爪随后停在纸箱上方/箱口附近，并非全程静止。"
         },
         {
           "id": "E3",
           "frames": [
-            23,
-            49,
+            26,
+            28,
+            31,
+            34,
+            36,
+            39,
+            41,
+            44,
+            46,
+            49
+          ],
+          "description": "右侧机械臂保持在抽屉右侧，其黑色夹爪与黑色抽屉把手接触并握持在把手区域，抽屉在此阶段基本未明显外移。"
+        },
+        {
+          "id": "E4",
+          "frames": [
             52,
             54,
             57,
@@ -443,43 +908,43 @@
             77,
             80
           ],
-          "description": "右侧机械臂握住黑色把手后持续向右/向外拉动抽屉：抽屉内原先位于深处的黄绿、红色包装逐渐露出，抽屉内部空间大幅展开，到80帧时抽屉处于明显拉开的状态；同时右侧机械臂的夹爪在这些帧中始终与黑色把手保持接触/夹持，末帧80仍未释放。"
+          "description": "右侧机械臂随黑色把手向右移动，透明抽屉被持续拉开，抽屉内更多红色托盘、黄色包装袋等包装食品随外移暴露；到帧77-80抽屉已基本完全打开，右侧夹爪仍保持与黑色把手接触，未见释放分离。左侧机械臂在帧49后位置基本停在纸箱上方。"
         }
       ],
       "task_assessment": {
         "verdict": "partial",
-        "confidence": "high",
+        "confidence": "medium",
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4"
         ],
-        "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧，握住黑色把手并将抽屉拉到明显完全拉开的状态；但任务要求的两个末态未满足：左侧机械臂没有保持静止，而是夹起纸箱内包装发生动作；右侧机械臂到末帧仍握持把手，未完成释放。",
+        "reason": "已发生的有效进展是右侧机械臂到达抽屉右侧、接触黑色把手并将抽屉拉到末帧接近/达到完全打开的状态。但左侧机械臂在中段有明显动作并向纸箱内放物，未全程静止在纸箱上方；且右侧机械臂到末帧仍未释放把手，最终释放要求未完成。核心拉开动作已有实质进展，但两个必要条件未满足，因此整体为 partial。",
         "target_match": "match"
       },
       "physics_assessment": {
         "verdict": "plausible",
-        "confidence": "high",
+        "confidence": "medium",
         "evidence": [
-          "E2",
+          "E1",
           "E3",
-          "E1"
+          "E4"
         ],
         "issues": [],
-        "reason": "可辨认范围内机械臂夹取包装、握持把手并拉动抽屉的接触与运动关系连贯，抽屉被拉开时包装随抽屉移动，未见可确认的穿模、悬浮或明显违反因果的运动异常。"
+        "reason": "在可见帧范围内，机械臂与把手接触后带动抽屉向外移动，抽屉内物品随抽屉外移，接触与运动方向符合拉抽屉的因果关系；左侧机械臂放物入箱的动作也未呈现明显刚体穿透或悬浮证据。受采样间隔和玻璃反光限制，未观察到足够确认的物理异常。"
       },
       "visual_assessment": {
-        "verdict": "clear",
+        "verdict": "minor_degradation",
         "confidence": "high",
         "evidence": [
           "E1",
-          "E2",
-          "E3"
+          "E4"
         ],
-        "reason": "图像存在局部反光和运动模糊，但两个机械臂、纸箱、黑色把手、抽屉内包装及抽屉被拉开的末态均可辨认，足以判断主要动作和结果。"
+        "reason": "整体场景、纸箱、两个机械臂、黑色把手和抽屉拉开结果均可辨认，但透明抽屉表面有较强反光，部分包装细节和夹爪闭合细节受反光/运动模糊影响，属于局部画质退化，未完全妨碍主要动作与末态判断。"
       },
       "uncertainties": [
-        "视频为俯拍二维视角，抽屉是否达到机械极限无法精确测量，但末态相对于初始状态已大幅拉开并明显露出内部深处物品。"
+        "玻璃/透明盖板反光使右侧夹爪钳口与黑色把手的细小编夹关系在部分帧不够清晰；未提供的中间采样帧无法展示拉动和放物的完整连续轨迹。"
       ]
     },
     "blind_observations": {
@@ -494,16 +959,15 @@
             10,
             13,
             15,
-            18
+            18,
+            21,
+            23
           ],
-          "description": "右侧机械臂的夹爪初始伸向右侧抽屉内的红色包装区域，随后移动并接触抽屉内左侧靠近纸箱的黑色把手，夹爪闭合握住该把手；左侧机械臂保持在上方纸箱开口处，位置基本未变。"
+          "description": "右侧机械臂从抽屉外侧向黑色抽屉把手移动，夹爪接触并握持抽屉把手；左侧机械臂保持在棕色纸箱上方，箱内已有一包物品。"
         },
         {
           "id": "E2",
           "frames": [
-            18,
-            21,
-            23,
             26,
             28,
             31,
@@ -512,7 +976,13 @@
             39,
             41,
             44,
-            46,
+            46
+          ],
+          "description": "左侧机械臂向棕色纸箱内部移动并抓取一包带红白包装的物品，将其提起放入箱内；该包物品在箱内可见，夹爪停在该包上方保持位置。"
+        },
+        {
+          "id": "E3",
+          "frames": [
             49,
             52,
             54,
@@ -527,28 +997,34 @@
             77,
             80
           ],
-          "description": "右侧机械臂握住黑色把手将抽屉向外拉开，抽屉内红黄等包装物品随抽屉逐渐露出；拉开过程中抽屉内的包装袋位置有变化，最终抽屉停在拉开状态；左侧机械臂始终停在纸箱上方，夹爪未从纸箱内取出可见物体。"
+          "description": "右侧机械臂握持黑色抽屉把手并向右拉动，透明抽屉被拉开，抽屉内的红色托盘、黄色包装袋等物品随抽屉外移暴露；左侧机械臂始终停在棕色纸箱上方，不再明显移动。"
         }
       ],
       "uncertainties": [
-        "左侧机械臂夹爪在纸箱内与物品的具体夹持状态被遮挡，无法确认是否成功抓取纸箱内的包装。"
+        "玻璃/透明盖板存在反光，部分包装袋文字和细节辨认受限；中间未提供的采样帧无法展示机械臂抓取纸箱内物品、拉开抽屉的完整连续动作。"
       ]
     },
     "scoring": {
-      "total_score": 0.615,
+      "total_score": 0.595,
       "component_scores": {
         "task": 0.45,
         "physics": 1.0,
-        "visual": 1.0
+        "visual": 0.8
       },
       "review_required": false,
       "review_reasons": [],
       "scoring_version": "task-failure-material-review-v1",
-      "diagnostic_score": 0.615,
+      "physical_completion": {
+        "required": true,
+        "complete": true,
+        "issues": [],
+        "meaning": "Execution and source identity only; successful tools do not establish video quality."
+      },
+      "diagnostic_score": 0.595,
       "diagnostic_review_required": false,
       "diagnostic_review_reasons": [],
       "diagnostic_scoring_version": "evidence-soft-physics-v2-provisional",
-      "task_reward": 0.615,
+      "task_reward": 0.595,
       "decisive_failure": false,
       "task_failure_gate": {
         "applied": false,
@@ -558,7 +1034,7 @@
     },
     "review_required": false,
     "failure_reward_resolution": null,
-    "diagnostic_score": 0.615,
+    "diagnostic_score": 0.595,
     "diagnostic_review_required": false,
     "diagnostic_review_reasons": [],
     "training_eligible": true,
@@ -976,12 +1452,46 @@
           "timestamp_seconds": 0.0
         },
         {
-          "source_frame_index": 24,
-          "timestamp_seconds": 1.5
+          "source_frame_index": 3,
+          "timestamp_seconds": 0.1875
         },
         {
-          "source_frame_index": 26,
-          "timestamp_seconds": 1.625
+          "source_frame_index": 5,
+          "timestamp_seconds": 0.3125
+        },
+        {
+          "source_frame_index": 8,
+          "timestamp_seconds": 0.5
+        },
+        {
+          "source_frame_index": 10,
+          "timestamp_seconds": 0.625
+        },
+        {
+          "source_frame_index": 13,
+          "timestamp_seconds": 0.8125
+        },
+        {
+          "source_frame_index": 15,
+          "timestamp_seconds": 0.9375
+        },
+        {
+          "source_frame_index": 18,
+          "timestamp_seconds": 1.125
+        },
+        {
+          "source_frame_index": 21,
+          "timestamp_seconds": 1.3125
+        }
+      ],
+      "E2": [
+        {
+          "source_frame_index": 22,
+          "timestamp_seconds": 1.375
+        },
+        {
+          "source_frame_index": 25,
+          "timestamp_seconds": 1.5625
         },
         {
           "source_frame_index": 28,
@@ -1006,74 +1516,24 @@
         {
           "source_frame_index": 41,
           "timestamp_seconds": 2.5625
-        },
-        {
-          "source_frame_index": 80,
-          "timestamp_seconds": 5.0
-        }
-      ],
-      "E2": [
-        {
-          "source_frame_index": 0,
-          "timestamp_seconds": 0.0
-        },
-        {
-          "source_frame_index": 5,
-          "timestamp_seconds": 0.3125
-        },
-        {
-          "source_frame_index": 10,
-          "timestamp_seconds": 0.625
-        },
-        {
-          "source_frame_index": 15,
-          "timestamp_seconds": 0.9375
-        },
-        {
-          "source_frame_index": 18,
-          "timestamp_seconds": 1.125
-        },
-        {
-          "source_frame_index": 21,
-          "timestamp_seconds": 1.3125
-        },
-        {
-          "source_frame_index": 23,
-          "timestamp_seconds": 1.4375
-        },
-        {
-          "source_frame_index": 30,
-          "timestamp_seconds": 1.875
-        },
-        {
-          "source_frame_index": 40,
-          "timestamp_seconds": 2.5
-        },
-        {
-          "source_frame_index": 50,
-          "timestamp_seconds": 3.125
-        },
-        {
-          "source_frame_index": 59,
-          "timestamp_seconds": 3.6875
         }
       ],
       "E3": [
         {
-          "source_frame_index": 21,
-          "timestamp_seconds": 1.3125
+          "source_frame_index": 49,
+          "timestamp_seconds": 3.0625
         },
         {
-          "source_frame_index": 40,
-          "timestamp_seconds": 2.5
+          "source_frame_index": 52,
+          "timestamp_seconds": 3.25
         },
         {
-          "source_frame_index": 50,
-          "timestamp_seconds": 3.125
+          "source_frame_index": 55,
+          "timestamp_seconds": 3.4375
         },
         {
-          "source_frame_index": 59,
-          "timestamp_seconds": 3.6875
+          "source_frame_index": 58,
+          "timestamp_seconds": 3.625
         },
         {
           "source_frame_index": 62,
@@ -1084,12 +1544,22 @@
           "timestamp_seconds": 4.0625
         },
         {
-          "source_frame_index": 68,
-          "timestamp_seconds": 4.25
+          "source_frame_index": 67,
+          "timestamp_seconds": 4.1875
+        }
+      ],
+      "E4": [
+        {
+          "source_frame_index": 70,
+          "timestamp_seconds": 4.375
         },
         {
           "source_frame_index": 73,
           "timestamp_seconds": 4.5625
+        },
+        {
+          "source_frame_index": 75,
+          "timestamp_seconds": 4.6875
         },
         {
           "source_frame_index": 77,
@@ -1117,7 +1587,7 @@
       {
         "stage": "blind_observation",
         "attempt": 1,
-        "response_id": "resp_021789705032217795aa3a4ba36fe885727fc31a219ca2537a071",
+        "response_id": "resp_021789711485323de824baea9702e17bffa39e9c3bdc4f6eed8a9",
         "messages_sha256": "b560038660c34f4eece39d0f6d1cdfd1c73ee93f22b1ae2d2bb07f8a1afdb92f",
         "request_payload_sha256": "e06d5efdeb8f1c641d78c7a248c5fc3d00bb3ce3f01cb696367dde15d28616c6",
         "request_sampling": {
@@ -1143,10 +1613,10 @@
         "sampling_metadata_status": "recorded",
         "usage": {
           "input_tokens": 44560,
-          "output_tokens": 265,
-          "total_tokens": 44825,
+          "output_tokens": 296,
+          "total_tokens": 44856,
           "input_tokens_details": {
-            "cached_tokens": 0
+            "cached_tokens": 44560
           },
           "output_tokens_details": {
             "reasoning_tokens": 0
@@ -1165,16 +1635,15 @@
                 10,
                 13,
                 15,
-                18
+                18,
+                21,
+                23
               ],
-              "description": "右侧机械臂的夹爪初始伸向右侧抽屉内的红色包装区域，随后移动并接触抽屉内左侧靠近纸箱的黑色把手，夹爪闭合握住该把手；左侧机械臂保持在上方纸箱开口处，位置基本未变。"
+              "description": "右侧机械臂从抽屉外侧向黑色抽屉把手移动，夹爪接触并握持抽屉把手；左侧机械臂保持在棕色纸箱上方，箱内已有一包物品。"
             },
             {
               "id": "E2",
               "frames": [
-                18,
-                21,
-                23,
                 26,
                 28,
                 31,
@@ -1183,7 +1652,13 @@
                 39,
                 41,
                 44,
-                46,
+                46
+              ],
+              "description": "左侧机械臂向棕色纸箱内部移动并抓取一包带红白包装的物品，将其提起放入箱内；该包物品在箱内可见，夹爪停在该包上方保持位置。"
+            },
+            {
+              "id": "E3",
+              "frames": [
                 49,
                 52,
                 54,
@@ -1198,18 +1673,18 @@
                 77,
                 80
               ],
-              "description": "右侧机械臂握住黑色把手将抽屉向外拉开，抽屉内红黄等包装物品随抽屉逐渐露出；拉开过程中抽屉内的包装袋位置有变化，最终抽屉停在拉开状态；左侧机械臂始终停在纸箱上方，夹爪未从纸箱内取出可见物体。"
+              "description": "右侧机械臂握持黑色抽屉把手并向右拉动，透明抽屉被拉开，抽屉内的红色托盘、黄色包装袋等物品随抽屉外移暴露；左侧机械臂始终停在棕色纸箱上方，不再明显移动。"
             }
           ],
           "uncertainties": [
-            "左侧机械臂夹爪在纸箱内与物品的具体夹持状态被遮挡，无法确认是否成功抓取纸箱内的包装。"
+            "玻璃/透明盖板存在反光，部分包装袋文字和细节辨认受限；中间未提供的采样帧无法展示机械臂抓取纸箱内物品、拉开抽屉的完整连续动作。"
           ]
         }
       },
       {
         "stage": "task_contract_extraction",
         "attempt": 1,
-        "response_id": "resp_021789705043433f0b662e0a22462bcc30964e8c71cc76645fdea",
+        "response_id": "resp_0217897115008420b63b37cbca791937f2f41fb0469576d90bbff",
         "messages_sha256": "ba15a0e7cfa8d01014536b2917cd72059e4716d47c4f7212b5d6997c114f6103",
         "request_payload_sha256": "b32f230692bb299d05f9e03a8c6bb87d21d52b827bd149793b80596311117cb8",
         "request_sampling": {
@@ -1235,8 +1710,8 @@
         "sampling_metadata_status": "recorded",
         "usage": {
           "input_tokens": 926,
-          "output_tokens": 511,
-          "total_tokens": 1437,
+          "output_tokens": 537,
+          "total_tokens": 1463,
           "input_tokens_details": {
             "cached_tokens": 0
           },
@@ -1248,45 +1723,48 @@
         "output": {
           "schema_version": "task-contract-v1",
           "task": {
-            "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-            "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品且初始已打开的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-            "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+            "requested_action": "Two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods. One arm remains stationary above a cardboard box on the left refrigerator surface; the other arm positions itself at the right side of the drawer, grips its black handle, pulls the drawer fully open, and then releases the handle.",
+            "target_description": "A refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, operated on by two white robotic arms with black end effectors.",
+            "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled it has released the black handle; the other arm remains stationary above the cardboard box on the left refrigerator surface."
           },
           "requirements": [
             {
               "id": "R1",
               "source_quote": "One arm remains stationary above the cardboard box",
-              "text": "一个机械臂必须保持静止在纸板箱上方"
+              "text": "One robotic arm must remain stationary above the cardboard box."
             },
             {
               "id": "R2",
-              "source_quote": "the other arm is positioned at the right side of the drawer, gripping its black handle",
-              "text": "另一个机械臂必须位于抽屉右侧，并握住抽屉的黑色把手"
+              "source_quote": "the other arm is positioned at the right side of the drawer",
+              "text": "The other robotic arm must be positioned at the right side of the drawer."
             },
             {
               "id": "R3",
-              "source_quote": "The arm holding the drawer handle pulls the drawer fully open",
-              "text": "握住抽屉把手的机械臂必须将抽屉完全拉开"
+              "source_quote": "gripping its black handle",
+              "text": "The arm positioned at the right side of the drawer must grip the drawer's black handle."
             },
             {
               "id": "R4",
+              "source_quote": "pulls the drawer fully open",
+              "text": "The arm holding the drawer handle must pull the drawer fully open."
+            },
+            {
+              "id": "R5",
               "source_quote": "then releases the handle",
-              "text": "机械臂在将抽屉完全拉开后必须释放把手"
+              "text": "After pulling the drawer fully open, the arm must release the handle."
             }
           ],
           "coverage_notes": [
-            "“Two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods; a cardboard box rests on the refrigerator surface to the left, and wooden shelves are visible in the background.”是场景背景描述，未要求改变这些物体的颜色、材质、照明、背景或其他未被动作指令涉及的状态。",
-            "原文描述抽屉初始为“an open refrigerator drawer”，但明确动作指令是将抽屉“pulls the drawer fully open”，末态要求以被完全拉开为准。",
-            "原文未规定机械臂释放把手后的额外复位位置、等待时长或速度参数。"
+            "The source text begins with a scene description: two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods; a cardboard box rests on the refrigerator surface to the left; wooden shelves are visible in the background. These are setting/background elements rather than separately verifiable action requirements unless tied to the specified actions."
           ]
         }
       },
       {
         "stage": "task_contract_coverage_audit",
         "attempt": 1,
-        "response_id": "resp_021789705054577b9f489096afc36acf45c00ec3935d23a8377e8",
-        "messages_sha256": "8c9952802f284a7db95d42db94c3db40f6262de715a4a63fd346574e8ee6cdb2",
-        "request_payload_sha256": "d4056c7a0b54fb5df786e8f98328616d61d523a30de15a96705a012a4836d205",
+        "response_id": "resp_02178971150888775251d478e5bf6426f4e0f08f6c1b200a111a9",
+        "messages_sha256": "334bb37b4bf0c5f3eb971da37679e18bec3165e520f98b522adb5edeb6782e7e",
+        "request_payload_sha256": "82cd98833e012f60c5ffd3d11946a7443e38f5e52de69daadc9b705f589c7086",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1309,9 +1787,9 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 1970,
-          "output_tokens": 536,
-          "total_tokens": 2506,
+          "input_tokens": 2020,
+          "output_tokens": 545,
+          "total_tokens": 2565,
           "input_tokens_details": {
             "cached_tokens": 0
           },
@@ -1323,45 +1801,48 @@
         "output": {
           "schema_version": "task-contract-v1",
           "task": {
-            "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-            "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-            "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+            "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+            "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+            "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
           },
           "requirements": [
             {
               "id": "R1",
               "source_quote": "One arm remains stationary above the cardboard box",
-              "text": "一个机械臂必须保持静止在纸板箱上方"
+              "text": "One robotic arm must remain stationary above the cardboard box."
             },
             {
               "id": "R2",
-              "source_quote": "the other arm is positioned at the right side of the drawer, gripping its black handle",
-              "text": "另一个机械臂必须位于抽屉右侧，并握住抽屉的黑色把手"
+              "source_quote": "the other arm is positioned at the right side of the drawer",
+              "text": "The other robotic arm must be positioned at the right side of the drawer."
             },
             {
               "id": "R3",
-              "source_quote": "The arm holding the drawer handle pulls the drawer fully open",
-              "text": "握住抽屉把手的机械臂必须将抽屉完全拉开"
+              "source_quote": "gripping its black handle",
+              "text": "The arm positioned at the right side of the drawer must grip the drawer's black handle."
             },
             {
               "id": "R4",
+              "source_quote": "pulls the drawer fully open",
+              "text": "The arm holding the drawer handle must pull the drawer fully open."
+            },
+            {
+              "id": "R5",
               "source_quote": "then releases the handle",
-              "text": "机械臂在将抽屉完全拉开后必须释放把手"
+              "text": "After pulling the drawer fully open, the arm must release the handle."
             }
           ],
           "coverage_notes": [
-            "“Two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods; a cardboard box rests on the refrigerator surface to the left, and wooden shelves are visible in the background.”主要为场景背景描述，未要求改变机械臂颜色、末端执行器颜色、食品包装、纸板箱位置、背景木架等未被动作指令涉及的状态。",
-            "原文称抽屉初始为“an open refrigerator drawer”，但明确动作指令是将其“pulls the drawer fully open”，动作完成末态以抽屉被完全拉开为准；初始“open”与“fully open”之间的具体开度差异未进一步定义。",
-            "原文未规定机械臂释放把手后的额外复位位置、等待时长或速度参数。"
+            "Scene-setting details: 'Two white robotic arms with black end effectors operate above an open refrigerator drawer filled with packaged frozen foods; a cardboard box rests on the refrigerator surface to the left, and wooden shelves are visible in the background' includes background elements such as wooden shelves and initial scene state; these are not treated as separate verifiable action requirements beyond the explicitly required arm actions and drawer/handle states."
           ]
         }
       },
       {
         "stage": "assessment",
         "attempt": 1,
-        "response_id": "resp_021789705063431640844006c495b97e3327b5d9afec85671c36b",
-        "messages_sha256": "15d9bbc30abd0a2cd3925e3a2d6fef99cce5ef075eb2e783bf116bd84143b4ec",
-        "request_payload_sha256": "51b59d80f5fff67f994bf3ff86eaacaec26ff4728fbec322b272fb1395a8195e",
+        "response_id": "resp_021789711518088ca3041a3a8c2b7f648d1ff1a7e90ae3f61c08a",
+        "messages_sha256": "4c515062e2ce3e570c168a7fcc61397a74f64ae1ac2229ed7c241b0dd13fa872",
+        "request_payload_sha256": "f4ae19923581c7fa96f553e864b6981e7f596e764c2538ca57db2157dff46833",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1384,9 +1865,9 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 49140,
-          "output_tokens": 1331,
-          "total_tokens": 50471,
+          "input_tokens": 49381,
+          "output_tokens": 1690,
+          "total_tokens": 51071,
           "input_tokens_details": {
             "cached_tokens": 1848
           },
@@ -1398,62 +1879,57 @@
         "output": {
           "schema_version": "evidence-v2",
           "task": {
-            "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-            "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-            "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+            "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+            "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+            "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
           },
           "requirement_checks": [
             {
               "requirement_id": "R1",
               "status": "not_met",
               "evidence": [
-                "E1"
+                "E1",
+                "E2"
               ],
-              "reason": "左侧机械臂在0帧位于纸板箱上方，但在26至41帧期间其末端执行器与纸箱内包装发生相对位移并夹起包装，没有保持静止；末态80帧时它仍停在纸箱上方夹持有包装。"
+              "reason": "左侧机械臂在帧0-23位于纸箱上方，但在帧26-41明显向纸箱内的包装袋移动并放下一包物品，说明它并未全程保持在纸箱上方静止，因此未满足“保持静止在纸箱上方”的要求。"
             },
             {
               "requirement_id": "R2",
               "status": "met",
               "evidence": [
-                "E2"
+                "E3"
               ],
-              "reason": "0帧时右侧机械臂在抽屉右侧、夹爪朝向黑色把手区域；18至62帧可见其位于抽屉右侧并闭合夹爪握住黑色抽屉把手开始拉动。"
+              "reason": "右侧白色机械臂始终位于冰箱抽屉右侧区域，其末端执行器靠近黑色抽屉把手，位置符合“在抽屉右侧”的要求。"
             },
             {
               "requirement_id": "R3",
-              "status": "met",
+              "status": "partial",
               "evidence": [
-                "E3"
+                "E3",
+                "E4"
               ],
-              "reason": "从18到80帧，抽屉随右侧机械臂持续向外移动，抽屉内部更多包装食品露出；到80帧时抽屉已处于明显完全拉开的状态。"
+              "reason": "右侧机械臂在帧8-21接近黑色把手，在帧21之后与黑色把手保持接触并随其一起向右运动，显示有握持并拉动，但受反光和视角影响，夹爪闭合细节不够清晰；末帧80仍保持与把手接触。可见其已作用于把手，但对“明确夹取”的钳口包围关系存在视觉局限。"
             },
             {
               "requirement_id": "R4",
+              "status": "met",
+              "evidence": [
+                "E4"
+              ],
+              "reason": "右侧机械臂与黑色把手一起向右移动，抽屉从帧49的较闭合状态被持续拉开；到帧77-80，透明抽屉内部大面积暴露，抽屉处于完全拉开状态。"
+            },
+            {
+              "requirement_id": "R5",
               "status": "not_met",
               "evidence": [
-                "E3"
+                "E4"
               ],
-              "reason": "抽屉被拉到末态80帧时，右侧机械臂的夹爪仍夹在黑色把手上，没有可见的释放动作或脱离把手的状态。"
+              "reason": "在末帧80，右侧机械臂的夹爪仍与黑色把手接触，没有可见的释放、离开把手后的分离状态，因此未完成“把抽屉完全拉开后释放把手”。"
             }
           ],
           "observations": [
             {
               "id": "E1",
-              "frames": [
-                0,
-                26,
-                28,
-                31,
-                34,
-                36,
-                39,
-                41,
-                80
-              ],
-              "description": "0帧时左侧白色机械臂的黑色夹爪悬在左侧纸箱开口上方；26至41帧期间该夹爪向箱内包装移动并夹起一包带红白包装的物品，包装从箱底被提起到夹爪处；到80帧时左侧机械臂仍位于纸箱上方并保持夹持该包装，未完全静止不动。"
-            },
-            {
-              "id": "E2",
               "frames": [
                 0,
                 3,
@@ -1466,13 +1942,42 @@
                 21,
                 23
               ],
-              "description": "0至10帧右侧机械臂从右侧抽屉内红色包装区域向左移动并靠近黑色把手；13至23帧其夹爪到达黑色把手位置并闭合，呈现握住该黑色把手的状态，机械臂始终位于抽屉右侧。"
+              "description": "初始场景中，冰箱左侧台面上放有棕色纸箱，箱内可见一包物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，夹爪从画面右侧向抽屉的黑色把手移动并靠近/接触把手；抽屉此时处于较闭合状态，内部可见红、黄等包装食品，背景右侧有木质搁板。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                26,
+                28,
+                31,
+                34,
+                36,
+                39,
+                41,
+                44,
+                46
+              ],
+              "description": "左侧机械臂夹爪向纸箱内运动，将一包带白色/红色包装的物品放入纸箱；纸箱内该包物品位置变化并露出更多包装表面，左侧夹爪随后停在纸箱上方/箱口附近，并非全程静止。"
             },
             {
               "id": "E3",
               "frames": [
-                23,
-                49,
+                26,
+                28,
+                31,
+                34,
+                36,
+                39,
+                41,
+                44,
+                46,
+                49
+              ],
+              "description": "右侧机械臂保持在抽屉右侧，其黑色夹爪与黑色抽屉把手接触并握持在把手区域，抽屉在此阶段基本未明显外移。"
+            },
+            {
+              "id": "E4",
+              "frames": [
                 52,
                 54,
                 57,
@@ -1486,52 +1991,52 @@
                 77,
                 80
               ],
-              "description": "右侧机械臂握住黑色把手后持续向右/向外拉动抽屉：抽屉内原先位于深处的黄绿、红色包装逐渐露出，抽屉内部空间大幅展开，到80帧时抽屉处于明显拉开的状态；同时右侧机械臂的夹爪在这些帧中始终与黑色把手保持接触/夹持，末帧80仍未释放。"
+              "description": "右侧机械臂随黑色把手向右移动，透明抽屉被持续拉开，抽屉内更多红色托盘、黄色包装袋等包装食品随外移暴露；到帧77-80抽屉已基本完全打开，右侧夹爪仍保持与黑色把手接触，未见释放分离。左侧机械臂在帧49后位置基本停在纸箱上方。"
             }
           ],
           "task_assessment": {
             "verdict": "partial",
-            "confidence": "high",
+            "confidence": "medium",
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4"
             ],
-            "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧，握住黑色把手并将抽屉拉到明显完全拉开的状态；但任务要求的两个末态未满足：左侧机械臂没有保持静止，而是夹起纸箱内包装发生动作；右侧机械臂到末帧仍握持把手，未完成释放。",
+            "reason": "已发生的有效进展是右侧机械臂到达抽屉右侧、接触黑色把手并将抽屉拉到末帧接近/达到完全打开的状态。但左侧机械臂在中段有明显动作并向纸箱内放物，未全程静止在纸箱上方；且右侧机械臂到末帧仍未释放把手，最终释放要求未完成。核心拉开动作已有实质进展，但两个必要条件未满足，因此整体为 partial。",
             "target_match": "match"
           },
           "physics_assessment": {
             "verdict": "plausible",
-            "confidence": "high",
+            "confidence": "medium",
             "evidence": [
-              "E2",
+              "E1",
               "E3",
-              "E1"
+              "E4"
             ],
             "issues": [],
-            "reason": "可辨认范围内机械臂夹取包装、握持把手并拉动抽屉的接触与运动关系连贯，抽屉被拉开时包装随抽屉移动，未见可确认的穿模、悬浮或明显违反因果的运动异常。"
+            "reason": "在可见帧范围内，机械臂与把手接触后带动抽屉向外移动，抽屉内物品随抽屉外移，接触与运动方向符合拉抽屉的因果关系；左侧机械臂放物入箱的动作也未呈现明显刚体穿透或悬浮证据。受采样间隔和玻璃反光限制，未观察到足够确认的物理异常。"
           },
           "visual_assessment": {
-            "verdict": "clear",
+            "verdict": "minor_degradation",
             "confidence": "high",
             "evidence": [
               "E1",
-              "E2",
-              "E3"
+              "E4"
             ],
-            "reason": "图像存在局部反光和运动模糊，但两个机械臂、纸箱、黑色把手、抽屉内包装及抽屉被拉开的末态均可辨认，足以判断主要动作和结果。"
+            "reason": "整体场景、纸箱、两个机械臂、黑色把手和抽屉拉开结果均可辨认，但透明抽屉表面有较强反光，部分包装细节和夹爪闭合细节受反光/运动模糊影响，属于局部画质退化，未完全妨碍主要动作与末态判断。"
           },
           "uncertainties": [
-            "视频为俯拍二维视角，抽屉是否达到机械极限无法精确测量，但末态相对于初始状态已大幅拉开并明显露出内部深处物品。"
+            "玻璃/透明盖板反光使右侧夹爪钳口与黑色把手的细小编夹关系在部分帧不够清晰；未提供的中间采样帧无法展示拉动和放物的完整连续轨迹。"
           ]
         }
       },
       {
         "stage": "verification",
         "attempt": 1,
-        "response_id": "resp_021789705103846f1aca4493aa6c7087a6ccfbfdb4be615e40cc8",
-        "messages_sha256": "6ce1262412792da7a826057ebfb8072a071d176f62fb993bc6e85e7b6d9bba3e",
-        "request_payload_sha256": "6bd889a396809c2dd83efb7a377738af2cabe31ec5262381fe6ed83da399d935",
+        "response_id": "resp_021789711570775fa871229fec4115dc08043e38393b8b52068b3",
+        "messages_sha256": "41a3d63aaf666efa3f0917140403b4a04445ab6e91ad5a773e9e41aa22e74800",
+        "request_payload_sha256": "d81474fce623844673b0c54a38a7324a63e34a7e9d3ef84407e5c7cdbd3ba329",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1554,9 +2059,9 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 116218,
-          "output_tokens": 1432,
-          "total_tokens": 117650,
+          "input_tokens": 116783,
+          "output_tokens": 1764,
+          "total_tokens": 118547,
           "input_tokens_details": {
             "cached_tokens": 2872
           },
@@ -1568,42 +2073,54 @@
         "output": {
           "schema_version": "evidence-v2",
           "task": {
-            "requested_action": "一个机械臂保持静止在左侧纸板箱上方；位于抽屉右侧的另一个机械臂握住冰箱抽屉的黑色把手，将抽屉完全拉开，随后释放把手",
-            "target_description": "两个带有黑色末端执行器的白色机械臂；装有包装冷冻食品的冰箱抽屉；放置在冰箱表面左侧的纸板箱",
-            "final_state_requirement": "冰箱抽屉被完全拉开；握持把手的机械臂已释放抽屉把手；另一个机械臂仍静止在纸板箱上方"
+            "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+            "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+            "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
           },
           "requirement_checks": [
             {
               "requirement_id": "R1",
               "status": "not_met",
               "evidence": [
-                "E1"
+                "E1",
+                "E2"
               ],
-              "reason": "左侧机械臂在0帧位于纸板箱开口上方，但其末端夹爪在24至41帧期间向箱内包装袋移动并夹起/抬起箱内包装，42帧以后该包装被夹在夹爪处，没有在整个过程中保持静止在纸板箱上方的状态。"
+              "reason": "左侧机械臂在初始帧位于纸箱上方，但在帧22至帧46期间夹爪明显向纸箱内部移动并调整纸箱内包装袋的位置，并非在整个序列中保持“静止在纸箱上方”；末帧虽仍在纸箱上方，但中途有可见动作。"
             },
             {
               "requirement_id": "R2",
               "status": "met",
               "evidence": [
-                "E2"
+                "E1",
+                "E3"
               ],
-              "reason": "右侧机械臂初始在抽屉右侧，0至18帧从右侧红色包装区域移动到抽屉的黑色竖向把手处，18至59帧可见夹爪位于抽屉右侧并闭合接触/握住该黑色把手。"
+              "reason": "右侧白色机械臂自起始阶段至末帧都位于冰箱抽屉右侧区域，其黑色末端执行器始终处在抽屉右侧并围绕黑色把手/抽屉右缘活动，符合“在抽屉右侧”的位置要求。"
             },
             {
               "requirement_id": "R3",
               "status": "met",
               "evidence": [
+                "E1",
                 "E3"
               ],
-              "reason": "右侧机械臂握住把手后，抽屉从较初始位置被持续向外拉动；到73至80帧抽屉内部深处与后方空仓区域大面积露出，末态抽屉处于明显完全拉开的状态。"
+              "reason": "右侧机械臂夹爪在帧9前后接近并接触黑色把手，后续拉动阶段夹爪与黑色把手一同向右移动，显示已握持把手并带动抽屉外移；虽然透明盖板反光使钳口细节不是特别锐利，但夹持带动抽屉的关系在多帧中可见。"
             },
             {
               "requirement_id": "R4",
+              "status": "met",
+              "evidence": [
+                "E3",
+                "E4"
+              ],
+              "reason": "从帧49到帧80，右侧夹爪带动黑色把手持续向右移动，透明抽屉外移，抽屉内部更多包装食品暴露；到帧73-80，抽屉已大幅打开，可见内部较深层空间与后部包装，达到可见的完全拉开状态。"
+            },
+            {
+              "requirement_id": "R5",
               "status": "not_met",
               "evidence": [
-                "E3"
+                "E4"
               ],
-              "reason": "抽屉已被拉开到末态，但在末帧80以及相邻末段62至80帧中，右侧机械臂夹爪仍与黑色把手保持接触/夹持，没有可见的张开释放或脱离把手的状态，因此未完成释放把手。"
+              "reason": "在末帧80，右侧机械臂夹爪仍然与黑色抽屉把手保持接触/握持，夹爪没有离开把手，也没有出现释放后与把手分离的可见状态，因此未满足“完全拉开后释放把手”。"
             }
           ],
           "observations": [
@@ -1611,7 +2128,21 @@
               "id": "E1",
               "frames": [
                 0,
-                24,
+                3,
+                5,
+                8,
+                10,
+                13,
+                15,
+                18,
+                21
+              ],
+              "description": "初始场景：冰箱左侧台面上有棕色纸箱，箱内已有一包浅底带深色/红色包装的物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，夹爪从画面右侧向抽屉的黑色把手移动，至帧10前后接触黑色把手附近；抽屉此时处于较闭合状态，内部可见红黄等包装食品，右侧背景可见木质搁板。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                22,
                 26,
                 28,
                 31,
@@ -1619,42 +2150,35 @@
                 36,
                 39,
                 41,
-                80
+                44,
+                46
               ],
-              "description": "0帧时左侧白色机械臂的黑色夹爪悬在左侧纸板箱开口上方；24至41帧该夹爪向箱内包装袋移动并夹起/抬起一包包装，箱内原本位于后部的包装被带动至夹爪处；到80帧该机械臂仍位于纸箱上方并夹持有该包装，未全程保持静止。"
-            },
-            {
-              "id": "E2",
-              "frames": [
-                0,
-                5,
-                10,
-                15,
-                18,
-                21,
-                23,
-                30,
-                40,
-                50,
-                59
-              ],
-              "description": "0帧右侧机械臂夹爪位于抽屉右侧、朝向抽屉内红色包装区域；5至18帧夹爪向左移动并靠拢抽屉竖向黑色把手；18至59帧夹爪闭合并接触/握住该黑色把手，机械臂主体始终处于抽屉右侧。"
+              "description": "左侧机械臂在帧22开始相对初始位置发生可见位移，夹爪伸入纸箱口内；到帧26-46，纸箱内原本的包装袋被移动/翻动，新增或露出带有红白包装的物品，左侧夹爪停在纸箱上方/箱内附近，并非全程静止。此阶段右侧机械臂位置基本保持在黑色把手处，抽屉尚未明显外移。"
             },
             {
               "id": "E3",
               "frames": [
-                21,
-                40,
-                50,
+                49,
+                52,
+                54,
+                57,
                 59,
                 62,
                 65,
-                68,
-                73,
+                67
+              ],
+              "description": "右侧机械臂保持与黑色把手接触并向右运动，抽屉随把手持续外移；抽屉内黄色、绿色、红色包装食品随抽屉外移逐渐更多暴露。左侧机械臂在纸箱上方基本不再大幅移动。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                70,
+                72,
+                75,
                 77,
                 80
               ],
-              "description": "21帧时抽屉开度较小、内侧可见范围有限；40至59帧夹爪保持与黑色把手接触，抽屉随右侧机械臂向外移动，内部黄、绿、红色包装逐渐露出；62至80帧抽屉被继续拉开，后部空仓和更多内部物品清晰露出；末帧80抽屉处于大幅完全拉开状态，但右侧夹爪仍与黑色把手保持接触，未离开把手。"
+              "description": "抽屉进一步外移至较完全打开状态，抽屉内部后部空间和更多包装食品可见；到末帧80，右侧机械臂黑色夹爪仍与黑色把手保持接触，未见释放后与把手分离。左侧机械臂仍位于棕色纸箱上方。"
             }
           ],
           "task_assessment": {
@@ -1663,43 +2187,285 @@
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4"
             ],
-            "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧、握住黑色把手并将抽屉拉至明显完全拉开的状态；但两个要求未满足：左侧机械臂未保持静止，而是在纸箱上方夹起箱内包装并改变夹持状态；右侧机械臂到末帧仍握持把手，未完成释放。因此任务未完整完成，但核心拉开抽屉的进展已发生。",
+            "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧，接触并握持黑色把手，将抽屉从较闭合状态拉到末帧明显大幅打开的状态。但任务要求的两个末态/全程条件未满足：左侧机械臂并非全程静止在纸箱上方，帧22-46有可见伸入纸箱并移动包装的动作；且右侧机械臂到末帧80仍未释放黑色把手。因此整体为已取得核心拉开进展但未满足全部要求的 partial。",
             "target_match": "match"
           },
           "physics_assessment": {
             "verdict": "plausible",
-            "confidence": "high",
+            "confidence": "medium",
             "evidence": [
               "E1",
-              "E2",
-              "E3"
+              "E3",
+              "E4"
             ],
             "issues": [],
-            "reason": "可辨认范围内，左侧机械臂夹取箱内包装、右侧机械臂握持把手并拉动抽屉的接触和位移关系连贯；抽屉被拉开时内部包装随抽屉同步显露，未见可确认的穿模、悬浮、几何不一致或明显因果断裂。"
+            "reason": "在提供的全部帧中，右侧夹爪接触把手后抽屉沿拉动方向持续外移，包装食品随抽屉整体移动；左侧机械臂对纸箱内物品的移动也在可见范围内呈现为正常接触与搬运，没有出现无法由正常夹持/遮挡解释的明确穿模、悬浮或物体数量反复跳变。透明玻璃盖板反光限制了部分接触细节，但未见已确认的物理异常。"
           },
           "visual_assessment": {
-            "verdict": "clear",
+            "verdict": "minor_degradation",
             "confidence": "high",
             "evidence": [
               "E1",
-              "E2",
-              "E3"
+              "E4"
             ],
-            "reason": "画面存在反光和局部运动模糊，但两个机械臂、纸板箱、抽屉黑色把手、包装食品以及抽屉拉开末态均能清楚辨认，足以判断主要动作和结果。"
+            "reason": "整体场景、两个机械臂、棕色纸箱、黑色把手和抽屉拉开结果均可辨认；但透明/玻璃表面存在明显反光，部分包装文字和夹爪与把手接触的细小编夹关系略有模糊，属于局部画质退化，未完全妨碍主要动作和末态判断。"
           },
           "uncertainties": [
-            "俯拍二维视角下无法精确测量抽屉是否到达机械极限，但末态相对初始状态已大幅拉开并显著露出内部深处与后部空间；是否为绝对机械行程极限存在普通视角限制。"
+            "透明盖板反光使右侧夹爪钳口与黑色把手的精细咬合关系在部分帧不够清晰；但夹爪带动把手和抽屉整体外移的关系在多帧中仍可判断。"
           ]
         }
       },
       {
-        "stage": "requirement_scope_audit",
+        "stage": "independent_physics_tools_started",
+        "tool_records": [
+          {
+            "worker": "wmreward",
+            "request": {
+              "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_02/video_1.mp4",
+              "video_sha256": "8764a1282b8b0929d2bd27ed9442c2a66c2edc60119fbe78899099a3b6eee984",
+              "operation": "check_physics"
+            },
+            "result": {
+              "status": "ok",
+              "tool_name": "wmreward",
+              "raw_score": 0.4551412761211395,
+              "score_direction": "lower_better",
+              "score_semantics": "mean_one_minus_cosine",
+              "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+              "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+              "cache_hit": false,
+              "observations": [],
+              "artifact_refs": [],
+              "evidence_scope": "whole_sampled_video",
+              "peak_memory_mb": 8355.1689453125,
+              "cold_start_ms": 56207.701639970765,
+              "params": {
+                "window_size": 16,
+                "context_frames": 8,
+                "stride": 8,
+                "seed": 42,
+                "max_frames": 49
+              },
+              "evidence_id": "91c024a79bd5243c1b4976201dd8fd176b49a574ab02afb2a0c4b95a6fc454cd",
+              "video_sha256": "8764a1282b8b0929d2bd27ed9442c2a66c2edc60119fbe78899099a3b6eee984",
+              "decoded_frames": 81,
+              "original_fps": 16.0,
+              "frame_indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                8,
+                10,
+                11,
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25,
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38,
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51,
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78,
+                80
+              ],
+              "timestamps_s": [
+                0.0,
+                0.0625,
+                0.1875,
+                0.3125,
+                0.375,
+                0.5,
+                0.625,
+                0.6875,
+                0.8125,
+                0.9375,
+                1.0,
+                1.125,
+                1.25,
+                1.3125,
+                1.4375,
+                1.5625,
+                1.625,
+                1.75,
+                1.875,
+                1.9375,
+                2.0625,
+                2.1875,
+                2.25,
+                2.375,
+                2.5,
+                2.5625,
+                2.6875,
+                2.8125,
+                2.875,
+                3.0,
+                3.125,
+                3.1875,
+                3.3125,
+                3.4375,
+                3.5,
+                3.625,
+                3.75,
+                3.8125,
+                3.9375,
+                4.0625,
+                4.125,
+                4.25,
+                4.375,
+                4.4375,
+                4.5625,
+                4.6875,
+                4.75,
+                4.875,
+                5.0
+              ],
+              "raw_output": {
+                "surprise": 0.4551412761211395
+              },
+              "window_frame_indices": [
+                [
+                  0,
+                  1,
+                  3,
+                  5,
+                  6,
+                  8,
+                  10,
+                  11,
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25
+                ],
+                [
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25,
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38
+                ],
+                [
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38,
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51
+                ],
+                [
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51,
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65
+                ],
+                [
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65,
+                  66,
+                  68,
+                  70,
+                  71,
+                  73,
+                  75,
+                  76,
+                  78
+                ]
+              ],
+              "latency_ms": 1548.3678809832782,
+              "transport": {
+                "cold_start_request": false,
+                "timeout_s": 900
+              }
+            }
+          }
+        ],
+        "tool_records_sha256": "c91252de4ce69d6b5f3aee6dfd40c8fb7084eb31cc7b12de70d7aeb2e367bb97"
+      },
+      {
+        "stage": "physics_tool_reflection",
         "attempt": 1,
-        "response_id": "resp_021789705156300f1aca4493aa6c7087a6ccfbfdb4be6159ea664",
-        "messages_sha256": "61631b5e1e245e27ba065cc62c73857c090e92a00ec5c2726b126f5cb9c98346",
-        "request_payload_sha256": "b246c210bf7cd9ba96e0044f3f61022cce41e90049faae32dcf3a0e1f2e06b90",
+        "response_id": "resp_0217897116362869255aa03547266d00c3fa3dce78057f1a0bf0d",
+        "messages_sha256": "e4a3fd482b2d7aab58ff8bbc7163f4c88606ca353d0ce289630a2b116fd00a7e",
+        "request_payload_sha256": "baa47d4bdad4743e0100ad6a471d2f56b17def52af95078bd2f4ea8e5fab8b28",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1722,9 +2488,594 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 2836,
-          "output_tokens": 76,
-          "total_tokens": 2912,
+          "input_tokens": 118244,
+          "output_tokens": 1692,
+          "total_tokens": 119936,
+          "input_tokens_details": {
+            "cached_tokens": 2872
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+            "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+            "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "not_met",
+              "evidence": [
+                "E1",
+                "E2"
+              ],
+              "reason": "左侧白色机械臂在帧0位于棕色纸箱上方，但帧22-41其黑色末端相对纸箱有明显位移：夹爪向纸箱内动作，箱内浅白色包装袋位置变化并露出红白包装，因此它没有在任务过程中保持静止于纸箱上方；帧42-80它停在纸箱上方且纸箱内包装袋可见，但不能满足“保持静止”的要求。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E3",
+                "E4"
+              ],
+              "reason": "右侧白色机械臂从帧0开始一直位于冰箱抽屉右侧，并在黑色把手的右侧/右外侧活动，随后拉动时保持在抽屉右侧，符合“位于抽屉右侧”的位置要求。"
+            },
+            {
+              "requirement_id": "R3",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E3"
+              ],
+              "reason": "右侧夹爪在帧8-21向黑色把手靠近并接触，帧49-74夹爪与黑色把手一起向右移动，抽屉同步外移，显示夹爪已握持把手并带动抽屉运动；玻璃反光使钳口细节不锐利，但整体夹持带动关系可见。"
+            },
+            {
+              "requirement_id": "R4",
+              "status": "met",
+              "evidence": [
+                "E3",
+                "E4"
+              ],
+              "reason": "帧49-80右侧机械臂带动黑色把手持续向右移动，透明抽屉明显外移；到帧73-80抽屉内部更多包装食品和后部空间暴露，右后侧抽屉金属框可见，抽屉达到可见的完全打开状态。"
+            },
+            {
+              "requirement_id": "R5",
+              "status": "not_met",
+              "evidence": [
+                "E4"
+              ],
+              "reason": "在末帧80，右侧机械臂的黑色夹爪仍与黑色抽屉把手保持接触，夹爪没有离开把手，未出现完全拉开后释放把手并与把手分离的可见状态。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                3,
+                5,
+                8,
+                10,
+                13,
+                15,
+                18,
+                21
+              ],
+              "description": "初始场景：冰箱左侧台面上有棕色纸箱，箱内可见一包浅色包装物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，黑色夹爪从画面右侧向抽屉黑色把手移动，到帧8-10前后接近并接触黑色把手附近；抽屉此时较闭合，内部可见红黄等包装食品，右侧背景可见木质搁板。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                22,
+                25,
+                28,
+                31,
+                34,
+                36,
+                39,
+                41
+              ],
+              "description": "帧22起左侧机械臂相对纸箱发生可见位移，夹爪向纸箱口/箱内动作；到帧28-41，纸箱内原浅色包装袋被移动/翻动，红白包装物品被露出/调整，左侧夹爪停在纸箱上方附近，并非全程静止。此阶段右侧机械臂保持在黑色把手处，抽屉尚未明显外移。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                49,
+                52,
+                55,
+                58,
+                62,
+                65,
+                67
+              ],
+              "description": "右侧机械臂保持与黑色把手接触并向右运动，抽屉随把手持续外移；抽屉内黄色、绿色、红色包装食品随抽屉外移逐渐更多暴露。左侧机械臂在纸箱上方基本不再大幅移动。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                70,
+                73,
+                75,
+                77,
+                80
+              ],
+              "description": "抽屉进一步外移至明显打开状态，抽屉内部后部空间和更多包装食品可见，右后侧抽屉框暴露；到帧80，右侧机械臂黑色夹爪仍与黑色把手保持接触，未见释放后与把手分离。左侧机械臂仍位于棕色纸箱上方，箱内可见被调整后的包装袋。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "reason": "已完成的有效核心进展：右侧机械臂位于抽屉右侧，接触并握持黑色把手，将抽屉从较闭合状态拉到帧73-80明显完全打开的状态。但任务要求的两项条件未满足：左侧机械臂在帧22-41相对纸箱有可见动作并翻动/调整箱内包装，并非保持静止在纸箱上方；到末帧80右侧机械臂仍未释放黑色把手。因此整体为取得核心拉开进展但未满足全部要求的 partial。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "issues": [],
+            "reason": "在提供帧范围内，右侧夹爪接触把手后抽屉沿拉动方向持续外移，包装食品随抽屉整体移动；左侧机械臂对纸箱内包装的移动呈现为正常接触与调整，没有出现无法由正常夹持、遮挡或视角解释的明确穿模、悬浮或数量反复跳变。玻璃表面反光限制了部分钳口细节，但未见已确认的物理异常。"
+          },
+          "visual_assessment": {
+            "verdict": "minor_degradation",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E4"
+            ],
+            "reason": "整体场景、两个机械臂、棕色纸箱、黑色把手和抽屉拉开结果均可辨认；但玻璃/透明表面存在明显反光，部分夹爪与把手的细小钳口关系略有模糊，属于局部画质退化，未妨碍主要动作和末态判断。"
+          },
+          "uncertainties": [
+            "透明盖板反光使右侧夹爪钳口与黑色把手的精细咬合细节在部分帧不够清晰；但夹爪带动把手和抽屉整体外移的关系在多帧中仍可判断。"
+          ]
+        }
+      },
+      {
+        "stage": "independent_physics_tools",
+        "mode": "reflect",
+        "tool_records": [
+          {
+            "worker": "wmreward",
+            "request": {
+              "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_02/video_1.mp4",
+              "video_sha256": "8764a1282b8b0929d2bd27ed9442c2a66c2edc60119fbe78899099a3b6eee984",
+              "operation": "check_physics"
+            },
+            "result": {
+              "status": "ok",
+              "tool_name": "wmreward",
+              "raw_score": 0.4551412761211395,
+              "score_direction": "lower_better",
+              "score_semantics": "mean_one_minus_cosine",
+              "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+              "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+              "cache_hit": false,
+              "observations": [],
+              "artifact_refs": [],
+              "evidence_scope": "whole_sampled_video",
+              "peak_memory_mb": 8355.1689453125,
+              "cold_start_ms": 56207.701639970765,
+              "params": {
+                "window_size": 16,
+                "context_frames": 8,
+                "stride": 8,
+                "seed": 42,
+                "max_frames": 49
+              },
+              "evidence_id": "91c024a79bd5243c1b4976201dd8fd176b49a574ab02afb2a0c4b95a6fc454cd",
+              "video_sha256": "8764a1282b8b0929d2bd27ed9442c2a66c2edc60119fbe78899099a3b6eee984",
+              "decoded_frames": 81,
+              "original_fps": 16.0,
+              "frame_indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                8,
+                10,
+                11,
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25,
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38,
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51,
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78,
+                80
+              ],
+              "timestamps_s": [
+                0.0,
+                0.0625,
+                0.1875,
+                0.3125,
+                0.375,
+                0.5,
+                0.625,
+                0.6875,
+                0.8125,
+                0.9375,
+                1.0,
+                1.125,
+                1.25,
+                1.3125,
+                1.4375,
+                1.5625,
+                1.625,
+                1.75,
+                1.875,
+                1.9375,
+                2.0625,
+                2.1875,
+                2.25,
+                2.375,
+                2.5,
+                2.5625,
+                2.6875,
+                2.8125,
+                2.875,
+                3.0,
+                3.125,
+                3.1875,
+                3.3125,
+                3.4375,
+                3.5,
+                3.625,
+                3.75,
+                3.8125,
+                3.9375,
+                4.0625,
+                4.125,
+                4.25,
+                4.375,
+                4.4375,
+                4.5625,
+                4.6875,
+                4.75,
+                4.875,
+                5.0
+              ],
+              "raw_output": {
+                "surprise": 0.4551412761211395
+              },
+              "window_frame_indices": [
+                [
+                  0,
+                  1,
+                  3,
+                  5,
+                  6,
+                  8,
+                  10,
+                  11,
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25
+                ],
+                [
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25,
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38
+                ],
+                [
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38,
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51
+                ],
+                [
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51,
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65
+                ],
+                [
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65,
+                  66,
+                  68,
+                  70,
+                  71,
+                  73,
+                  75,
+                  76,
+                  78
+                ]
+              ],
+              "latency_ms": 1548.3678809832782,
+              "transport": {
+                "cold_start_request": false,
+                "timeout_s": 900
+              }
+            }
+          }
+        ],
+        "input_visibility": {
+          "method": "exact-spatially-uniform-rgb-v1",
+          "decoded_frames": 81,
+          "spatially_uniform_frames": 0,
+          "all_frames_spatially_uniform": false,
+          "limit": "Only detects exactly uniform decoded frames; does not judge general visibility, task completion, or physics."
+        },
+        "tool_records_sha256": "c91252de4ce69d6b5f3aee6dfd40c8fb7084eb31cc7b12de70d7aeb2e367bb97",
+        "pre_tool_report": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "One white robotic arm with a black end effector remains stationary above the cardboard box resting on the left refrigerator surface; the other white robotic arm with a black end effector positions at the right side of the refrigerator drawer, grips its black handle, pulls the drawer fully open, then releases the handle.",
+            "target_description": "An open refrigerator drawer filled with packaged frozen foods, its black handle, and a cardboard box resting on the refrigerator surface to the left, with two white robotic arms having black end effectors operating above.",
+            "final_state_requirement": "The refrigerator drawer is fully open; the robotic arm that pulled the drawer has released the black handle; the other robotic arm remains stationary above the cardboard box on the left refrigerator surface."
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "not_met",
+              "evidence": [
+                "E1",
+                "E2"
+              ],
+              "reason": "左侧机械臂在初始帧位于纸箱上方，但在帧22至帧46期间夹爪明显向纸箱内部移动并调整纸箱内包装袋的位置，并非在整个序列中保持“静止在纸箱上方”；末帧虽仍在纸箱上方，但中途有可见动作。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E3"
+              ],
+              "reason": "右侧白色机械臂自起始阶段至末帧都位于冰箱抽屉右侧区域，其黑色末端执行器始终处在抽屉右侧并围绕黑色把手/抽屉右缘活动，符合“在抽屉右侧”的位置要求。"
+            },
+            {
+              "requirement_id": "R3",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E3"
+              ],
+              "reason": "右侧机械臂夹爪在帧9前后接近并接触黑色把手，后续拉动阶段夹爪与黑色把手一同向右移动，显示已握持把手并带动抽屉外移；虽然透明盖板反光使钳口细节不是特别锐利，但夹持带动抽屉的关系在多帧中可见。"
+            },
+            {
+              "requirement_id": "R4",
+              "status": "met",
+              "evidence": [
+                "E3",
+                "E4"
+              ],
+              "reason": "从帧49到帧80，右侧夹爪带动黑色把手持续向右移动，透明抽屉外移，抽屉内部更多包装食品暴露；到帧73-80，抽屉已大幅打开，可见内部较深层空间与后部包装，达到可见的完全拉开状态。"
+            },
+            {
+              "requirement_id": "R5",
+              "status": "not_met",
+              "evidence": [
+                "E4"
+              ],
+              "reason": "在末帧80，右侧机械臂夹爪仍然与黑色抽屉把手保持接触/握持，夹爪没有离开把手，也没有出现释放后与把手分离的可见状态，因此未满足“完全拉开后释放把手”。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0,
+                3,
+                5,
+                8,
+                10,
+                13,
+                15,
+                18,
+                21
+              ],
+              "description": "初始场景：冰箱左侧台面上有棕色纸箱，箱内已有一包浅底带深色/红色包装的物品；左侧白色机械臂黑色末端位于纸箱上方。右侧白色机械臂在抽屉右侧，夹爪从画面右侧向抽屉的黑色把手移动，至帧10前后接触黑色把手附近；抽屉此时处于较闭合状态，内部可见红黄等包装食品，右侧背景可见木质搁板。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                22,
+                26,
+                28,
+                31,
+                34,
+                36,
+                39,
+                41,
+                44,
+                46
+              ],
+              "description": "左侧机械臂在帧22开始相对初始位置发生可见位移，夹爪伸入纸箱口内；到帧26-46，纸箱内原本的包装袋被移动/翻动，新增或露出带有红白包装的物品，左侧夹爪停在纸箱上方/箱内附近，并非全程静止。此阶段右侧机械臂位置基本保持在黑色把手处，抽屉尚未明显外移。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                49,
+                52,
+                54,
+                57,
+                59,
+                62,
+                65,
+                67
+              ],
+              "description": "右侧机械臂保持与黑色把手接触并向右运动，抽屉随把手持续外移；抽屉内黄色、绿色、红色包装食品随抽屉外移逐渐更多暴露。左侧机械臂在纸箱上方基本不再大幅移动。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                70,
+                72,
+                75,
+                77,
+                80
+              ],
+              "description": "抽屉进一步外移至较完全打开状态，抽屉内部后部空间和更多包装食品可见；到末帧80，右侧机械臂黑色夹爪仍与黑色把手保持接触，未见释放后与把手分离。左侧机械臂仍位于棕色纸箱上方。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4"
+            ],
+            "reason": "已有有效核心进展：右侧机械臂位于抽屉右侧，接触并握持黑色把手，将抽屉从较闭合状态拉到末帧明显大幅打开的状态。但任务要求的两个末态/全程条件未满足：左侧机械臂并非全程静止在纸箱上方，帧22-46有可见伸入纸箱并移动包装的动作；且右侧机械臂到末帧80仍未释放黑色把手。因此整体为已取得核心拉开进展但未满足全部要求的 partial。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "medium",
+            "evidence": [
+              "E1",
+              "E3",
+              "E4"
+            ],
+            "issues": [],
+            "reason": "在提供的全部帧中，右侧夹爪接触把手后抽屉沿拉动方向持续外移，包装食品随抽屉整体移动；左侧机械臂对纸箱内物品的移动也在可见范围内呈现为正常接触与搬运，没有出现无法由正常夹持/遮挡解释的明确穿模、悬浮或物体数量反复跳变。透明玻璃盖板反光限制了部分接触细节，但未见已确认的物理异常。"
+          },
+          "visual_assessment": {
+            "verdict": "minor_degradation",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E4"
+            ],
+            "reason": "整体场景、两个机械臂、棕色纸箱、黑色把手和抽屉拉开结果均可辨认；但透明/玻璃表面存在明显反光，部分包装文字和夹爪与把手接触的细小编夹关系略有模糊，属于局部画质退化，未完全妨碍主要动作和末态判断。"
+          },
+          "uncertainties": [
+            "透明盖板反光使右侧夹爪钳口与黑色把手的精细咬合关系在部分帧不够清晰；但夹爪带动把手和抽屉整体外移的关系在多帧中仍可判断。"
+          ]
+        },
+        "fallback_to_baseline": false,
+        "reflection_applied": true
+      },
+      {
+        "stage": "requirement_scope_audit",
+        "attempt": 1,
+        "response_id": "resp_021789711691509d1a31addd6d38d14c8141e1e64f1efaab1d70c",
+        "messages_sha256": "6f18b4088d0cdb87dfe0ee46b0e196a1cded9d2ebb32ce44127ebaf3988062ce",
+        "request_payload_sha256": "d82c375222e6d545cfa060a984fc56349c4002957ff64d33d2390617c9b347e3",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 3152,
+          "output_tokens": 90,
+          "total_tokens": 3242,
           "input_tokens_details": {
             "cached_tokens": 0
           },
@@ -1751,12 +3102,23 @@
             {
               "requirement_id": "R4",
               "issues": []
+            },
+            {
+              "requirement_id": "R5",
+              "issues": []
             }
           ]
         }
+      },
+      {
+        "stage": "physical_completion",
+        "required": true,
+        "complete": true,
+        "issues": [],
+        "meaning": "Execution and source identity only; successful tools do not establish video quality."
       }
     ],
-    "elapsed_seconds": 126.812
+    "elapsed_seconds": 210.504
   },
   "model": "doubao-seed-2-1-pro-260628",
   "provider": "doubao"

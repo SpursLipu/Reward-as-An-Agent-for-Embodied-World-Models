@@ -27,7 +27,10 @@ def configured_hook(settings):
     missing = [name for name, value in zip(names, values) if not value]
     if missing:
         raise ConfigurationError('WMReward is required. Configure: ' + ', '.join(missing))
-    python, repo, checkpoint = [Path(value).expanduser().resolve() for value in values[:3]]
+    # Preserve venv Python symlinks: resolving them would select the base
+    # interpreter and lose the CUDA environment's installed dependencies.
+    python = Path(values[0]).expanduser().absolute()
+    repo, checkpoint = [Path(value).expanduser().resolve() for value in values[1:3]]
     if not python.is_file() or not os.access(python, os.X_OK):
         raise ConfigurationError('REWARD_WMREWARD_PYTHON must be an executable interpreter')
     if not (repo / 'utils.py').is_file() or not (repo / 'vjepa2/src/hub/backbones.py').is_file():

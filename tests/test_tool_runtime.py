@@ -24,7 +24,10 @@ def test_configured_worker_is_required_and_uses_separate_interpreter(monkeypatch
     (repo / 'vjepa2/src/hub/backbones.py').touch()
     checkpoint = tmp_path / 'vitg.pt'
     checkpoint.touch()
-    for name, value in {'PYTHON': sys.executable, 'REPO': str(repo),
+    worker_python = tmp_path / 'venv/bin/python'
+    worker_python.parent.mkdir(parents=True)
+    worker_python.symlink_to(sys.executable)
+    for name, value in {'PYTHON': str(worker_python), 'REPO': str(repo),
                         'CHECKPOINT': str(checkpoint), 'SHA256': 'a' * 64,
                         'DEVICE': 'cuda:1'}.items():
         monkeypatch.setenv('REWARD_WMREWARD_' + name, value)
@@ -33,6 +36,7 @@ def test_configured_worker_is_required_and_uses_separate_interpreter(monkeypatch
     assert hook.mode == 'reflect'
     assert hook.clients == {'wmreward': client}
     assert client.command[-1] == 'cuda:1'
+    assert client.command[0] == str(worker_python)
     assert client.process is None  # No GPU work merely from reading configuration.
 
 

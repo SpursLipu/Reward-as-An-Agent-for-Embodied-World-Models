@@ -1,0 +1,369 @@
+{
+  "mode": "reflect",
+  "tool_records": [
+    {
+      "worker": "wmreward",
+      "request": {
+        "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_07/video.mp4",
+        "video_sha256": "d5933b605fa8fc2a69f7f7b2a92f9ae64072ca7c40f63949e7c02a1450f407fc",
+        "operation": "check_physics"
+      },
+      "result": {
+        "status": "ok",
+        "tool_name": "wmreward",
+        "raw_score": 0.4653323292732239,
+        "score_direction": "lower_better",
+        "score_semantics": "mean_one_minus_cosine",
+        "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+        "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+        "cache_hit": false,
+        "observations": [],
+        "artifact_refs": [],
+        "evidence_scope": "whole_sampled_video",
+        "peak_memory_mb": 8355.1689453125,
+        "cold_start_ms": 56207.701639970765,
+        "params": {
+          "window_size": 16,
+          "context_frames": 8,
+          "stride": 8,
+          "seed": 42,
+          "max_frames": 49
+        },
+        "evidence_id": "61a910f05d528cff482639ac00335965618a52da47a36187fa3b9530d30108d5",
+        "video_sha256": "d5933b605fa8fc2a69f7f7b2a92f9ae64072ca7c40f63949e7c02a1450f407fc",
+        "decoded_frames": 1260,
+        "original_fps": 30.0,
+        "frame_indices": [
+          0,
+          26,
+          52,
+          78,
+          104,
+          131,
+          157,
+          183,
+          209,
+          236,
+          262,
+          288,
+          314,
+          340,
+          367,
+          393,
+          419,
+          445,
+          472,
+          498,
+          524,
+          550,
+          577,
+          603,
+          629,
+          655,
+          681,
+          708,
+          734,
+          760,
+          786,
+          813,
+          839,
+          865,
+          891,
+          918,
+          944,
+          970,
+          996,
+          1022,
+          1049,
+          1075,
+          1101,
+          1127,
+          1154,
+          1180,
+          1206,
+          1232,
+          1259
+        ],
+        "timestamps_s": [
+          0.0,
+          0.8666666666666667,
+          1.7333333333333334,
+          2.6,
+          3.466666666666667,
+          4.366666666666666,
+          5.233333333333333,
+          6.1,
+          6.966666666666667,
+          7.866666666666666,
+          8.733333333333333,
+          9.6,
+          10.466666666666667,
+          11.333333333333334,
+          12.233333333333333,
+          13.1,
+          13.966666666666667,
+          14.833333333333334,
+          15.733333333333333,
+          16.6,
+          17.466666666666665,
+          18.333333333333332,
+          19.233333333333334,
+          20.1,
+          20.966666666666665,
+          21.833333333333332,
+          22.7,
+          23.6,
+          24.466666666666665,
+          25.333333333333332,
+          26.2,
+          27.1,
+          27.966666666666665,
+          28.833333333333332,
+          29.7,
+          30.6,
+          31.466666666666665,
+          32.333333333333336,
+          33.2,
+          34.06666666666667,
+          34.96666666666667,
+          35.833333333333336,
+          36.7,
+          37.56666666666667,
+          38.46666666666667,
+          39.333333333333336,
+          40.2,
+          41.06666666666667,
+          41.96666666666667
+        ],
+        "raw_output": {
+          "surprise": 0.4653323292732239
+        },
+        "window_frame_indices": [
+          [
+            0,
+            26,
+            52,
+            78,
+            104,
+            131,
+            157,
+            183,
+            209,
+            236,
+            262,
+            288,
+            314,
+            340,
+            367,
+            393
+          ],
+          [
+            209,
+            236,
+            262,
+            288,
+            314,
+            340,
+            367,
+            393,
+            419,
+            445,
+            472,
+            498,
+            524,
+            550,
+            577,
+            603
+          ],
+          [
+            419,
+            445,
+            472,
+            498,
+            524,
+            550,
+            577,
+            603,
+            629,
+            655,
+            681,
+            708,
+            734,
+            760,
+            786,
+            813
+          ],
+          [
+            629,
+            655,
+            681,
+            708,
+            734,
+            760,
+            786,
+            813,
+            839,
+            865,
+            891,
+            918,
+            944,
+            970,
+            996,
+            1022
+          ],
+          [
+            839,
+            865,
+            891,
+            918,
+            944,
+            970,
+            996,
+            1022,
+            1049,
+            1075,
+            1101,
+            1127,
+            1154,
+            1180,
+            1206,
+            1232
+          ]
+        ],
+        "latency_ms": 1394.8031610343605,
+        "transport": {
+          "cold_start_request": false,
+          "timeout_s": 900
+        }
+      }
+    }
+  ],
+  "input_visibility": {
+    "method": "exact-spatially-uniform-rgb-v1",
+    "decoded_frames": 1260,
+    "spatially_uniform_frames": 0,
+    "all_frames_spatially_uniform": false,
+    "limit": "Only detects exactly uniform decoded frames; does not judge general visibility, task completion, or physics."
+  },
+  "tool_records_sha256": "337d81a59aac35c196006cf7fd3e195e01d235c5b2e93a45c01427fb8e8e6dbf",
+  "pre_tool_report": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "Sweep",
+      "target_description": "the trash into the dustpan using a broom",
+      "final_state_requirement": "The trash is swept into the dustpan."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "met",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "可见左机械臂握持桌上的毛刷（扫帚）、右机械臂握持蓝色簸箕；毛刷将桌面上的红色盒、蓝色小包和棕色片状物向簸箕方向推动；到原帧487以后这些杂物进入蓝色簸箕内，并在后续及末态帧中仍留在簸箕中，满足“用扫帚把垃圾扫入簸箕”的要求。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          41,
+          81
+        ],
+        "description": "白色桌面上从左到右摆放着黑柄蓝色毛刷、红色小盒、蓝色小包、棕色片状物和黑柄蓝色簸箕；两个机械臂位于桌前下方，未接触这些工具；背景木桌后坐着穿浅蓝短袖的人，双手交握。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          122,
+          162,
+          203,
+          244,
+          284,
+          325,
+          366,
+          406,
+          447
+        ],
+        "description": "左机械臂抬起并靠近毛刷，随后握住毛刷黑柄；右机械臂抬起并握住簸箕黑柄；左机械臂移动毛刷，将桌面上的红色盒、蓝色小包和棕色片状物向右侧簸箕方向扫动，到原帧447时毛刷与杂物到达簸箕口附近。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          487,
+          528,
+          569
+        ],
+        "description": "左机械臂持毛刷将杂物推入蓝色簸箕内；红色盒、蓝色小包和棕色片状物进入簸箕，左机械臂随后将毛刷抬起离开桌面，右机械臂始终握持簸箕，杂物位于簸箕中。"
+      },
+      {
+        "id": "E4",
+        "frames": [
+          609,
+          650,
+          690,
+          731,
+          772,
+          812,
+          853,
+          893,
+          934,
+          975,
+          1015,
+          1056,
+          1097,
+          1137,
+          1178,
+          1218,
+          1259
+        ],
+        "description": "杂物进入簸箕后未掉回桌面外侧；左机械臂将毛刷放回桌面附近并逐渐松开抬离，右机械臂随后松开簸箕手柄，双臂回到桌前下方；末态毛刷位于簸箕左侧桌面上，红色盒、蓝色小包和棕色片状物留在蓝色簸箕内。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "complete",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "reason": "可见机械臂实际握住毛刷和簸箕，并用毛刷把桌面上的杂物推扫进蓝色簸箕；中后段到末态均可辨认红色盒、蓝色小包和棕色片状物位于簸箕内，符合“垃圾被扫入簸箕”的必要末态。采样间隔较大导致部分中间动作细节不可见，但不影响核心动作结果的判断。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "issues": [],
+      "reason": "在可见采样帧中，机械臂抓取毛刷与簸箕、推动杂物、杂物进入簸箕以及最后释放工具的状态变化整体符合接触和运动逻辑；没有可确认的穿模、悬浮或明显非因果跳变。由于采样间隔较大，抓取和扫动的连续细节不完整，但现有帧中的位置关系与扫入结果能够相互对应，未见明确物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "clear",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "reason": "桌面、毛刷、簸箕和被扫杂物在各关键帧中均可辨认；动作方向以及杂物最终位于簸箕内的位置关系清楚，虽有正常运动模糊和一定采样间隔，但不妨碍判断主要动作和结果。"
+    },
+    "uncertainties": [
+      "采样帧间隔较大，机械臂抓取、扫动和释放工具的部分中间动作细节不可见。",
+      "簸箕内红色、蓝色和棕色物品的具体材质与精确名称无法仅凭静态外观完全确定，但不影响判断其为被清扫的目标杂物。"
+    ]
+  },
+  "fallback_to_baseline": false,
+  "reflection_applied": true
+}

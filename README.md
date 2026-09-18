@@ -79,26 +79,23 @@ python -m reward_as_agent.cli serve
 
 ## Demo Videos
 
-The seven main-table response files are model-only outputs, not tool-backed
-evaluations. Only the separately linked cloth WMReward run includes real tool
-Reflection; the gallery has not yet been rerun with tools. To run
-the current standard path, use the WMReward command below; it evaluates every
-case with external-tool Reflection and writes a fresh, auditable result set.
-Videos and task texts are unchanged.
+The seven main-table response files below are fresh evaluations from the
+standard WMReward-backed service path. Each case includes raw tool output,
+Reflection reports, and provenance. Videos and task texts are unchanged.
 
 | Demo / video | Final assessments | API result / full report |
 | --- | --- | --- |
-| **Sweep a carton and peel · real robot**<br>[<img src="assets/demos/demo_06.gif" width="240" alt="Robot sweeping a carton and peel into a dustpan, 3x preview">](examples/demo_06/video.mp4)<br>[Full MP4 · 37.3 s](examples/demo_06/video.mp4) | Task: `complete`<br>Physics: `plausible`<br>Visual: `clear` | **1.0** · `success`<br>The carton and peel are swept into the dustpan and remain inside.<br>[Response + trace](examples/demo_06/response.json) · [Run](examples/demo_06/run.json) · [Source](examples/demo_06/source.json) |
-| **Sweep several pieces of litter · real robot**<br>[<img src="assets/demos/demo_07.gif" width="240" alt="Robot sweeping multiple pieces of litter into a dustpan, 3x preview">](examples/demo_07/video.mp4)<br>[Full MP4 · 42.0 s](examples/demo_07/video.mp4) | Task: `complete`<br>Physics: `plausible`<br>Visual: `clear` | **1.0** · `success`<br>The carton, blue packaging, and brown scrap remain in the dustpan at the end.<br>[Response + trace](examples/demo_07/response.json) · [Run](examples/demo_07/run.json) · [Source](examples/demo_07/source.json) |
-| **Cloth manipulation**<br>[<img src="assets/demos/demo_01.gif" width="240" alt="Cloth manipulation demo preview">](examples/demo_01/video_1.mp4)<br>[MP4](examples/demo_01/video_1.mp4) | Task: `partial`<br>Physics: `plausible`<br>Visual: `clear` | **0.615** · `success`<br>Recorded model output; its rationale credits approach/contact without establishing effective cloth displacement. This remains a known progress-classification inconsistency, not a validated correct label.<br>[Response + trace](examples/demo_01/response.json) · [Run metadata](examples/demo_01/run.json) |
-| **Refrigerator drawer opening**<br>[<img src="assets/demos/demo_02.gif" width="240" alt="Refrigerator drawer opening demo preview">](examples/demo_02/video_1.mp4)<br>[MP4](examples/demo_02/video_1.mp4) | Task: `partial`<br>Physics: `plausible`<br>Visual: `clear` | **0.615** · `success`<br>The drawer is pulled open; handle release and the other arm's stationary condition are unmet.<br>[Response + trace](examples/demo_02/response.json) · [Run metadata](examples/demo_02/run.json) |
-| **Basket handle grasping**<br>[<img src="assets/demos/demo_03.gif" width="240" alt="Basket handle grasping demo preview">](examples/demo_03/video_0.mp4)<br>[MP4](examples/demo_03/video_0.mp4) | Task: `partial`<br>Physics: `plausible`<br>Visual: `minor_degradation` | **0.595** · `success`<br>The can-lowering action is credited, but the subsequent handle grasp is unmet. Physical continuity judgement varied between runs; this output is not ground truth.<br>[Response + trace](examples/demo_03/response.json) · [Run metadata](examples/demo_03/run.json) |
-| **Green cube placing**<br>[<img src="assets/demos/demo_04.gif" width="240" alt="Green cube placing demo preview">](examples/demo_04/video_0.mp4)<br>[MP4](examples/demo_04/video_0.mp4) | Task: `failed`<br>Physics: `plausible`<br>Visual: `minor_degradation` | **0** · `success`<br>The visible sequence is static; grasping and placement are not performed.<br>Diagnostic score: 0.28.<br>[Response + trace](examples/demo_04/response.json) · [Run metadata](examples/demo_04/run.json) |
-| **Box relocation**<br>[<img src="assets/demos/demo_05.gif" width="240" alt="Box relocation demo preview">](examples/demo_05/video_0.mp4)<br>[MP4](examples/demo_05/video_0.mp4) | Task: `failed`, medium confidence<br>Physics: `plausible`<br>Visual: `minor_degradation` | **null** · `needs_review`<br>The report describes no box movement, but medium task confidence and unresolved gripper/other-arm evidence prevent a confirmed training zero. This conservative inconsistency remains unresolved.<br>[Response + trace](examples/demo_05/response.json) · [Run metadata](examples/demo_05/run.json) |
+| **Sweep a carton and peel · real robot**<br>[<img src="assets/demos/demo_06.gif" width="240" alt="Robot sweeping a carton and peel into a dustpan, 3x preview">](examples/demo_06/video.mp4)<br>[Full MP4 · 37.3 s](examples/demo_06/video.mp4) | Task: `complete`<br>Physics: `plausible`<br>Visual: `clear` | **1.0** · `success`<br>The carton and peel are swept into the dustpan and remain inside.<br>[Response + trace](examples/demo_06/response.json) · [Run](examples/demo_06/run.json) · [Source](examples/demo_06/source.json) · [Tool output](examples/demo_06/tools.json) · [Reflection](examples/demo_06/reports.json) |
+| **Sweep several pieces of litter · real robot**<br>[<img src="assets/demos/demo_07.gif" width="240" alt="Robot sweeping multiple pieces of litter into a dustpan, 3x preview">](examples/demo_07/video.mp4)<br>[Full MP4 · 42.0 s](examples/demo_07/video.mp4) | Task: `complete`<br>Physics: `plausible`<br>Visual: `clear` | **1.0** · `success`<br>The carton, blue packaging, and brown scrap remain in the dustpan at the end.<br>[Response + trace](examples/demo_07/response.json) · [Run](examples/demo_07/run.json) · [Source](examples/demo_07/source.json) · [Tool output](examples/demo_07/tools.json) · [Reflection](examples/demo_07/reports.json) |
+| **Cloth manipulation**<br>[<img src="assets/demos/demo_01.gif" width="240" alt="Cloth manipulation demo preview">](examples/demo_01/video_1.mp4)<br>[MP4](examples/demo_01/video_1.mp4) | Task: `partial`<br>Physics: `plausible`<br>Visual: `clear` | **0.615** · `success`<br>The report credits cloth displacement toward the back, but the cloth is not successfully grasped and lifted.<br>[Response + trace](examples/demo_01/response.json) · [Run metadata](examples/demo_01/run.json) · [Tool output](examples/demo_01/tools.json) · [Reflection](examples/demo_01/reports.json) |
+| **Refrigerator drawer opening**<br>[<img src="assets/demos/demo_02.gif" width="240" alt="Refrigerator drawer opening demo preview">](examples/demo_02/video_1.mp4)<br>[MP4](examples/demo_02/video_1.mp4) | Task: `partial`<br>Physics: `plausible`<br>Visual: `minor_degradation` | **0.595** · `success`<br>The drawer is opened, but the required release and stationary-arm conditions are unmet.<br>[Response + trace](examples/demo_02/response.json) · [Run metadata](examples/demo_02/run.json) · [Tool output](examples/demo_02/tools.json) · [Reflection](examples/demo_02/reports.json) |
+| **Basket handle grasping**<br>[<img src="assets/demos/demo_03.gif" width="240" alt="Basket handle grasping demo preview">](examples/demo_03/video_0.mp4)<br>[MP4](examples/demo_03/video_0.mp4) | Task: `partial`<br>Physics: `plausible`<br>Visual: `minor_degradation` | **null** · `needs_review`<br>There is real progress, but sampled frames do not resolve a later can state change or the required stable handle grasp.<br>[Response + trace](examples/demo_03/response.json) · [Run metadata](examples/demo_03/run.json) · [Tool output](examples/demo_03/tools.json) · [Reflection](examples/demo_03/reports.json) |
+| **Green cube placing**<br>[<img src="assets/demos/demo_04.gif" width="240" alt="Green cube placing demo preview">](examples/demo_04/video_0.mp4)<br>[MP4](examples/demo_04/video_0.mp4) | Task: `failed`<br>Physics: `plausible`<br>Visual: `clear` | **0** · `success`<br>The cube remains static and no grasp or placement is performed.<br>Diagnostic score: 0.3.<br>[Response + trace](examples/demo_04/response.json) · [Run metadata](examples/demo_04/run.json) · [Tool output](examples/demo_04/tools.json) · [Reflection](examples/demo_04/reports.json) |
+| **Box relocation**<br>[<img src="assets/demos/demo_05.gif" width="240" alt="Box relocation demo preview">](examples/demo_05/video_0.mp4)<br>[MP4](examples/demo_05/video_0.mp4) | Task: `failed`<br>Physics: `plausible`<br>Visual: `minor_degradation` | **0** · `success`<br>The box never shows effective relocation, so this is a confirmed zero despite the occluded arm.<br>[Response + trace](examples/demo_05/response.json) · [Run metadata](examples/demo_05/run.json) · [Tool output](examples/demo_05/tools.json) · [Reflection](examples/demo_05/reports.json) |
 
 These are recorded Agent outputs, not ground-truth labels or a calibrated benchmark.
-Known limitations include the cloth's inconsistent progress rationale, variable
-basket physics judgements, and conservative review of the static box.
+The basket remains a review case because frame sampling does not resolve the
+object transition; tool uncertainty is preserved instead of converted to zero.
 
 The two 1.0 examples are **real-robot recordings**, selected using existing success
 annotations that were not supplied to the Agent. Their previews run at **3× speed**;
@@ -138,16 +135,16 @@ WMReward is the standard physical-evidence worker for this repository. Every
 standard evaluation calls it before Reflection; its raw value is retained as
 evidence and is never converted directly into a task reward.
 
-A separate live run on the cloth video returned **0.595 / partial** with
+The current cloth demo returned **0.615 / partial** with
 `reflection_applied: true`. WMReward's raw surprise was **0.4671045** over
 49 sampled frames, without tool cache or fallback. Surprise is a tool signal,
 not a task-success probability or final reward. Verdicts were unchanged across
-reflection; this is not a controlled comparison with the default run.
+reflection; tool feedback need not change a supported judgement.
 
-[Response](examples/demo_01/wmreward/response.json) ·
-[Tool output](examples/demo_01/wmreward/tools.json) ·
-[Before/after reflection](examples/demo_01/wmreward/reports.json) ·
-[Run metadata](examples/demo_01/wmreward/run.json)
+[Response](examples/demo_01/response.json) ·
+[Tool output](examples/demo_01/tools.json) ·
+[Before/after reflection](examples/demo_01/reports.json) ·
+[Run metadata](examples/demo_01/run.json)
 
 <details>
 <summary>Install and run WMReward</summary>

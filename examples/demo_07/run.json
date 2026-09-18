@@ -1,6 +1,6 @@
 {
   "demo": "demo_07",
-  "started_at": "2026-09-18T04:29:18.811402Z",
+  "started_at": "2026-09-18T06:14:36.604257Z",
   "configuration": {
     "status": "ok",
     "model": "doubao-seed-2-1-pro-260628",
@@ -11,7 +11,12 @@
     "max_tokens": 8192,
     "heartbeat_interval": 30,
     "motion_quality_enabled": false,
-    "motion_quality_available": false
+    "motion_quality_available": false,
+    "external_tools": [
+      "wmreward"
+    ],
+    "tool_reflection_required": true,
+    "tool_runtime_initialized": true
   },
   "input_sha256": {
     "examples/demo_07/request.json": "789f3125d11e467f696a7bb577b1580ba4f3d7cb88afd602edb076c3252917ff",
@@ -20,12 +25,12 @@
   },
   "agent_source_sha256": {
     "reward_as_agent/__init__.py": "c90dd7a46e3f9081cce933ba969a71d247c0a591af1326756cb1c3e023bf4541",
-    "reward_as_agent/app.py": "678bc28bb1242c5ba1b64479f76962147fb39e55562bab1b5a6dfb4e0980f2c6",
+    "reward_as_agent/app.py": "b130d46661a0acc5b6ca94af8e8ce80e66cb62b043539cb31b5e496e6bf12dba",
     "reward_as_agent/cli.py": "d3a1b827f06682ca25c40cecb36e448b7d9a8ca7e332f43037544ba4be723b88",
     "reward_as_agent/config.py": "8987c850b09c12d772b45fc596e1e803c2c19ae5192579be06ebb92ca2f2b2a2",
     "reward_as_agent/doubao.py": "4aefae3c0080f6bce20ed79d52dc1b28aa2bcc96139ad5eb6c8ce314a5557d1d",
     "reward_as_agent/evidence_grounding.py": "96d7af3f22895d2460cf2a07dd1c4c19a8dc3b766d177868b5b882a241faca89",
-    "reward_as_agent/evidence_pipeline.py": "059e320d2b4a33da1da5b25553e367fd8416460c1e55abcd01cf6195a5951e5a",
+    "reward_as_agent/evidence_pipeline.py": "aef2ae08a9e18a5b194d8660e28c95517d754f89cdf81bf29b92bc3e1799a736",
     "reward_as_agent/evidence_prompts.py": "91a6e6e500f410a8192eb6290e6dc5ca5fb079224e48ea188940624eb3664bab",
     "reward_as_agent/evidence_schema.py": "617c26aa989502cb96fb60213960c2e1b5cf0d6fe2a9b414a8ca7a2a0f829f61",
     "reward_as_agent/evidence_video.py": "81701ba2bdabc95280737159e0d87807b8080816eba22446fc6459c37fe9d96e",
@@ -45,15 +50,16 @@
     "reward_as_agent/scoring.py": "1d5ea0eac96e2d32c5ac7198b2826258cd41f1c1ac685000412d867baeae5ed6",
     "reward_as_agent/task_contract.py": "50ca6766d44b07a8fb9833b01a754ee782c9aec284f7adbd9a675249c3b044f4",
     "reward_as_agent/temporal_process.py": "a8a05be50f7e974faa9b4cd83a9e4f264e1d3cb2e7e9cf1099bc3f1ba39b5a06",
+    "reward_as_agent/tool_runtime.py": "1df339fdf47cf35dbd1b60672b7a8d65af363c890b9002d6182c586fdf09c25c",
     "reward_as_agent/training_reward.py": "6dc4fbf05b68b3c58eb285796baf4f089c4afb8f5000b7d75b61dc8781e95823",
     "reward_as_agent/video.py": "50d4b33633c948e3377f4d4967c22e2283341992d87486882e592f87377731ef"
   },
   "return_details": true,
   "attempts": 1,
   "http_status": 200,
-  "completed_at": "2026-09-18T04:30:48.702243Z",
-  "elapsed_seconds": 89.89,
-  "heartbeat_count": 2,
+  "completed_at": "2026-09-18T06:16:49.939121Z",
+  "elapsed_seconds": 133.334,
+  "heartbeat_count": 4,
   "inputs_unchanged": true,
   "agent_sources_unchanged": true,
   "status": "success",

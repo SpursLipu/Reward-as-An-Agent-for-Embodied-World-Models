@@ -18,79 +18,112 @@
     "evidence_report": {
       "schema_version": "evidence-v2",
       "task": {
-        "requested_action": "位于木质台面上方的黑色带夹爪末端执行器机械臂先朝向折叠绿色布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-        "target_description": "折叠的绿色布，初始位于带圆勺碗的蓝色量勺前方的木质台面上；木质台面上还有左侧的双耳金属锅、锅旁的黄色香蕉形物体，背景有灰色面板和木墙",
-        "final_state_requirement": "机械臂已朝向绿布移动、下降并抓取绿布、将绿布提起，且已将绿布向木质台面后方移动"
+        "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+        "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+        "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
       },
       "requirement_checks": [
         {
           "requirement_id": "R1",
           "status": "met",
           "evidence": [
-            "E1"
+            "E1",
+            "E2"
           ],
-          "reason": "初始帧中黑色夹爪位于台面上方靠后且靠近蓝色量勺一侧，随后夹爪移动，到帧10时已到达绿色折叠布上方，完成了朝向绿布的移动。"
+          "reason": "帧0中黑色夹爪位于台面上方偏后、靠近蓝色量勺的位置；到帧10时夹爪已运动到折叠绿布上方，可见其完成了向绿布方向的移动。"
         },
         {
           "requirement_id": "R2",
           "status": "partial",
           "evidence": [
-            "E2",
-            "E3"
+            "E3",
+            "E4",
+            "E5"
           ],
-          "reason": "夹爪在到达绿布上方后下降并把双指压到绿布上，可见下降与接触动作；但后续帧显示夹爪抬起后并未夹持住绿布，绿布仍留在台面上，因此成功抓取未完成。"
+          "reason": "帧12后夹爪下降并压到绿布表面，两指置于绿布上并保持接触、推动绿布发生平面位移；但在提供帧中未见夹爪牢固夹起绿布离开台面的明确状态，到帧63以后夹爪抬离绿布时绿布仍平铺在台面上，因此“下降接触”已发生，“完成抓取”未被确认。"
         },
         {
           "requirement_id": "R3",
           "status": "not_met",
           "evidence": [
-            "E2",
-            "E3"
+            "E4",
+            "E5"
           ],
-          "reason": "在夹爪压在布上以及随后抬起的过程中，绿布始终平铺在木质台面上，没有被抬离台面；末帧夹爪已抬离布且未握持任何物体，未实现将布提起。"
+          "reason": "从接触阶段到末态帧80，绿布始终平铺在木质台面上；夹爪抬离后绿布未被带起，也没有出现绿布被抓取后抬离台面的可见状态，因此“将被抓取的绿布抬起”未实现。"
         },
         {
           "requirement_id": "R4",
-          "status": "not_met",
+          "status": "partial",
           "evidence": [
-            "E2",
-            "E3"
+            "E3",
+            "E4",
+            "E5"
           ],
-          "reason": "由于绿布未被抓取提起，绿布没有随机械臂向台面后方发生整体移动；末帧绿布仍位于台面右前侧原区域附近，未完成向台面后方移动。"
+          "reason": "在夹爪按压并推动过程中，绿布相对初始位置向台面后方（靠近背景木墙一侧）发生了明显位移，末态帧80中绿布位于量勺后方、更靠木墙的位置；但该后移发生在绿布始终平铺于台面时，并非按要求在“被抓取抬起后”再向后方移送，因此仅部分实现。"
         }
       ],
       "observations": [
         {
           "id": "E1",
           "frames": [
-            0,
-            4,
-            7,
-            10
+            0
           ],
-          "description": "帧0时，黑色夹爪悬在木质台面上方，台面上可见左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺碗的蓝色量勺，以及量勺前方折叠的绿色布；到帧4、7夹爪先移动到蓝色量勺附近，随后在帧10移动到绿色布上方。"
+          "description": "木质台面上左侧可见双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有带圆勺头的蓝色量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景可见浅色木纹墙面及侧边板面。"
         },
         {
           "id": "E2",
           "frames": [
-            12,
-            18,
-            28,
-            41,
-            54,
-            63
+            0,
+            3,
+            7,
+            10
           ],
-          "description": "夹爪下降至绿色折叠布上，双指落在并压在布表面；在此期间绿色布持续平铺在台面上，金属锅、黄色物体和蓝色量勺位置基本保持，布未被抬离台面。"
+          "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已到达绿布上方并接近绿布表面。"
         },
         {
           "id": "E3",
           "frames": [
-            65,
-            70,
+            12,
+            15,
+            18,
+            21,
+            23,
+            26
+          ],
+          "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            28,
+            31,
+            34,
+            36,
+            39,
+            41,
+            44,
+            46,
+            49,
+            52,
+            54,
+            57,
+            59,
+            62
+          ],
+          "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方平移，位置从右前方逐渐靠近后方木墙区域；绿布始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
+        },
+        {
+          "id": "E5",
+          "frames": [
+            63,
+            66,
+            69,
+            72,
             75,
+            78,
             80
           ],
-          "description": "夹爪从绿色布上方松开并向上抬起；到帧80夹爪已抬离布且双指间未夹持物体，绿色布仍折叠铺在木质台面上，位于台面右前侧原位置附近，未被提起，也未被移向后方。"
+          "description": "夹爪向上抬起离开绿布并继续后移/上升；绿布留在木质台面上靠后的位置，未被夹爪带起。到帧80时，绿布平铺在台面后方区域，夹爪位于绿布上方空中，未夹持绿布。"
         }
       ],
       "task_assessment": {
@@ -99,21 +132,25 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
-        "reason": "机械臂完成了朝向绿布移动并下降接触绿布的前期动作，但未能成功抓取绿布；绿布始终留在台面上，最终既未被提起，也没有被向台面后方移动。因此存在明确有效进展，但抓取、提起和后移的必要末态未实现。",
+        "reason": "机械臂已完成向绿布靠近，并下降接触绿布；接触过程中绿布被推移到台面后方较初始更靠后的位置，存在沿任务方向的有效进展。但关键的“抓取并抬起绿布”未实现：提供帧中绿布始终未离开台面，末态帧80显示绿布仍平铺在台面上、夹爪空手抬起，因此未满足“绿布被抓取抬起并移向台面后方”的必要末态。",
         "target_match": "match"
       },
       "physics_assessment": {
         "verdict": "plausible",
-        "confidence": "medium",
+        "confidence": "high",
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
         "issues": [],
-        "reason": "可见范围内机械臂移动、下压接触布以及随后抬离的动作连贯，未见可定位的穿模、反重力悬浮或非因果跳变；夹爪未能抓住布属于抓取失败，不构成已确认的物理异常。快速运动带来的局部模糊未显示明确物理矛盾。"
+        "reason": "可见过程中机械臂移动、下降按压、在台面上推动绿布后抬离，接触关系与位移表现符合日常物理：绿布未被夹牢时留在台面上并发生平面滑动；运动较快处存在正常运动模糊，没有出现可确认的穿模、悬浮、物体瞬移或明显违背重力的状态。"
       },
       "visual_assessment": {
         "verdict": "clear",
@@ -121,60 +158,464 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
-        "reason": "台面、绿布、金属锅、香蕉形物体、蓝色量勺以及夹爪的移动、下压接触、抬离和末态均能清楚辨认；虽存在运动造成的局部模糊，但不影响判断抓取是否成功及布的最终位置。"
+        "reason": "尽管机械臂运动阶段存在局部运动模糊，但台面物品布局、绿布位置变化、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展与结果。"
       },
       "uncertainties": [
-        "所有解码帧均已提供，但原视频帧率限制了夹爪闭合细节的时间分辨率；末态夹爪空握且绿布仍在台面上的结果清楚。"
+        "提供帧的时间间隔约为0.0625秒，夹爪闭合瞬间若有极短暂的布边夹取，无法以更高时间分辨率验证；但在所有可见帧中均未看到绿布被抬离台面，且末态明确显示绿布留在台面上。"
       ]
     },
-    "physics_evidence": null,
+    "physics_evidence": {
+      "mode": "reflect",
+      "tool_records": [
+        {
+          "worker": "wmreward",
+          "request": {
+            "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_01/video_1.mp4",
+            "video_sha256": "7de134f7d9a0fa0d3fc604bbcde568ca43ce0860452d5931aa03518bcc441716",
+            "operation": "check_physics"
+          },
+          "result": {
+            "status": "ok",
+            "tool_name": "wmreward",
+            "raw_score": 0.4671044945716858,
+            "score_direction": "lower_better",
+            "score_semantics": "mean_one_minus_cosine",
+            "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+            "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+            "cache_hit": false,
+            "observations": [],
+            "artifact_refs": [],
+            "evidence_scope": "whole_sampled_video",
+            "peak_memory_mb": 8355.1689453125,
+            "cold_start_ms": 56207.701639970765,
+            "params": {
+              "window_size": 16,
+              "context_frames": 8,
+              "stride": 8,
+              "seed": 42,
+              "max_frames": 49
+            },
+            "evidence_id": "86739f141372958564191cffba7a58c75f6b08ca8927150ac90d4de6f63caab6",
+            "video_sha256": "7de134f7d9a0fa0d3fc604bbcde568ca43ce0860452d5931aa03518bcc441716",
+            "decoded_frames": 81,
+            "original_fps": 16.0,
+            "frame_indices": [
+              0,
+              1,
+              3,
+              5,
+              6,
+              8,
+              10,
+              11,
+              13,
+              15,
+              16,
+              18,
+              20,
+              21,
+              23,
+              25,
+              26,
+              28,
+              30,
+              31,
+              33,
+              35,
+              36,
+              38,
+              40,
+              41,
+              43,
+              45,
+              46,
+              48,
+              50,
+              51,
+              53,
+              55,
+              56,
+              58,
+              60,
+              61,
+              63,
+              65,
+              66,
+              68,
+              70,
+              71,
+              73,
+              75,
+              76,
+              78,
+              80
+            ],
+            "timestamps_s": [
+              0.0,
+              0.0625,
+              0.1875,
+              0.3125,
+              0.375,
+              0.5,
+              0.625,
+              0.6875,
+              0.8125,
+              0.9375,
+              1.0,
+              1.125,
+              1.25,
+              1.3125,
+              1.4375,
+              1.5625,
+              1.625,
+              1.75,
+              1.875,
+              1.9375,
+              2.0625,
+              2.1875,
+              2.25,
+              2.375,
+              2.5,
+              2.5625,
+              2.6875,
+              2.8125,
+              2.875,
+              3.0,
+              3.125,
+              3.1875,
+              3.3125,
+              3.4375,
+              3.5,
+              3.625,
+              3.75,
+              3.8125,
+              3.9375,
+              4.0625,
+              4.125,
+              4.25,
+              4.375,
+              4.4375,
+              4.5625,
+              4.6875,
+              4.75,
+              4.875,
+              5.0
+            ],
+            "raw_output": {
+              "surprise": 0.4671044945716858
+            },
+            "window_frame_indices": [
+              [
+                0,
+                1,
+                3,
+                5,
+                6,
+                8,
+                10,
+                11,
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25
+              ],
+              [
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25,
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38
+              ],
+              [
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38,
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51
+              ],
+              [
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51,
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65
+              ],
+              [
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78
+              ]
+            ],
+            "latency_ms": 2025.1715320628136,
+            "transport": {
+              "cold_start_request": false,
+              "timeout_s": 900
+            }
+          }
+        }
+      ],
+      "input_visibility": {
+        "method": "exact-spatially-uniform-rgb-v1",
+        "decoded_frames": 81,
+        "spatially_uniform_frames": 0,
+        "all_frames_spatially_uniform": false,
+        "limit": "Only detects exactly uniform decoded frames; does not judge general visibility, task completion, or physics."
+      },
+      "tool_records_sha256": "fb595a289ad8a34aaf00f5333a550f9b6b8d71b2d89bc8b4e6bb9a660b16132f",
+      "pre_tool_report": {
+        "schema_version": "evidence-v2",
+        "task": {
+          "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+          "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+          "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
+        },
+        "requirement_checks": [
+          {
+            "requirement_id": "R1",
+            "status": "met",
+            "evidence": [
+              "E1",
+              "E2"
+            ],
+            "reason": "帧0时黑色夹爪位于台面上方偏后、靠近蓝色量勺区域；到帧10时夹爪已移动到折叠绿布上方，可见其完成向绿布移动的阶段。"
+          },
+          {
+            "requirement_id": "R2",
+            "status": "partial",
+            "evidence": [
+              "E3",
+              "E4",
+              "E5"
+            ],
+            "reason": "帧12起夹爪下降并压到绿布上，后续帧夹爪持续接触绿布并将其在台面向后推压；但未见夹爪牢固抓起绿布离地的明确状态，到帧65以后夹爪抬离绿布时绿布仍平铺在台面上，因此“下降接触”已发生，“成功抓取”未被确认完成。"
+          },
+          {
+            "requirement_id": "R3",
+            "status": "not_met",
+            "evidence": [
+              "E4",
+              "E5"
+            ],
+            "reason": "从接触阶段到末态帧80，绿布始终平铺在木质台面上，仅被夹爪推动发生台面上的位移；夹爪抬离绿布后绿布没有被带起，不存在可见的“绿布被抓取后抬离台面”状态。"
+          },
+          {
+            "requirement_id": "R4",
+            "status": "partial",
+            "evidence": [
+              "E4",
+              "E5"
+            ],
+            "reason": "绿布在夹爪按压推动下相对初始位置向台面后方（靠近背景木墙一侧）发生了小幅位移，但它始终未被抓取抬起，因此不是按要求“被抬起后再向后方移送”；仅出现了台面上的推后滑动，未完成目标移送方式。"
+          }
+        ],
+        "observations": [
+          {
+            "id": "E1",
+            "frames": [
+              0
+            ],
+            "description": "木质台面上左侧有双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有蓝柄灰勺头的量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景为浅色木纹墙面与侧边蓝色/灰色板面。"
+          },
+          {
+            "id": "E2",
+            "frames": [
+              0,
+              3,
+              5,
+              8,
+              10
+            ],
+            "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已运动到绿布上方并接近绿布表面。"
+          },
+          {
+            "id": "E3",
+            "frames": [
+              12,
+              15,
+              18,
+              21,
+              23,
+              26
+            ],
+            "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+          },
+          {
+            "id": "E4",
+            "frames": [
+              28,
+              31,
+              34,
+              36,
+              39,
+              41,
+              44,
+              46,
+              49,
+              52,
+              54,
+              57,
+              59,
+              62
+            ],
+            "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方小幅平移，但始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
+          },
+          {
+            "id": "E5",
+            "frames": [
+              65,
+              68,
+              71,
+              74,
+              77,
+              80
+            ],
+            "description": "夹爪张开并向上抬起离开绿布，随后继续抬升后移；绿布仍留在木质台面上靠近后方的位置，未被夹爪带起。到帧80时，绿布平铺在台面上，夹爪位于绿布上方空中。"
+          }
+        ],
+        "task_assessment": {
+          "verdict": "partial",
+          "confidence": "high",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "机械臂已完成向绿布靠近，并下降接触绿布；接触过程中绿布被推得向台面后方小幅移位，存在沿任务方向的有效进展。但关键的“抓取并抬起绿布”未实现：绿布全程未离开台面，末态仍是绿布平铺在台面上、夹爪空手抬起，因此未满足“绿布被抓取抬起并移向台面后方”的必要末态。",
+          "target_match": "match"
+        },
+        "physics_assessment": {
+          "verdict": "plausible",
+          "confidence": "high",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "issues": [],
+          "reason": "可见过程中机械臂移动、下降按压、在台面上推动绿布后抬离，接触关系与位移表现符合日常物理：绿布未被夹牢时留在台面上并发生平面滑动；运动较快处的模糊属于正常运动模糊，没有出现可确认的穿模、悬浮、物体瞬移或明显违背重力的状态。"
+        },
+        "visual_assessment": {
+          "verdict": "clear",
+          "confidence": "high",
+          "evidence": [
+            "E1",
+            "E2",
+            "E3",
+            "E4",
+            "E5"
+          ],
+          "reason": "尽管机械臂运动阶段存在局部运动模糊，但台面物品布局、绿布位置、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展与结果。"
+        },
+        "uncertainties": [
+          "视频原始帧率为16fps，夹爪闭合瞬间是否存在极短暂的布边夹取无法被更高时间分辨率验证；但在所有提供帧中均未看到绿布被抬离台面，且末态明确显示绿布留在台面上。"
+        ]
+      },
+      "fallback_to_baseline": false,
+      "reflection_applied": true
+    },
     "process_event_evidence": null,
-    "evaluator_version": "evidence-v7.0-focused1-4fae127f66af5465",
+    "evaluator_version": "evidence-v7.0-focused1-9742de6c4611c0e7-physics-ff6162e018ac4d4a",
     "task_contract": {
       "schema_version": "task-contract-v1",
       "task": {
-        "requested_action": "位于木质台面上方的黑色带夹爪末端执行器机械臂先朝向折叠绿色布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-        "target_description": "折叠的绿色布，初始位于带圆勺碗的蓝色量勺前方的木质台面上；木质台面上还有左侧的双耳金属锅、锅旁的黄色香蕉形物体，背景有灰色面板和木墙",
-        "final_state_requirement": "机械臂已朝向绿布移动、下降并抓取绿布、将绿布提起，且已将绿布向木质台面后方移动"
+        "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+        "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+        "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
       },
       "requirements": [
         {
           "id": "R1",
           "source_quote": "The robotic arm first moves toward the green cloth",
-          "text": "机械臂首先朝向绿色布移动"
+          "text": "机械臂首先向折叠绿布移动"
         },
         {
           "id": "R2",
           "source_quote": "then descends to grasp it",
-          "text": "机械臂随后下降以抓取绿色布"
+          "text": "机械臂随后下降并抓取该绿布"
         },
         {
           "id": "R3",
           "source_quote": "It lifts the cloth",
-          "text": "机械臂将该布提起"
+          "text": "机械臂将被抓取的绿布抬起"
         },
         {
           "id": "R4",
-          "source_quote": "and shifts it toward the back of the countertop.",
-          "text": "机械臂将该布向台面后方移动"
+          "source_quote": "and shifts it toward the back of the countertop",
+          "text": "机械臂将绿布向台面后方移动"
         }
       ],
       "coverage_notes": [
-        "原文开头关于木质台面、双耳金属锅、黄色香蕉形物体、带圆勺碗的蓝色量勺、折叠绿布初始位置、黑色机械臂带夹爪末端执行器、机械臂初始位于台面上方、背景灰色面板与木墙的内容为场景描述；其中机械臂身份与位置、绿布初始位置用于识别执行主体与作用对象，其余背景元素未被要求改变或验证，故未单独列为操作要求",
-        "原文未要求机械臂释放绿布、返回初始位置、保持特定时长、验证最终放置位置精度，也未要求操作或保持其他物品状态"
+        "台面初始物品布局（左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺、量勺前方折叠绿布）、机械臂为黑色且配有夹爪末端执行器、机械臂初始位于台面上方、背景为灰色面板与木墙均为场景初始/背景描述，原文未要求改变、保持或验证这些内容，除动作对象绿布外未列为完成门槛",
+        "原文未指定绿布移动后的最终精确停放位置、是否释放、是否复位机械臂、动作速度或额外稳定等待条件，不作额外推断"
       ],
       "source_text": "A wooden countertop holds several items: a metallic pot with two handles on the left, a yellow banana-shaped object beside the pot, a blue measuring spoon with a round bowl, and a folded green cloth in front of the spoon. A black robotic arm with a gripper end effector is positioned above the countertop, with a gray panel and wooden wall in the background. The robotic arm first moves toward the green cloth, then descends to grasp it. It lifts the cloth and shifts it toward the back of the countertop.",
       "source_sha256": "cc29abe8cb925189a048d70a6f01d60fc25f7cf1a8b273bd57fea0c65ec219bb",
-      "contract_sha256": "e8ab75d3a7f45d65b8115379bb22a55b881b4977ba9401026437740492b6baaa"
+      "contract_sha256": "181762c9e12f48f8f7a61c08c5565d0d686ee244c60d429d2cd778f297b74ea5"
     },
-    "task_contract_sha256": "e8ab75d3a7f45d65b8115379bb22a55b881b4977ba9401026437740492b6baaa",
+    "task_contract_sha256": "181762c9e12f48f8f7a61c08c5565d0d686ee244c60d429d2cd778f297b74ea5",
     "task_contract_registry_sha256": null,
     "task_contract_review": null,
     "requirement_scope_audits": [
       {
-        "report_sha256": "9ec4cb8b5ed1befb33ae3ca119acca4abbdc40a15809081a4606a719e813d144",
+        "report_sha256": "8d29b3449823fba886406d21d31bf8fedffab5e6918d00f635b5afc11267659a",
         "audit": {
           "schema_version": "requirement-scope-audit-v1",
           "checks": [
@@ -201,79 +642,112 @@
     "pre_scope_repair_report": {
       "schema_version": "evidence-v2",
       "task": {
-        "requested_action": "位于木质台面上方的黑色带夹爪末端执行器机械臂先朝向折叠绿色布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-        "target_description": "折叠的绿色布，初始位于带圆勺碗的蓝色量勺前方的木质台面上；木质台面上还有左侧的双耳金属锅、锅旁的黄色香蕉形物体，背景有灰色面板和木墙",
-        "final_state_requirement": "机械臂已朝向绿布移动、下降并抓取绿布、将绿布提起，且已将绿布向木质台面后方移动"
+        "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+        "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+        "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
       },
       "requirement_checks": [
         {
           "requirement_id": "R1",
           "status": "met",
           "evidence": [
-            "E1"
+            "E1",
+            "E2"
           ],
-          "reason": "初始帧中黑色夹爪位于台面上方靠后且靠近蓝色量勺一侧，随后夹爪移动，到帧10时已到达绿色折叠布上方，完成了朝向绿布的移动。"
+          "reason": "帧0中黑色夹爪位于台面上方偏后、靠近蓝色量勺的位置；到帧10时夹爪已运动到折叠绿布上方，可见其完成了向绿布方向的移动。"
         },
         {
           "requirement_id": "R2",
           "status": "partial",
           "evidence": [
-            "E2",
-            "E3"
+            "E3",
+            "E4",
+            "E5"
           ],
-          "reason": "夹爪在到达绿布上方后下降并把双指压到绿布上，可见下降与接触动作；但后续帧显示夹爪抬起后并未夹持住绿布，绿布仍留在台面上，因此成功抓取未完成。"
+          "reason": "帧12后夹爪下降并压到绿布表面，两指置于绿布上并保持接触、推动绿布发生平面位移；但在提供帧中未见夹爪牢固夹起绿布离开台面的明确状态，到帧63以后夹爪抬离绿布时绿布仍平铺在台面上，因此“下降接触”已发生，“完成抓取”未被确认。"
         },
         {
           "requirement_id": "R3",
           "status": "not_met",
           "evidence": [
-            "E2",
-            "E3"
+            "E4",
+            "E5"
           ],
-          "reason": "在夹爪压在布上以及随后抬起的过程中，绿布始终平铺在木质台面上，没有被抬离台面；末帧夹爪已抬离布且未握持任何物体，未实现将布提起。"
+          "reason": "从接触阶段到末态帧80，绿布始终平铺在木质台面上；夹爪抬离后绿布未被带起，也没有出现绿布被抓取后抬离台面的可见状态，因此“将被抓取的绿布抬起”未实现。"
         },
         {
           "requirement_id": "R4",
-          "status": "not_met",
+          "status": "partial",
           "evidence": [
-            "E2",
-            "E3"
+            "E3",
+            "E4",
+            "E5"
           ],
-          "reason": "由于绿布未被抓取提起，绿布没有随机械臂向台面后方发生整体移动；末帧绿布仍位于台面右前侧原区域附近，未完成向台面后方移动。"
+          "reason": "在夹爪按压并推动过程中，绿布相对初始位置向台面后方（靠近背景木墙一侧）发生了明显位移，末态帧80中绿布位于量勺后方、更靠木墙的位置；但该后移发生在绿布始终平铺于台面时，并非按要求在“被抓取抬起后”再向后方移送，因此仅部分实现。"
         }
       ],
       "observations": [
         {
           "id": "E1",
           "frames": [
-            0,
-            4,
-            7,
-            10
+            0
           ],
-          "description": "帧0时，黑色夹爪悬在木质台面上方，台面上可见左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺碗的蓝色量勺，以及量勺前方折叠的绿色布；到帧4、7夹爪先移动到蓝色量勺附近，随后在帧10移动到绿色布上方。"
+          "description": "木质台面上左侧可见双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有带圆勺头的蓝色量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景可见浅色木纹墙面及侧边板面。"
         },
         {
           "id": "E2",
           "frames": [
-            12,
-            18,
-            28,
-            41,
-            54,
-            63
+            0,
+            3,
+            7,
+            10
           ],
-          "description": "夹爪下降至绿色折叠布上，双指落在并压在布表面；在此期间绿色布持续平铺在台面上，金属锅、黄色物体和蓝色量勺位置基本保持，布未被抬离台面。"
+          "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已到达绿布上方并接近绿布表面。"
         },
         {
           "id": "E3",
           "frames": [
-            65,
-            70,
+            12,
+            15,
+            18,
+            21,
+            23,
+            26
+          ],
+          "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+        },
+        {
+          "id": "E4",
+          "frames": [
+            28,
+            31,
+            34,
+            36,
+            39,
+            41,
+            44,
+            46,
+            49,
+            52,
+            54,
+            57,
+            59,
+            62
+          ],
+          "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方平移，位置从右前方逐渐靠近后方木墙区域；绿布始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
+        },
+        {
+          "id": "E5",
+          "frames": [
+            63,
+            66,
+            69,
+            72,
             75,
+            78,
             80
           ],
-          "description": "夹爪从绿色布上方松开并向上抬起；到帧80夹爪已抬离布且双指间未夹持物体，绿色布仍折叠铺在木质台面上，位于台面右前侧原位置附近，未被提起，也未被移向后方。"
+          "description": "夹爪向上抬起离开绿布并继续后移/上升；绿布留在木质台面上靠后的位置，未被夹爪带起。到帧80时，绿布平铺在台面后方区域，夹爪位于绿布上方空中，未夹持绿布。"
         }
       ],
       "task_assessment": {
@@ -282,21 +756,25 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
-        "reason": "机械臂完成了朝向绿布移动并下降接触绿布的前期动作，但未能成功抓取绿布；绿布始终留在台面上，最终既未被提起，也没有被向台面后方移动。因此存在明确有效进展，但抓取、提起和后移的必要末态未实现。",
+        "reason": "机械臂已完成向绿布靠近，并下降接触绿布；接触过程中绿布被推移到台面后方较初始更靠后的位置，存在沿任务方向的有效进展。但关键的“抓取并抬起绿布”未实现：提供帧中绿布始终未离开台面，末态帧80显示绿布仍平铺在台面上、夹爪空手抬起，因此未满足“绿布被抓取抬起并移向台面后方”的必要末态。",
         "target_match": "match"
       },
       "physics_assessment": {
         "verdict": "plausible",
-        "confidence": "medium",
+        "confidence": "high",
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
         "issues": [],
-        "reason": "可见范围内机械臂移动、下压接触布以及随后抬离的动作连贯，未见可定位的穿模、反重力悬浮或非因果跳变；夹爪未能抓住布属于抓取失败，不构成已确认的物理异常。快速运动带来的局部模糊未显示明确物理矛盾。"
+        "reason": "可见过程中机械臂移动、下降按压、在台面上推动绿布后抬离，接触关系与位移表现符合日常物理：绿布未被夹牢时留在台面上并发生平面滑动；运动较快处存在正常运动模糊，没有出现可确认的穿模、悬浮、物体瞬移或明显违背重力的状态。"
       },
       "visual_assessment": {
         "verdict": "clear",
@@ -304,12 +782,14 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
-        "reason": "台面、绿布、金属锅、香蕉形物体、蓝色量勺以及夹爪的移动、下压接触、抬离和末态均能清楚辨认；虽存在运动造成的局部模糊，但不影响判断抓取是否成功及布的最终位置。"
+        "reason": "尽管机械臂运动阶段存在局部运动模糊，但台面物品布局、绿布位置变化、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展与结果。"
       },
       "uncertainties": [
-        "所有解码帧均已提供，但原视频帧率限制了夹爪闭合细节的时间分辨率；末态夹爪空握且绿布仍在台面上的结果清楚。"
+        "提供帧的时间间隔约为0.0625秒，夹爪闭合瞬间若有极短暂的布边夹取，无法以更高时间分辨率验证；但在所有可见帧中均未看到绿布被抬离台面，且末态明确显示绿布留在台面上。"
       ]
     },
     "requirement_summary": {
@@ -318,7 +798,7 @@
         "R1": "met",
         "R2": "partial",
         "R3": "not_met",
-        "R4": "not_met"
+        "R4": "partial"
       },
       "unresolved_requirement_ids": [],
       "review_required": false
@@ -326,50 +806,60 @@
     "draft_report": {
       "schema_version": "evidence-v2",
       "task": {
-        "requested_action": "位于木质台面上方的黑色带夹爪末端执行器机械臂先朝向折叠绿色布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-        "target_description": "折叠的绿色布，初始位于带圆勺碗的蓝色量勺前方的木质台面上；木质台面上还有左侧的双耳金属锅、锅旁的黄色香蕉形物体，背景有灰色面板和木墙",
-        "final_state_requirement": "机械臂已朝向绿布移动、下降并抓取绿布、将绿布提起，且已将绿布向木质台面后方移动"
+        "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+        "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+        "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
       },
       "requirement_checks": [
         {
           "requirement_id": "R1",
           "status": "met",
           "evidence": [
-            "E1"
+            "E1",
+            "E2"
           ],
-          "reason": "初始时夹爪悬在台面上方靠近蓝色量勺附近，随后到帧10时夹爪移动到绿色折叠布上方，完成了朝向绿布的移动。"
+          "reason": "初始时黑色夹爪位于台面上方偏后位置，随后从蓝色量勺附近向折叠绿布方向移动，到帧10时夹爪已到达绿布上方，可见其完成向绿布移动的阶段。"
         },
         {
           "requirement_id": "R2",
           "status": "partial",
           "evidence": [
-            "E2",
-            "E3"
+            "E3",
+            "E4",
+            "E5"
           ],
-          "reason": "夹爪确实下降并把双指压在绿布上，但后续帧显示夹爪张开抬起后绿布仍留在台面上，没有被夹持住，因此下降到布上的动作可见，成功抓取未完成。"
+          "reason": "夹爪从帧13起下降并压在绿布上，绿布在台面上发生小幅移位；但在后续帧中始终没有看到夹爪牢固夹起绿布离地，到帧65以后夹爪张开抬起离开绿布时绿布仍贴在台面上，未见明确的成功抓取。"
         },
         {
           "requirement_id": "R3",
           "status": "not_met",
           "evidence": [
-            "E2",
-            "E3"
+            "E4",
+            "E5"
           ],
-          "reason": "绿布始终平铺在木质台面上，末帧仍未离开台面，夹爪离开布时没有握持任何物体，未出现将布提起的结果。"
+          "reason": "绿布全程保持铺在木质台面上，仅在接触阶段随夹爪推动有小范围平面位移；夹爪随后抬离绿布，没有出现绿布被机械臂抓取后抬离台面的可见状态。"
         },
         {
           "requirement_id": "R4",
-          "status": "not_met",
+          "status": "partial",
           "evidence": [
-            "E2",
-            "E3"
+            "E3",
+            "E4",
+            "E5"
           ],
-          "reason": "由于绿布没有被抓取提起，布没有随机械臂向台面后方移动；布的位置仅在原地保持，末帧仍位于台面右前侧靠近原位置处，未完成向后方移动。"
+          "reason": "绿布在被夹爪按压/推蹭时相对初始位置向台面后方（靠近灰色背板一侧）发生了小幅移动，但它始终停留在台面上且未被抓取抬起，因此不是按要求被抓取抬起后再向后方移送。"
         }
       ],
       "observations": [
         {
           "id": "E1",
+          "frames": [
+            0
+          ],
+          "description": "木质台面上左侧有双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有蓝柄灰勺头的量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景为浅色木纹墙面与侧边蓝色/灰色板面。"
+        },
+        {
+          "id": "E2",
           "frames": [
             0,
             3,
@@ -377,17 +867,23 @@
             8,
             10
           ],
-          "description": "帧0时，黑色夹爪悬在木质台面上方，台面上可见左侧双耳金属锅、锅旁黄色香蕉形物体、蓝色带圆勺碗的量勺，以及量勺前方折叠的绿色布；到帧5、8夹爪先移动到蓝色量勺附近，随后在帧10移动到绿色布上方。"
+          "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已运动到绿布上方并接近绿布表面。"
         },
         {
-          "id": "E2",
+          "id": "E3",
           "frames": [
             13,
             15,
             18,
             21,
             23,
-            26,
+            26
+          ],
+          "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+        },
+        {
+          "id": "E4",
+          "frames": [
             28,
             31,
             34,
@@ -403,10 +899,10 @@
             59,
             62
           ],
-          "description": "夹爪下降并压在绿色折叠布上，双指落在布表面；绿色布持续平铺在台面上，金属锅、黄色物体和蓝色量勺位置基本未变，布未被抬离台面。"
+          "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方小幅平移，但始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
         },
         {
-          "id": "E3",
+          "id": "E5",
           "frames": [
             65,
             67,
@@ -416,7 +912,7 @@
             77,
             80
           ],
-          "description": "夹爪从绿色布上张开并向上抬起；到帧80夹爪已抬离布且未夹持任何物体，绿色布仍折叠铺在木质台面上，位置仍在台面右前侧，未被提起或移向后方。"
+          "description": "夹爪张开并向上抬起离开绿布，随后继续抬升后移；绿布仍留在木质台面上靠近后方的位置，未被夹爪带起。到帧80时，绿布平铺在台面上，夹爪位于绿布上方空中。"
         }
       ],
       "task_assessment": {
@@ -425,21 +921,25 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
-        "reason": "机械臂完成了朝向绿布移动并下降接触绿布的前期动作，但未能成功抓取，绿布始终留在台面上，最终既未被提起，也没有被向台面后方移动；因此任务有可见进展但核心的抓取、提起和后移末态未完成。",
+        "reason": "机械臂已明确移向绿布并下降接触绿布，绿布也被推得向台面后方小幅移位，存在沿任务方向的有效进展；但关键的抓取抬起未完成：绿布全程未离开台面，末态仍是绿布平铺在台面上、夹爪空手抬起，因此未满足“抓取抬起并移向台面后方”的必要末态。",
         "target_match": "match"
       },
       "physics_assessment": {
         "verdict": "plausible",
-        "confidence": "medium",
+        "confidence": "high",
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
         "issues": [],
-        "reason": "可见范围内机械臂移动、下压接触布以及随后抬离的动作连贯，未见明确穿模、反重力悬浮或非因果跳变；夹爪未能抓住布属于抓取失败，不构成已确认的物理异常。采样未展示每一中间动作，但没有出现可定位的明显物理矛盾。"
+        "reason": "可见过程中机械臂移动、下降按压、推动绿布后抬离，物体接触关系与位移表现符合日常物理：绿布在被推动时平面滑动，未被夹牢时留在台面上；采样造成的运动模糊不足以构成已确认的物理异常。"
       },
       "visual_assessment": {
         "verdict": "clear",
@@ -447,12 +947,14 @@
         "evidence": [
           "E1",
           "E2",
-          "E3"
+          "E3",
+          "E4",
+          "E5"
         ],
-        "reason": "尽管快速运动时机械臂有局部运动模糊，但台面、绿布、金属锅、香蕉形物体和蓝色量勺以及夹爪与布的接触、抬离和末态都可清楚辨认，足以判断任务进展和结果。"
+        "reason": "尽管机械臂运动较快处有局部运动模糊，但台面物品、绿布位置、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展。"
       },
       "uncertainties": [
-        "采样帧未覆盖夹爪闭合与离开布的全部中间瞬间，因此抓取失败的具体瞬间细节不可见，但末态布仍在台面上且夹爪空握的结果清楚。"
+        "提供的帧为离散采样，夹爪与绿布接触瞬间的夹取细节、以及采样间隔内可能发生的短暂微小动作未被完整展示；但末态和是否抬起绿布在现有帧中可辨。"
       ]
     },
     "blind_observations": {
@@ -460,16 +962,23 @@
         {
           "id": "E1",
           "frames": [
+            0
+          ],
+          "description": "The wooden countertop initially holds a stainless steel pan, a yellow banana-shaped toy, a blue-handled gray scoop, and a folded green cloth; a black robotic gripper is positioned above the counter."
+        },
+        {
+          "id": "E2",
+          "frames": [
             0,
             3,
             5,
             8,
             10
           ],
-          "description": "At frame 0, the black robotic gripper is suspended above the wooden countertop near the blue-handled scoop; the counter also holds a stainless steel pan, a yellow banana, and a folded green cloth. By frame 5 the gripper moves down toward the blue-handled scoop without gripping it, then continues moving toward the green cloth and is positioned over the green cloth by frame 10."
+          "description": "The robotic arm moves from above the blue-handled scoop area toward the green cloth, with its gripper descending from above the counter to over the cloth."
         },
         {
-          "id": "E2",
+          "id": "E3",
           "frames": [
             13,
             15,
@@ -492,10 +1001,30 @@
             59,
             62
           ],
-          "description": "The robotic gripper remains over the folded green cloth, with its two fingers pressing into the cloth. The green cloth stays on the countertop and the pan, banana, and scoop do not change position during these frames."
+          "description": "The gripper contacts and presses down onto the green cloth, with the cloth remaining on the counter under the gripper."
         },
         {
-          "id": "E3",
+          "id": "E4",
+          "frames": [
+            28,
+            31,
+            34,
+            36,
+            39,
+            41,
+            44,
+            46,
+            49,
+            52,
+            54,
+            57,
+            59,
+            62
+          ],
+          "description": "The green cloth shifts slightly on the counter while the gripper remains in contact with it; the pan, banana toy, and scoop do not visibly move from their original positions."
+        },
+        {
+          "id": "E5",
           "frames": [
             65,
             67,
@@ -505,11 +1034,11 @@
             77,
             80
           ],
-          "description": "The gripper releases and lifts away from the green cloth, then moves upward and away from the cloth. The green cloth remains folded on the countertop in its original location; by frame 80 the gripper is lifted above the counter with no object held."
+          "description": "The gripper releases/rises off the green cloth and moves upward and away from the cloth; the green cloth stays on the counter, and by frame 80 the gripper is above the counter with all four objects remaining on the countertop."
         }
       ],
       "uncertainties": [
-        "The sampling does not show every intermediate moment of the gripper’s finger closure or release, so the exact instant of contact/release is not visible."
+        "The frames are sampled and do not show every instant of the gripper’s motion; small intermediate movements of the cloth or gripper between sampled frames are not visible. Whether the gripper firmly grasped or only pressed/dragged the cloth cannot be fully determined from the available frames, as no clear lift of the cloth is observed."
       ]
     },
     "scoring": {
@@ -522,6 +1051,12 @@
       "review_required": false,
       "review_reasons": [],
       "scoring_version": "task-failure-material-review-v1",
+      "physical_completion": {
+        "required": true,
+        "complete": true,
+        "issues": [],
+        "meaning": "Execution and source identity only; successful tools do not establish video quality."
+      },
       "diagnostic_score": 0.615,
       "diagnostic_review_required": false,
       "diagnostic_review_reasons": [],
@@ -952,10 +1487,16 @@
         {
           "source_frame_index": 0,
           "timestamp_seconds": 0.0
+        }
+      ],
+      "E2": [
+        {
+          "source_frame_index": 0,
+          "timestamp_seconds": 0.0
         },
         {
-          "source_frame_index": 4,
-          "timestamp_seconds": 0.25
+          "source_frame_index": 3,
+          "timestamp_seconds": 0.1875
         },
         {
           "source_frame_index": 7,
@@ -966,44 +1507,114 @@
           "timestamp_seconds": 0.625
         }
       ],
-      "E2": [
+      "E3": [
         {
           "source_frame_index": 12,
           "timestamp_seconds": 0.75
+        },
+        {
+          "source_frame_index": 15,
+          "timestamp_seconds": 0.9375
         },
         {
           "source_frame_index": 18,
           "timestamp_seconds": 1.125
         },
         {
+          "source_frame_index": 21,
+          "timestamp_seconds": 1.3125
+        },
+        {
+          "source_frame_index": 23,
+          "timestamp_seconds": 1.4375
+        },
+        {
+          "source_frame_index": 26,
+          "timestamp_seconds": 1.625
+        }
+      ],
+      "E4": [
+        {
           "source_frame_index": 28,
           "timestamp_seconds": 1.75
+        },
+        {
+          "source_frame_index": 31,
+          "timestamp_seconds": 1.9375
+        },
+        {
+          "source_frame_index": 34,
+          "timestamp_seconds": 2.125
+        },
+        {
+          "source_frame_index": 36,
+          "timestamp_seconds": 2.25
+        },
+        {
+          "source_frame_index": 39,
+          "timestamp_seconds": 2.4375
         },
         {
           "source_frame_index": 41,
           "timestamp_seconds": 2.5625
         },
         {
+          "source_frame_index": 44,
+          "timestamp_seconds": 2.75
+        },
+        {
+          "source_frame_index": 46,
+          "timestamp_seconds": 2.875
+        },
+        {
+          "source_frame_index": 49,
+          "timestamp_seconds": 3.0625
+        },
+        {
+          "source_frame_index": 52,
+          "timestamp_seconds": 3.25
+        },
+        {
           "source_frame_index": 54,
           "timestamp_seconds": 3.375
         },
         {
-          "source_frame_index": 63,
-          "timestamp_seconds": 3.9375
-        }
-      ],
-      "E3": [
-        {
-          "source_frame_index": 65,
-          "timestamp_seconds": 4.0625
+          "source_frame_index": 57,
+          "timestamp_seconds": 3.5625
         },
         {
-          "source_frame_index": 70,
-          "timestamp_seconds": 4.375
+          "source_frame_index": 59,
+          "timestamp_seconds": 3.6875
+        },
+        {
+          "source_frame_index": 62,
+          "timestamp_seconds": 3.875
+        }
+      ],
+      "E5": [
+        {
+          "source_frame_index": 63,
+          "timestamp_seconds": 3.9375
+        },
+        {
+          "source_frame_index": 66,
+          "timestamp_seconds": 4.125
+        },
+        {
+          "source_frame_index": 69,
+          "timestamp_seconds": 4.3125
+        },
+        {
+          "source_frame_index": 72,
+          "timestamp_seconds": 4.5
         },
         {
           "source_frame_index": 75,
           "timestamp_seconds": 4.6875
+        },
+        {
+          "source_frame_index": 78,
+          "timestamp_seconds": 4.875
         },
         {
           "source_frame_index": 80,
@@ -1027,7 +1638,7 @@
       {
         "stage": "blind_observation",
         "attempt": 1,
-        "response_id": "resp_02178970491753189d0c17fc196b3c940c12dd7ad5b500b15b77e",
+        "response_id": "resp_02178971128987120244bbcebb250bf80b1bc04ef4640177a0e0c",
         "messages_sha256": "c6f95949420a4702445388737e03658c31d91b1efeddbcc9cf30d66259d8929d",
         "request_payload_sha256": "a601dbc49c958061797cd54a4307fe3f10cc0c00a892fadf2352eed1f5fe3e72",
         "request_sampling": {
@@ -1053,10 +1664,10 @@
         "sampling_metadata_status": "recorded",
         "usage": {
           "input_tokens": 44560,
-          "output_tokens": 342,
-          "total_tokens": 44902,
+          "output_tokens": 445,
+          "total_tokens": 45005,
           "input_tokens_details": {
-            "cached_tokens": 0
+            "cached_tokens": 44560
           },
           "output_tokens_details": {
             "reasoning_tokens": 0
@@ -1068,16 +1679,23 @@
             {
               "id": "E1",
               "frames": [
+                0
+              ],
+              "description": "The wooden countertop initially holds a stainless steel pan, a yellow banana-shaped toy, a blue-handled gray scoop, and a folded green cloth; a black robotic gripper is positioned above the counter."
+            },
+            {
+              "id": "E2",
+              "frames": [
                 0,
                 3,
                 5,
                 8,
                 10
               ],
-              "description": "At frame 0, the black robotic gripper is suspended above the wooden countertop near the blue-handled scoop; the counter also holds a stainless steel pan, a yellow banana, and a folded green cloth. By frame 5 the gripper moves down toward the blue-handled scoop without gripping it, then continues moving toward the green cloth and is positioned over the green cloth by frame 10."
+              "description": "The robotic arm moves from above the blue-handled scoop area toward the green cloth, with its gripper descending from above the counter to over the cloth."
             },
             {
-              "id": "E2",
+              "id": "E3",
               "frames": [
                 13,
                 15,
@@ -1100,10 +1718,30 @@
                 59,
                 62
               ],
-              "description": "The robotic gripper remains over the folded green cloth, with its two fingers pressing into the cloth. The green cloth stays on the countertop and the pan, banana, and scoop do not change position during these frames."
+              "description": "The gripper contacts and presses down onto the green cloth, with the cloth remaining on the counter under the gripper."
             },
             {
-              "id": "E3",
+              "id": "E4",
+              "frames": [
+                28,
+                31,
+                34,
+                36,
+                39,
+                41,
+                44,
+                46,
+                49,
+                52,
+                54,
+                57,
+                59,
+                62
+              ],
+              "description": "The green cloth shifts slightly on the counter while the gripper remains in contact with it; the pan, banana toy, and scoop do not visibly move from their original positions."
+            },
+            {
+              "id": "E5",
               "frames": [
                 65,
                 67,
@@ -1113,18 +1751,18 @@
                 77,
                 80
               ],
-              "description": "The gripper releases and lifts away from the green cloth, then moves upward and away from the cloth. The green cloth remains folded on the countertop in its original location; by frame 80 the gripper is lifted above the counter with no object held."
+              "description": "The gripper releases/rises off the green cloth and moves upward and away from the cloth; the green cloth stays on the counter, and by frame 80 the gripper is above the counter with all four objects remaining on the countertop."
             }
           ],
           "uncertainties": [
-            "The sampling does not show every intermediate moment of the gripper’s finger closure or release, so the exact instant of contact/release is not visible."
+            "The frames are sampled and do not show every instant of the gripper’s motion; small intermediate movements of the cloth or gripper between sampled frames are not visible. Whether the gripper firmly grasped or only pressed/dragged the cloth cannot be fully determined from the available frames, as no clear lift of the cloth is observed."
           ]
         }
       },
       {
         "stage": "task_contract_extraction",
         "attempt": 1,
-        "response_id": "resp_0217897049303893d763aaa7a5e423f9e5323a8c500bc9f420de5",
+        "response_id": "resp_021789711305362a6cdd8247c48d753298cd4bcf5eec90e59148c",
         "messages_sha256": "4ccf486f4e00b634705bc9390e0851ddcac23784a350a96a5264c8f956461f3b",
         "request_payload_sha256": "bc40e91d626a0e525ef22f3e86987eeb1a50ce72caf1f72eea068ab4f4fc2af6",
         "request_sampling": {
@@ -1150,8 +1788,8 @@
         "sampling_metadata_status": "recorded",
         "usage": {
           "input_tokens": 966,
-          "output_tokens": 463,
-          "total_tokens": 1429,
+          "output_tokens": 461,
+          "total_tokens": 1427,
           "input_tokens_details": {
             "cached_tokens": 0
           },
@@ -1163,44 +1801,44 @@
         "output": {
           "schema_version": "task-contract-v1",
           "task": {
-            "requested_action": "黑色带夹爪末端执行器的机械臂先朝向绿色折叠布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-            "target_description": "位于蓝色量勺前方的折叠绿色布；初始场景为木质台面上摆放左侧带双耳金属锅、锅旁黄色香蕉形物体、带圆勺碗的蓝色量勺、量勺前方折叠绿布，背景有灰色面板和木墙，机械臂初始位于台面上方",
-            "final_state_requirement": "机械臂完成抓取、提起绿布，并将绿布向木质台面后方移动"
+            "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+            "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+            "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
           },
           "requirements": [
             {
               "id": "R1",
               "source_quote": "The robotic arm first moves toward the green cloth",
-              "text": "机械臂首先朝向绿色布移动"
+              "text": "机械臂首先向折叠绿布移动"
             },
             {
               "id": "R2",
               "source_quote": "then descends to grasp it",
-              "text": "机械臂随后下降以抓取绿色布"
+              "text": "机械臂随后下降并抓取该绿布"
             },
             {
               "id": "R3",
               "source_quote": "It lifts the cloth",
-              "text": "机械臂将该布提起"
+              "text": "机械臂将被抓取的绿布抬起"
             },
             {
               "id": "R4",
-              "source_quote": "and shifts it toward the back of the countertop.",
-              "text": "机械臂将该布向台面后方移动"
+              "source_quote": "and shifts it toward the back of the countertop",
+              "text": "机械臂将绿布向台面后方移动"
             }
           ],
           "coverage_notes": [
-            "原文开头关于木质台面、双耳金属锅、黄色香蕉形物体、蓝色圆勺碗量勺、折叠绿布初始位置、黑色机械臂带夹爪末端执行器、初始位于台面上方、背景灰色面板与木墙的内容为场景描述，未要求改变或验证这些背景元素，故未列为操作要求",
-            "原文未要求机械臂释放绿布、返回初始位置、保持特定时长或验证最终放置精度"
+            "台面初始物品布局（左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺、量勺前方折叠绿布）、机械臂初始位于台面上方、背景为灰色面板与木墙均为场景初始/背景描述，原文未要求改变、保持或验证这些内容，除动作对象绿布外未列为完成门槛",
+            "原文未指定绿布移动后的最终精确停放位置、是否释放、是否复位机械臂、动作速度或额外稳定等待条件，不作额外推断"
           ]
         }
       },
       {
         "stage": "task_contract_coverage_audit",
         "attempt": 1,
-        "response_id": "resp_021789704941281f0b662e0a22462bcc30964e8c71cc766b59b77",
-        "messages_sha256": "0d137fd832b32910eb39e1840ac757483e6cdd6044091b1cf1ffc74c81525e87",
-        "request_payload_sha256": "07d706766557ade68dc9d9153d2227f791c4e03043e0376d149fb3d6ae594aed",
+        "response_id": "resp_02178971131579339b5b0f4b57789945865e795386c35305243bf",
+        "messages_sha256": "33e82d33e433e27de2846c40db5ffc3e2fb5508a9096a4f10de8dc53d0982d98",
+        "request_payload_sha256": "8be2fc6b370d379ce5821fecb2c5d53e1c9f85d958cc101d10bebf492d27fae8",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1223,9 +1861,9 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 1918,
-          "output_tokens": 501,
-          "total_tokens": 2419,
+          "input_tokens": 1914,
+          "output_tokens": 473,
+          "total_tokens": 2387,
           "input_tokens_details": {
             "cached_tokens": 0
           },
@@ -1237,44 +1875,44 @@
         "output": {
           "schema_version": "task-contract-v1",
           "task": {
-            "requested_action": "位于木质台面上方的黑色带夹爪末端执行器机械臂先朝向折叠绿色布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-            "target_description": "折叠的绿色布，初始位于带圆勺碗的蓝色量勺前方的木质台面上；木质台面上还有左侧的双耳金属锅、锅旁的黄色香蕉形物体，背景有灰色面板和木墙",
-            "final_state_requirement": "机械臂已朝向绿布移动、下降并抓取绿布、将绿布提起，且已将绿布向木质台面后方移动"
+            "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+            "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+            "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
           },
           "requirements": [
             {
               "id": "R1",
               "source_quote": "The robotic arm first moves toward the green cloth",
-              "text": "机械臂首先朝向绿色布移动"
+              "text": "机械臂首先向折叠绿布移动"
             },
             {
               "id": "R2",
               "source_quote": "then descends to grasp it",
-              "text": "机械臂随后下降以抓取绿色布"
+              "text": "机械臂随后下降并抓取该绿布"
             },
             {
               "id": "R3",
               "source_quote": "It lifts the cloth",
-              "text": "机械臂将该布提起"
+              "text": "机械臂将被抓取的绿布抬起"
             },
             {
               "id": "R4",
-              "source_quote": "and shifts it toward the back of the countertop.",
-              "text": "机械臂将该布向台面后方移动"
+              "source_quote": "and shifts it toward the back of the countertop",
+              "text": "机械臂将绿布向台面后方移动"
             }
           ],
           "coverage_notes": [
-            "原文开头关于木质台面、双耳金属锅、黄色香蕉形物体、带圆勺碗的蓝色量勺、折叠绿布初始位置、黑色机械臂带夹爪末端执行器、机械臂初始位于台面上方、背景灰色面板与木墙的内容为场景描述；其中机械臂身份与位置、绿布初始位置用于识别执行主体与作用对象，其余背景元素未被要求改变或验证，故未单独列为操作要求",
-            "原文未要求机械臂释放绿布、返回初始位置、保持特定时长、验证最终放置位置精度，也未要求操作或保持其他物品状态"
+            "台面初始物品布局（左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺、量勺前方折叠绿布）、机械臂为黑色且配有夹爪末端执行器、机械臂初始位于台面上方、背景为灰色面板与木墙均为场景初始/背景描述，原文未要求改变、保持或验证这些内容，除动作对象绿布外未列为完成门槛",
+            "原文未指定绿布移动后的最终精确停放位置、是否释放、是否复位机械臂、动作速度或额外稳定等待条件，不作额外推断"
           ]
         }
       },
       {
         "stage": "assessment",
         "attempt": 1,
-        "response_id": "resp_021789704951339c237340934591b89d6de6b6a9271c1b9672f68",
-        "messages_sha256": "3d1eb8c3d346283a784f3ff4b4220a5a3b3c2b2f031f32f4916c1cf21870ea3f",
-        "request_payload_sha256": "6fd06e1a35b0535535bb1bd9fe0ccfb42e7cb4f86b51866596d13f92a2bbc46d",
+        "response_id": "resp_0217897113255398df8e1a1401bb5aa62b5b494646ada582bfdd6",
+        "messages_sha256": "ec0174bee690e427dc8975a2ad6a8fdcc6e0a2b8c81b8120e542954f6223f717",
+        "request_payload_sha256": "6397db783854fecb20c784863b1ac52ee95810965ab704e79d68261144f15b1d",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1297,9 +1935,9 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 49249,
-          "output_tokens": 1373,
-          "total_tokens": 50622,
+          "input_tokens": 49301,
+          "output_tokens": 1589,
+          "total_tokens": 50890,
           "input_tokens_details": {
             "cached_tokens": 1848
           },
@@ -1311,50 +1949,60 @@
         "output": {
           "schema_version": "evidence-v2",
           "task": {
-            "requested_action": "位于木质台面上方的黑色带夹爪末端执行器机械臂先朝向折叠绿色布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-            "target_description": "折叠的绿色布，初始位于带圆勺碗的蓝色量勺前方的木质台面上；木质台面上还有左侧的双耳金属锅、锅旁的黄色香蕉形物体，背景有灰色面板和木墙",
-            "final_state_requirement": "机械臂已朝向绿布移动、下降并抓取绿布、将绿布提起，且已将绿布向木质台面后方移动"
+            "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+            "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+            "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
           },
           "requirement_checks": [
             {
               "requirement_id": "R1",
               "status": "met",
               "evidence": [
-                "E1"
+                "E1",
+                "E2"
               ],
-              "reason": "初始时夹爪悬在台面上方靠近蓝色量勺附近，随后到帧10时夹爪移动到绿色折叠布上方，完成了朝向绿布的移动。"
+              "reason": "初始时黑色夹爪位于台面上方偏后位置，随后从蓝色量勺附近向折叠绿布方向移动，到帧10时夹爪已到达绿布上方，可见其完成向绿布移动的阶段。"
             },
             {
               "requirement_id": "R2",
               "status": "partial",
               "evidence": [
-                "E2",
-                "E3"
+                "E3",
+                "E4",
+                "E5"
               ],
-              "reason": "夹爪确实下降并把双指压在绿布上，但后续帧显示夹爪张开抬起后绿布仍留在台面上，没有被夹持住，因此下降到布上的动作可见，成功抓取未完成。"
+              "reason": "夹爪从帧13起下降并压在绿布上，绿布在台面上发生小幅移位；但在后续帧中始终没有看到夹爪牢固夹起绿布离地，到帧65以后夹爪张开抬起离开绿布时绿布仍贴在台面上，未见明确的成功抓取。"
             },
             {
               "requirement_id": "R3",
               "status": "not_met",
               "evidence": [
-                "E2",
-                "E3"
+                "E4",
+                "E5"
               ],
-              "reason": "绿布始终平铺在木质台面上，末帧仍未离开台面，夹爪离开布时没有握持任何物体，未出现将布提起的结果。"
+              "reason": "绿布全程保持铺在木质台面上，仅在接触阶段随夹爪推动有小范围平面位移；夹爪随后抬离绿布，没有出现绿布被机械臂抓取后抬离台面的可见状态。"
             },
             {
               "requirement_id": "R4",
-              "status": "not_met",
+              "status": "partial",
               "evidence": [
-                "E2",
-                "E3"
+                "E3",
+                "E4",
+                "E5"
               ],
-              "reason": "由于绿布没有被抓取提起，布没有随机械臂向台面后方移动；布的位置仅在原地保持，末帧仍位于台面右前侧靠近原位置处，未完成向后方移动。"
+              "reason": "绿布在被夹爪按压/推蹭时相对初始位置向台面后方（靠近灰色背板一侧）发生了小幅移动，但它始终停留在台面上且未被抓取抬起，因此不是按要求被抓取抬起后再向后方移送。"
             }
           ],
           "observations": [
             {
               "id": "E1",
+              "frames": [
+                0
+              ],
+              "description": "木质台面上左侧有双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有蓝柄灰勺头的量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景为浅色木纹墙面与侧边蓝色/灰色板面。"
+            },
+            {
+              "id": "E2",
               "frames": [
                 0,
                 3,
@@ -1362,17 +2010,23 @@
                 8,
                 10
               ],
-              "description": "帧0时，黑色夹爪悬在木质台面上方，台面上可见左侧双耳金属锅、锅旁黄色香蕉形物体、蓝色带圆勺碗的量勺，以及量勺前方折叠的绿色布；到帧5、8夹爪先移动到蓝色量勺附近，随后在帧10移动到绿色布上方。"
+              "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已运动到绿布上方并接近绿布表面。"
             },
             {
-              "id": "E2",
+              "id": "E3",
               "frames": [
                 13,
                 15,
                 18,
                 21,
                 23,
-                26,
+                26
+              ],
+              "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+            },
+            {
+              "id": "E4",
+              "frames": [
                 28,
                 31,
                 34,
@@ -1388,10 +2042,10 @@
                 59,
                 62
               ],
-              "description": "夹爪下降并压在绿色折叠布上，双指落在布表面；绿色布持续平铺在台面上，金属锅、黄色物体和蓝色量勺位置基本未变，布未被抬离台面。"
+              "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方小幅平移，但始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
             },
             {
-              "id": "E3",
+              "id": "E5",
               "frames": [
                 65,
                 67,
@@ -1401,7 +2055,7 @@
                 77,
                 80
               ],
-              "description": "夹爪从绿色布上张开并向上抬起；到帧80夹爪已抬离布且未夹持任何物体，绿色布仍折叠铺在木质台面上，位置仍在台面右前侧，未被提起或移向后方。"
+              "description": "夹爪张开并向上抬起离开绿布，随后继续抬升后移；绿布仍留在木质台面上靠近后方的位置，未被夹爪带起。到帧80时，绿布平铺在台面上，夹爪位于绿布上方空中。"
             }
           ],
           "task_assessment": {
@@ -1410,21 +2064,25 @@
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4",
+              "E5"
             ],
-            "reason": "机械臂完成了朝向绿布移动并下降接触绿布的前期动作，但未能成功抓取，绿布始终留在台面上，最终既未被提起，也没有被向台面后方移动；因此任务有可见进展但核心的抓取、提起和后移末态未完成。",
+            "reason": "机械臂已明确移向绿布并下降接触绿布，绿布也被推得向台面后方小幅移位，存在沿任务方向的有效进展；但关键的抓取抬起未完成：绿布全程未离开台面，末态仍是绿布平铺在台面上、夹爪空手抬起，因此未满足“抓取抬起并移向台面后方”的必要末态。",
             "target_match": "match"
           },
           "physics_assessment": {
             "verdict": "plausible",
-            "confidence": "medium",
+            "confidence": "high",
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4",
+              "E5"
             ],
             "issues": [],
-            "reason": "可见范围内机械臂移动、下压接触布以及随后抬离的动作连贯，未见明确穿模、反重力悬浮或非因果跳变；夹爪未能抓住布属于抓取失败，不构成已确认的物理异常。采样未展示每一中间动作，但没有出现可定位的明显物理矛盾。"
+            "reason": "可见过程中机械臂移动、下降按压、推动绿布后抬离，物体接触关系与位移表现符合日常物理：绿布在被推动时平面滑动，未被夹牢时留在台面上；采样造成的运动模糊不足以构成已确认的物理异常。"
           },
           "visual_assessment": {
             "verdict": "clear",
@@ -1432,21 +2090,23 @@
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4",
+              "E5"
             ],
-            "reason": "尽管快速运动时机械臂有局部运动模糊，但台面、绿布、金属锅、香蕉形物体和蓝色量勺以及夹爪与布的接触、抬离和末态都可清楚辨认，足以判断任务进展和结果。"
+            "reason": "尽管机械臂运动较快处有局部运动模糊，但台面物品、绿布位置、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展。"
           },
           "uncertainties": [
-            "采样帧未覆盖夹爪闭合与离开布的全部中间瞬间，因此抓取失败的具体瞬间细节不可见，但末态布仍在台面上且夹爪空握的结果清楚。"
+            "提供的帧为离散采样，夹爪与绿布接触瞬间的夹取细节、以及采样间隔内可能发生的短暂微小动作未被完整展示；但末态和是否抬起绿布在现有帧中可辨。"
           ]
         }
       },
       {
         "stage": "verification",
         "attempt": 1,
-        "response_id": "resp_0217897049852977093713527b8c530401a403eec8fc152b5a7ff",
-        "messages_sha256": "a0d7f8c9937d3825f6a03d0ef4c1687b8b27d7a489370445b3ccfe1e749c4774",
-        "request_payload_sha256": "b01640ca228350cd0328aca1829e2d1f61979a3e696cbf225bc3da3761f6ddef",
+        "response_id": "resp_0217897113666075e054c6d0ba743fab13ed8d72af4b8b2a601cc",
+        "messages_sha256": "2659e9fed17298d34d37f51a01d6ce13aaf86f4d7801111a572cf2250b2931d5",
+        "request_payload_sha256": "8a6c706c641ce45fe138ef95af2273b5ac26fd12d3c277a4c8c070ccad99caa0",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1469,9 +2129,9 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 116363,
-          "output_tokens": 1330,
-          "total_tokens": 117693,
+          "input_tokens": 116589,
+          "output_tokens": 1641,
+          "total_tokens": 118230,
           "input_tokens_details": {
             "cached_tokens": 2872
           },
@@ -1483,79 +2143,111 @@
         "output": {
           "schema_version": "evidence-v2",
           "task": {
-            "requested_action": "位于木质台面上方的黑色带夹爪末端执行器机械臂先朝向折叠绿色布移动，随后下降抓取该布，将布提起并向台面后方移动该布",
-            "target_description": "折叠的绿色布，初始位于带圆勺碗的蓝色量勺前方的木质台面上；木质台面上还有左侧的双耳金属锅、锅旁的黄色香蕉形物体，背景有灰色面板和木墙",
-            "final_state_requirement": "机械臂已朝向绿布移动、下降并抓取绿布、将绿布提起，且已将绿布向木质台面后方移动"
+            "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+            "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+            "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
           },
           "requirement_checks": [
             {
               "requirement_id": "R1",
               "status": "met",
               "evidence": [
-                "E1"
+                "E1",
+                "E2"
               ],
-              "reason": "初始帧中黑色夹爪位于台面上方靠后且靠近蓝色量勺一侧，随后夹爪移动，到帧10时已到达绿色折叠布上方，完成了朝向绿布的移动。"
+              "reason": "帧0时黑色夹爪位于台面上方偏后、靠近蓝色量勺区域；到帧10时夹爪已移动到折叠绿布上方，可见其完成向绿布移动的阶段。"
             },
             {
               "requirement_id": "R2",
               "status": "partial",
               "evidence": [
-                "E2",
-                "E3"
+                "E3",
+                "E4",
+                "E5"
               ],
-              "reason": "夹爪在到达绿布上方后下降并把双指压到绿布上，可见下降与接触动作；但后续帧显示夹爪抬起后并未夹持住绿布，绿布仍留在台面上，因此成功抓取未完成。"
+              "reason": "帧12起夹爪下降并压到绿布上，后续帧夹爪持续接触绿布并将其在台面向后推压；但未见夹爪牢固抓起绿布离地的明确状态，到帧65以后夹爪抬离绿布时绿布仍平铺在台面上，因此“下降接触”已发生，“成功抓取”未被确认完成。"
             },
             {
               "requirement_id": "R3",
               "status": "not_met",
               "evidence": [
-                "E2",
-                "E3"
+                "E4",
+                "E5"
               ],
-              "reason": "在夹爪压在布上以及随后抬起的过程中，绿布始终平铺在木质台面上，没有被抬离台面；末帧夹爪已抬离布且未握持任何物体，未实现将布提起。"
+              "reason": "从接触阶段到末态帧80，绿布始终平铺在木质台面上，仅被夹爪推动发生台面上的位移；夹爪抬离绿布后绿布没有被带起，不存在可见的“绿布被抓取后抬离台面”状态。"
             },
             {
               "requirement_id": "R4",
-              "status": "not_met",
+              "status": "partial",
               "evidence": [
-                "E2",
-                "E3"
+                "E4",
+                "E5"
               ],
-              "reason": "由于绿布未被抓取提起，绿布没有随机械臂向台面后方发生整体移动；末帧绿布仍位于台面右前侧原区域附近，未完成向台面后方移动。"
+              "reason": "绿布在夹爪按压推动下相对初始位置向台面后方（靠近背景木墙一侧）发生了小幅位移，但它始终未被抓取抬起，因此不是按要求“被抬起后再向后方移送”；仅出现了台面上的推后滑动，未完成目标移送方式。"
             }
           ],
           "observations": [
             {
               "id": "E1",
               "frames": [
-                0,
-                4,
-                7,
-                10
+                0
               ],
-              "description": "帧0时，黑色夹爪悬在木质台面上方，台面上可见左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺碗的蓝色量勺，以及量勺前方折叠的绿色布；到帧4、7夹爪先移动到蓝色量勺附近，随后在帧10移动到绿色布上方。"
+              "description": "木质台面上左侧有双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有蓝柄灰勺头的量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景为浅色木纹墙面与侧边蓝色/灰色板面。"
             },
             {
               "id": "E2",
               "frames": [
-                12,
-                18,
-                28,
-                41,
-                54,
-                63
+                0,
+                3,
+                5,
+                8,
+                10
               ],
-              "description": "夹爪下降至绿色折叠布上，双指落在并压在布表面；在此期间绿色布持续平铺在台面上，金属锅、黄色物体和蓝色量勺位置基本保持，布未被抬离台面。"
+              "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已运动到绿布上方并接近绿布表面。"
             },
             {
               "id": "E3",
               "frames": [
+                12,
+                15,
+                18,
+                21,
+                23,
+                26
+              ],
+              "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                28,
+                31,
+                34,
+                36,
+                39,
+                41,
+                44,
+                46,
+                49,
+                52,
+                54,
+                57,
+                59,
+                62
+              ],
+              "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方小幅平移，但始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
+            },
+            {
+              "id": "E5",
+              "frames": [
                 65,
-                70,
-                75,
+                68,
+                71,
+                74,
+                77,
                 80
               ],
-              "description": "夹爪从绿色布上方松开并向上抬起；到帧80夹爪已抬离布且双指间未夹持物体，绿色布仍折叠铺在木质台面上，位于台面右前侧原位置附近，未被提起，也未被移向后方。"
+              "description": "夹爪张开并向上抬起离开绿布，随后继续抬升后移；绿布仍留在木质台面上靠近后方的位置，未被夹爪带起。到帧80时，绿布平铺在台面上，夹爪位于绿布上方空中。"
             }
           ],
           "task_assessment": {
@@ -1564,21 +2256,25 @@
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4",
+              "E5"
             ],
-            "reason": "机械臂完成了朝向绿布移动并下降接触绿布的前期动作，但未能成功抓取绿布；绿布始终留在台面上，最终既未被提起，也没有被向台面后方移动。因此存在明确有效进展，但抓取、提起和后移的必要末态未实现。",
+            "reason": "机械臂已完成向绿布靠近，并下降接触绿布；接触过程中绿布被推得向台面后方小幅移位，存在沿任务方向的有效进展。但关键的“抓取并抬起绿布”未实现：绿布全程未离开台面，末态仍是绿布平铺在台面上、夹爪空手抬起，因此未满足“绿布被抓取抬起并移向台面后方”的必要末态。",
             "target_match": "match"
           },
           "physics_assessment": {
             "verdict": "plausible",
-            "confidence": "medium",
+            "confidence": "high",
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4",
+              "E5"
             ],
             "issues": [],
-            "reason": "可见范围内机械臂移动、下压接触布以及随后抬离的动作连贯，未见可定位的穿模、反重力悬浮或非因果跳变；夹爪未能抓住布属于抓取失败，不构成已确认的物理异常。快速运动带来的局部模糊未显示明确物理矛盾。"
+            "reason": "可见过程中机械臂移动、下降按压、在台面上推动绿布后抬离，接触关系与位移表现符合日常物理：绿布未被夹牢时留在台面上并发生平面滑动；运动较快处的模糊属于正常运动模糊，没有出现可确认的穿模、悬浮、物体瞬移或明显违背重力的状态。"
           },
           "visual_assessment": {
             "verdict": "clear",
@@ -1586,21 +2282,265 @@
             "evidence": [
               "E1",
               "E2",
-              "E3"
+              "E3",
+              "E4",
+              "E5"
             ],
-            "reason": "台面、绿布、金属锅、香蕉形物体、蓝色量勺以及夹爪的移动、下压接触、抬离和末态均能清楚辨认；虽存在运动造成的局部模糊，但不影响判断抓取是否成功及布的最终位置。"
+            "reason": "尽管机械臂运动阶段存在局部运动模糊，但台面物品布局、绿布位置、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展与结果。"
           },
           "uncertainties": [
-            "所有解码帧均已提供，但原视频帧率限制了夹爪闭合细节的时间分辨率；末态夹爪空握且绿布仍在台面上的结果清楚。"
+            "视频原始帧率为16fps，夹爪闭合瞬间是否存在极短暂的布边夹取无法被更高时间分辨率验证；但在所有提供帧中均未看到绿布被抬离台面，且末态明确显示绿布留在台面上。"
           ]
         }
       },
       {
-        "stage": "requirement_scope_audit",
+        "stage": "independent_physics_tools_started",
+        "tool_records": [
+          {
+            "worker": "wmreward",
+            "request": {
+              "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_01/video_1.mp4",
+              "video_sha256": "7de134f7d9a0fa0d3fc604bbcde568ca43ce0860452d5931aa03518bcc441716",
+              "operation": "check_physics"
+            },
+            "result": {
+              "status": "ok",
+              "tool_name": "wmreward",
+              "raw_score": 0.4671044945716858,
+              "score_direction": "lower_better",
+              "score_semantics": "mean_one_minus_cosine",
+              "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+              "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+              "cache_hit": false,
+              "observations": [],
+              "artifact_refs": [],
+              "evidence_scope": "whole_sampled_video",
+              "peak_memory_mb": 8355.1689453125,
+              "cold_start_ms": 56207.701639970765,
+              "params": {
+                "window_size": 16,
+                "context_frames": 8,
+                "stride": 8,
+                "seed": 42,
+                "max_frames": 49
+              },
+              "evidence_id": "86739f141372958564191cffba7a58c75f6b08ca8927150ac90d4de6f63caab6",
+              "video_sha256": "7de134f7d9a0fa0d3fc604bbcde568ca43ce0860452d5931aa03518bcc441716",
+              "decoded_frames": 81,
+              "original_fps": 16.0,
+              "frame_indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                8,
+                10,
+                11,
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25,
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38,
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51,
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78,
+                80
+              ],
+              "timestamps_s": [
+                0.0,
+                0.0625,
+                0.1875,
+                0.3125,
+                0.375,
+                0.5,
+                0.625,
+                0.6875,
+                0.8125,
+                0.9375,
+                1.0,
+                1.125,
+                1.25,
+                1.3125,
+                1.4375,
+                1.5625,
+                1.625,
+                1.75,
+                1.875,
+                1.9375,
+                2.0625,
+                2.1875,
+                2.25,
+                2.375,
+                2.5,
+                2.5625,
+                2.6875,
+                2.8125,
+                2.875,
+                3.0,
+                3.125,
+                3.1875,
+                3.3125,
+                3.4375,
+                3.5,
+                3.625,
+                3.75,
+                3.8125,
+                3.9375,
+                4.0625,
+                4.125,
+                4.25,
+                4.375,
+                4.4375,
+                4.5625,
+                4.6875,
+                4.75,
+                4.875,
+                5.0
+              ],
+              "raw_output": {
+                "surprise": 0.4671044945716858
+              },
+              "window_frame_indices": [
+                [
+                  0,
+                  1,
+                  3,
+                  5,
+                  6,
+                  8,
+                  10,
+                  11,
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25
+                ],
+                [
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25,
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38
+                ],
+                [
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38,
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51
+                ],
+                [
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51,
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65
+                ],
+                [
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65,
+                  66,
+                  68,
+                  70,
+                  71,
+                  73,
+                  75,
+                  76,
+                  78
+                ]
+              ],
+              "latency_ms": 2025.1715320628136,
+              "transport": {
+                "cold_start_request": false,
+                "timeout_s": 900
+              }
+            }
+          }
+        ],
+        "tool_records_sha256": "fb595a289ad8a34aaf00f5333a550f9b6b8d71b2d89bc8b4e6bb9a660b16132f"
+      },
+      {
+        "stage": "physics_tool_reflection",
         "attempt": 1,
-        "response_id": "resp_0217897050278238df8e1a1401bb5aa62b5b494646ada58639969",
-        "messages_sha256": "b17fe0bfdf1ac9364a1d5e21df9b6454d54d3c6cdd0bd2dbdf3d6fe5c35567c0",
-        "request_payload_sha256": "f06b10c5f45b4b3e9e338c358eec1e9ef43bc280e2536a28fd2c73b66fbc3d18",
+        "response_id": "resp_0217897114179398f4f8ecdaf0d8a16803f1d267b7ea40daced78",
+        "messages_sha256": "d6e169cca820e8b609bcaee86ba7d9d21fbb47b6ad0fb4031d36dccf2b5479b0",
+        "request_payload_sha256": "bb43982d846ce48291ab7d0cd33dc078330d7f6d06d5db87955f04a97f4ecf69",
         "request_sampling": {
           "temperature": {
             "present": false,
@@ -1623,9 +2563,606 @@
         },
         "sampling_metadata_status": "recorded",
         "usage": {
-          "input_tokens": 2715,
+          "input_tokens": 117849,
+          "output_tokens": 1701,
+          "total_tokens": 119550,
+          "input_tokens_details": {
+            "cached_tokens": 2872
+          },
+          "output_tokens_details": {
+            "reasoning_tokens": 0
+          }
+        },
+        "cache_reused": false,
+        "output": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+            "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+            "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E2"
+              ],
+              "reason": "帧0中黑色夹爪位于台面上方偏后、靠近蓝色量勺的位置；到帧10时夹爪已运动到折叠绿布上方，可见其完成了向绿布方向的移动。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "partial",
+              "evidence": [
+                "E3",
+                "E4",
+                "E5"
+              ],
+              "reason": "帧12后夹爪下降并压到绿布表面，两指置于绿布上并保持接触、推动绿布发生平面位移；但在提供帧中未见夹爪牢固夹起绿布离开台面的明确状态，到帧63以后夹爪抬离绿布时绿布仍平铺在台面上，因此“下降接触”已发生，“完成抓取”未被确认。"
+            },
+            {
+              "requirement_id": "R3",
+              "status": "not_met",
+              "evidence": [
+                "E4",
+                "E5"
+              ],
+              "reason": "从接触阶段到末态帧80，绿布始终平铺在木质台面上；夹爪抬离后绿布未被带起，也没有出现绿布被抓取后抬离台面的可见状态，因此“将被抓取的绿布抬起”未实现。"
+            },
+            {
+              "requirement_id": "R4",
+              "status": "partial",
+              "evidence": [
+                "E3",
+                "E4",
+                "E5"
+              ],
+              "reason": "在夹爪按压并推动过程中，绿布相对初始位置向台面后方（靠近背景木墙一侧）发生了明显位移，末态帧80中绿布位于量勺后方、更靠木墙的位置；但该后移发生在绿布始终平铺于台面时，并非按要求在“被抓取抬起后”再向后方移送，因此仅部分实现。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0
+              ],
+              "description": "木质台面上左侧可见双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有带圆勺头的蓝色量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景可见浅色木纹墙面及侧边板面。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                0,
+                3,
+                7,
+                10
+              ],
+              "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已到达绿布上方并接近绿布表面。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                12,
+                15,
+                18,
+                21,
+                23,
+                26
+              ],
+              "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                28,
+                31,
+                34,
+                36,
+                39,
+                41,
+                44,
+                46,
+                49,
+                52,
+                54,
+                57,
+                59,
+                62
+              ],
+              "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方平移，位置从右前方逐渐靠近后方木墙区域；绿布始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
+            },
+            {
+              "id": "E5",
+              "frames": [
+                63,
+                66,
+                69,
+                72,
+                75,
+                78,
+                80
+              ],
+              "description": "夹爪向上抬起离开绿布并继续后移/上升；绿布留在木质台面上靠后的位置，未被夹爪带起。到帧80时，绿布平铺在台面后方区域，夹爪位于绿布上方空中，未夹持绿布。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ],
+            "reason": "机械臂已完成向绿布靠近，并下降接触绿布；接触过程中绿布被推移到台面后方较初始更靠后的位置，存在沿任务方向的有效进展。但关键的“抓取并抬起绿布”未实现：提供帧中绿布始终未离开台面，末态帧80显示绿布仍平铺在台面上、夹爪空手抬起，因此未满足“绿布被抓取抬起并移向台面后方”的必要末态。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ],
+            "issues": [],
+            "reason": "可见过程中机械臂移动、下降按压、在台面上推动绿布后抬离，接触关系与位移表现符合日常物理：绿布未被夹牢时留在台面上并发生平面滑动；运动较快处存在正常运动模糊，没有出现可确认的穿模、悬浮、物体瞬移或明显违背重力的状态。"
+          },
+          "visual_assessment": {
+            "verdict": "clear",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ],
+            "reason": "尽管机械臂运动阶段存在局部运动模糊，但台面物品布局、绿布位置变化、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展与结果。"
+          },
+          "uncertainties": [
+            "提供帧的时间间隔约为0.0625秒，夹爪闭合瞬间若有极短暂的布边夹取，无法以更高时间分辨率验证；但在所有可见帧中均未看到绿布被抬离台面，且末态明确显示绿布留在台面上。"
+          ]
+        }
+      },
+      {
+        "stage": "independent_physics_tools",
+        "mode": "reflect",
+        "tool_records": [
+          {
+            "worker": "wmreward",
+            "request": {
+              "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_01/video_1.mp4",
+              "video_sha256": "7de134f7d9a0fa0d3fc604bbcde568ca43ce0860452d5931aa03518bcc441716",
+              "operation": "check_physics"
+            },
+            "result": {
+              "status": "ok",
+              "tool_name": "wmreward",
+              "raw_score": 0.4671044945716858,
+              "score_direction": "lower_better",
+              "score_semantics": "mean_one_minus_cosine",
+              "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+              "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+              "cache_hit": false,
+              "observations": [],
+              "artifact_refs": [],
+              "evidence_scope": "whole_sampled_video",
+              "peak_memory_mb": 8355.1689453125,
+              "cold_start_ms": 56207.701639970765,
+              "params": {
+                "window_size": 16,
+                "context_frames": 8,
+                "stride": 8,
+                "seed": 42,
+                "max_frames": 49
+              },
+              "evidence_id": "86739f141372958564191cffba7a58c75f6b08ca8927150ac90d4de6f63caab6",
+              "video_sha256": "7de134f7d9a0fa0d3fc604bbcde568ca43ce0860452d5931aa03518bcc441716",
+              "decoded_frames": 81,
+              "original_fps": 16.0,
+              "frame_indices": [
+                0,
+                1,
+                3,
+                5,
+                6,
+                8,
+                10,
+                11,
+                13,
+                15,
+                16,
+                18,
+                20,
+                21,
+                23,
+                25,
+                26,
+                28,
+                30,
+                31,
+                33,
+                35,
+                36,
+                38,
+                40,
+                41,
+                43,
+                45,
+                46,
+                48,
+                50,
+                51,
+                53,
+                55,
+                56,
+                58,
+                60,
+                61,
+                63,
+                65,
+                66,
+                68,
+                70,
+                71,
+                73,
+                75,
+                76,
+                78,
+                80
+              ],
+              "timestamps_s": [
+                0.0,
+                0.0625,
+                0.1875,
+                0.3125,
+                0.375,
+                0.5,
+                0.625,
+                0.6875,
+                0.8125,
+                0.9375,
+                1.0,
+                1.125,
+                1.25,
+                1.3125,
+                1.4375,
+                1.5625,
+                1.625,
+                1.75,
+                1.875,
+                1.9375,
+                2.0625,
+                2.1875,
+                2.25,
+                2.375,
+                2.5,
+                2.5625,
+                2.6875,
+                2.8125,
+                2.875,
+                3.0,
+                3.125,
+                3.1875,
+                3.3125,
+                3.4375,
+                3.5,
+                3.625,
+                3.75,
+                3.8125,
+                3.9375,
+                4.0625,
+                4.125,
+                4.25,
+                4.375,
+                4.4375,
+                4.5625,
+                4.6875,
+                4.75,
+                4.875,
+                5.0
+              ],
+              "raw_output": {
+                "surprise": 0.4671044945716858
+              },
+              "window_frame_indices": [
+                [
+                  0,
+                  1,
+                  3,
+                  5,
+                  6,
+                  8,
+                  10,
+                  11,
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25
+                ],
+                [
+                  13,
+                  15,
+                  16,
+                  18,
+                  20,
+                  21,
+                  23,
+                  25,
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38
+                ],
+                [
+                  26,
+                  28,
+                  30,
+                  31,
+                  33,
+                  35,
+                  36,
+                  38,
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51
+                ],
+                [
+                  40,
+                  41,
+                  43,
+                  45,
+                  46,
+                  48,
+                  50,
+                  51,
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65
+                ],
+                [
+                  53,
+                  55,
+                  56,
+                  58,
+                  60,
+                  61,
+                  63,
+                  65,
+                  66,
+                  68,
+                  70,
+                  71,
+                  73,
+                  75,
+                  76,
+                  78
+                ]
+              ],
+              "latency_ms": 2025.1715320628136,
+              "transport": {
+                "cold_start_request": false,
+                "timeout_s": 900
+              }
+            }
+          }
+        ],
+        "input_visibility": {
+          "method": "exact-spatially-uniform-rgb-v1",
+          "decoded_frames": 81,
+          "spatially_uniform_frames": 0,
+          "all_frames_spatially_uniform": false,
+          "limit": "Only detects exactly uniform decoded frames; does not judge general visibility, task completion, or physics."
+        },
+        "tool_records_sha256": "fb595a289ad8a34aaf00f5333a550f9b6b8d71b2d89bc8b4e6bb9a660b16132f",
+        "pre_tool_report": {
+          "schema_version": "evidence-v2",
+          "task": {
+            "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
+            "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
+            "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
+          },
+          "requirement_checks": [
+            {
+              "requirement_id": "R1",
+              "status": "met",
+              "evidence": [
+                "E1",
+                "E2"
+              ],
+              "reason": "帧0时黑色夹爪位于台面上方偏后、靠近蓝色量勺区域；到帧10时夹爪已移动到折叠绿布上方，可见其完成向绿布移动的阶段。"
+            },
+            {
+              "requirement_id": "R2",
+              "status": "partial",
+              "evidence": [
+                "E3",
+                "E4",
+                "E5"
+              ],
+              "reason": "帧12起夹爪下降并压到绿布上，后续帧夹爪持续接触绿布并将其在台面向后推压；但未见夹爪牢固抓起绿布离地的明确状态，到帧65以后夹爪抬离绿布时绿布仍平铺在台面上，因此“下降接触”已发生，“成功抓取”未被确认完成。"
+            },
+            {
+              "requirement_id": "R3",
+              "status": "not_met",
+              "evidence": [
+                "E4",
+                "E5"
+              ],
+              "reason": "从接触阶段到末态帧80，绿布始终平铺在木质台面上，仅被夹爪推动发生台面上的位移；夹爪抬离绿布后绿布没有被带起，不存在可见的“绿布被抓取后抬离台面”状态。"
+            },
+            {
+              "requirement_id": "R4",
+              "status": "partial",
+              "evidence": [
+                "E4",
+                "E5"
+              ],
+              "reason": "绿布在夹爪按压推动下相对初始位置向台面后方（靠近背景木墙一侧）发生了小幅位移，但它始终未被抓取抬起，因此不是按要求“被抬起后再向后方移送”；仅出现了台面上的推后滑动，未完成目标移送方式。"
+            }
+          ],
+          "observations": [
+            {
+              "id": "E1",
+              "frames": [
+                0
+              ],
+              "description": "木质台面上左侧有双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有蓝柄灰勺头的量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景为浅色木纹墙面与侧边蓝色/灰色板面。"
+            },
+            {
+              "id": "E2",
+              "frames": [
+                0,
+                3,
+                5,
+                8,
+                10
+              ],
+              "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已运动到绿布上方并接近绿布表面。"
+            },
+            {
+              "id": "E3",
+              "frames": [
+                12,
+                15,
+                18,
+                21,
+                23,
+                26
+              ],
+              "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
+            },
+            {
+              "id": "E4",
+              "frames": [
+                28,
+                31,
+                34,
+                36,
+                39,
+                41,
+                44,
+                46,
+                49,
+                52,
+                54,
+                57,
+                59,
+                62
+              ],
+              "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方小幅平移，但始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
+            },
+            {
+              "id": "E5",
+              "frames": [
+                65,
+                68,
+                71,
+                74,
+                77,
+                80
+              ],
+              "description": "夹爪张开并向上抬起离开绿布，随后继续抬升后移；绿布仍留在木质台面上靠近后方的位置，未被夹爪带起。到帧80时，绿布平铺在台面上，夹爪位于绿布上方空中。"
+            }
+          ],
+          "task_assessment": {
+            "verdict": "partial",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ],
+            "reason": "机械臂已完成向绿布靠近，并下降接触绿布；接触过程中绿布被推得向台面后方小幅移位，存在沿任务方向的有效进展。但关键的“抓取并抬起绿布”未实现：绿布全程未离开台面，末态仍是绿布平铺在台面上、夹爪空手抬起，因此未满足“绿布被抓取抬起并移向台面后方”的必要末态。",
+            "target_match": "match"
+          },
+          "physics_assessment": {
+            "verdict": "plausible",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ],
+            "issues": [],
+            "reason": "可见过程中机械臂移动、下降按压、在台面上推动绿布后抬离，接触关系与位移表现符合日常物理：绿布未被夹牢时留在台面上并发生平面滑动；运动较快处的模糊属于正常运动模糊，没有出现可确认的穿模、悬浮、物体瞬移或明显违背重力的状态。"
+          },
+          "visual_assessment": {
+            "verdict": "clear",
+            "confidence": "high",
+            "evidence": [
+              "E1",
+              "E2",
+              "E3",
+              "E4",
+              "E5"
+            ],
+            "reason": "尽管机械臂运动阶段存在局部运动模糊，但台面物品布局、绿布位置、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展与结果。"
+          },
+          "uncertainties": [
+            "视频原始帧率为16fps，夹爪闭合瞬间是否存在极短暂的布边夹取无法被更高时间分辨率验证；但在所有提供帧中均未看到绿布被抬离台面，且末态明确显示绿布留在台面上。"
+          ]
+        },
+        "fallback_to_baseline": false,
+        "reflection_applied": true
+      },
+      {
+        "stage": "requirement_scope_audit",
+        "attempt": 1,
+        "response_id": "resp_021789711471137682583ac3749be18cdf4b3a384433037899699",
+        "messages_sha256": "d6080a75bff6465ceb764857bf6930a72d9c11897236d1fcbd39536189d6f48e",
+        "request_payload_sha256": "bc9cbdf263bd55e3ec29a0a44ce28c28201fe7b8a619d48d8e875bc17b7f5920",
+        "request_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "response_sampling": {
+          "temperature": {
+            "present": false,
+            "value": null
+          },
+          "top_p": {
+            "present": false,
+            "value": null
+          }
+        },
+        "sampling_metadata_status": "recorded",
+        "usage": {
+          "input_tokens": 3016,
           "output_tokens": 76,
-          "total_tokens": 2791,
+          "total_tokens": 3092,
           "input_tokens_details": {
             "cached_tokens": 0
           },
@@ -1655,9 +3192,16 @@
             }
           ]
         }
+      },
+      {
+        "stage": "physical_completion",
+        "required": true,
+        "complete": true,
+        "issues": [],
+        "meaning": "Execution and source identity only; successful tools do not establish video quality."
       }
     ],
-    "elapsed_seconds": 113.726
+    "elapsed_seconds": 188.87
   },
   "model": "doubao-seed-2-1-pro-260628",
   "provider": "doubao"
