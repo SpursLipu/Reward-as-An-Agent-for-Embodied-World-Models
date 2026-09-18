@@ -242,8 +242,8 @@ def main(argv: list[str] | None = None) -> int:
             response = session.get(health_url, timeout=30)
             response.raise_for_status()
             health = response.json()
-        if health.get("status") != "ok" or health.get("pipeline") != "evidence" or health.get("provider") != "doubao":
-            raise ValueError("service must be healthy with pipeline=evidence and provider=doubao")
+        if health.get("status") != "ok" or health.get("pipeline") != "evidence" or health.get("provider") not in {"doubao", "openai"}:
+            raise ValueError("service must be healthy with pipeline=evidence and provider=doubao or openai")
         if (health.get('external_tools') != ['wmreward']
                 or health.get('tool_reflection_required') is not True
                 or health.get('tool_runtime_initialized') is not True):

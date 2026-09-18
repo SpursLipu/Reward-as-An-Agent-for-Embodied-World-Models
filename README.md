@@ -1,23 +1,25 @@
 <h1 align="center">Reward as An Agent for Embodied World Models</h1>
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2606.19990">Paper</a> ·
-  <a href="#quick-start">Quick Start</a> ·
-  <a href="#demo-videos">Demos</a> ·
-  <a href="#citation">Citation</a>
+  <a href="https://arxiv.org/abs/2606.19990">📄 Paper</a> ·
+  <a href="#quick-start">🚀 Quick Start</a> ·
+  <a href="#demo-videos">🎬 Demos</a> ·
+  <a href="#citation">📝 Citation</a>
 </p>
 
 A multimodal reward agent that evaluates task progress, physical plausibility, and visual quality in embodied world-model rollouts. Supports Doubao/Volcengine Ark and OpenAI-compatible backends.
 
 ## Framework
 
-<img src="assets/reward_as_agent_framework.png" alt="Planning, curriculum-based reward, and reflection with extensible external tools" width="1100">
+<img src="assets/reward_as_agent_framework.png" alt="Planning Module, Gated Multi-dimensional Reward Module, Reflection Module, and reward aggregation with external-tool feedback" width="1100">
 
-- **Planning:** establish task requirements and gather frame-level evidence.
-- **Curriculum-based reward:** assess task progress, physics, and visual quality with configurable gates.
-- **Reflection:** verify judgements using refined frames and external-tool feedback.
+- **Planning Module:** observe visible actions and state changes without task text; separately extract and freeze the requested action, target object, and required end state.
+- **Gated Multi-dimensional Reward Module:** jointly assess task completion, physical plausibility, and visual quality against the observations and frozen requirements.
+- **Reflection Module:** recheck relevant frames, incorporate WMReward feedback, audit requirement scope, and revise inconsistent judgements.
+- **Reward aggregation:** apply fixed scoring and review rules after Reflection, with optional process checks, to return a reward or `needs_review`.
 
 The current release includes required **WMReward** integration, progress-aware rewards, and tool-backed demos. WMReward provides physical evidence—not the final task reward. Additional tools can be connected through the [worker interface](scripts/frozen_v41/worker_client.py) and [evidence hook](scripts/frozen_v41/physics_integration.py).
+
 
 ## Quick Start
 
@@ -46,17 +48,19 @@ curl -N http://127.0.0.1:7024/eval_video \
 
 All seven demos were evaluated with real WMReward inference and Reflection. Click a preview for the full video, or a result for its evidence and trace.
 
-| Demo | Preview | Task | Reward |
-| --- | --- | --- | --- |
-| Sweep a carton and peel | [<img src="assets/demos/demo_06.gif" width="200" alt="Sweep carton preview">](examples/demo_06/video.mp4) | Complete | [**1.0**](examples/demo_06/response.json) |
-| Sweep several pieces of litter | [<img src="assets/demos/demo_07.gif" width="200" alt="Sweep litter preview">](examples/demo_07/video.mp4) | Complete | [**1.0**](examples/demo_07/response.json) |
-| Cloth manipulation | [<img src="assets/demos/demo_01.gif" width="200" alt="Cloth manipulation preview">](examples/demo_01/video_1.mp4) | Partial | [0.615](examples/demo_01/response.json) |
-| Refrigerator drawer opening | [<img src="assets/demos/demo_02.gif" width="200" alt="Drawer opening preview">](examples/demo_02/video_1.mp4) | Partial | [0.595](examples/demo_02/response.json) |
-| Basket handle grasping | [<img src="assets/demos/demo_03.gif" width="200" alt="Basket handle preview">](examples/demo_03/video_0.mp4) | Partial / needs review | [null](examples/demo_03/response.json) |
-| Green cube placing | [<img src="assets/demos/demo_04.gif" width="200" alt="Cube placing preview">](examples/demo_04/video_0.mp4) | Failed | [0](examples/demo_04/response.json) |
-| Box relocation | [<img src="assets/demos/demo_05.gif" width="200" alt="Box relocation preview">](examples/demo_05/video_0.mp4) | Failed | [0](examples/demo_05/response.json) |
+| Demo | Preview | Doubao task | Doubao reward | Qwen task | Qwen reward |
+| --- | --- | --- | --- | --- | --- |
+| Sweep a carton and peel | [<img src="assets/demos/demo_06.gif" width="200" alt="Sweep carton preview">](examples/demo_06/video.mp4) | Complete | [**1.0**](examples/demo_06/response.json) | — | — |
+| Sweep several pieces of litter | [<img src="assets/demos/demo_07.gif" width="200" alt="Sweep litter preview">](examples/demo_07/video.mp4) | Complete | [**1.0**](examples/demo_07/response.json) | — | — |
+| Cloth manipulation | [<img src="assets/demos/demo_01.gif" width="200" alt="Cloth manipulation preview">](examples/demo_01/video_1.mp4) | Partial | [0.615](examples/demo_01/response.json) | partial | [0.615](runs/qwen38_20260918/final/demo_01) |
+| Refrigerator drawer opening | [<img src="assets/demos/demo_02.gif" width="200" alt="Drawer opening preview">](examples/demo_02/video_1.mp4) | Partial | [0.595](examples/demo_02/response.json) | complete | [**1.0**](runs/qwen38_20260918/retry/final/demo_02) |
+| Basket handle grasping | [<img src="assets/demos/demo_03.gif" width="200" alt="Basket handle preview">](examples/demo_03/video_0.mp4) | Partial / needs review | [null](examples/demo_03/response.json) | partial | [0.615](runs/qwen38_20260918/final/demo_03) |
+| Green cube placing | [<img src="assets/demos/demo_04.gif" width="200" alt="Cube placing preview">](examples/demo_04/video_0.mp4) | Failed | [0](examples/demo_04/response.json) | failed | [0](runs/qwen38_20260918/final/demo_04) |
+| Box relocation | [<img src="assets/demos/demo_05.gif" width="200" alt="Box relocation preview">](examples/demo_05/video_0.mp4) | Failed | [0](examples/demo_05/response.json) | failed | [0](runs/qwen38_20260918/final/demo_05) |
 
 These are recorded Agent outputs, not ground-truth labels. The two 1.0 cases are real-robot recordings with 3× previews; evaluation used the original videos. Each [demo folder](examples/) includes `tools.json` (raw tool output), `reports.json` (Reflection), and `run.json` (provenance).
+
+Doubao and Qwen results use the same WMReward and Reflection pipeline. `—` means no valid final output was available in that run.
 
 With the service running, reproduce all demos:
 

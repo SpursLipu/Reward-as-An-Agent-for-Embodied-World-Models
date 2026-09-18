@@ -20,7 +20,7 @@ from reward_as_agent.task_contract import (
     validate_task_contract, validate_requirement_checks,
 )
 from reward_as_agent.evidence_video import load_evidence_video, uniform_indices, verification_indices
-from reward_as_agent.llm import call_llm, safe_parse_json
+from reward_as_agent.llm import call_llm, safe_parse_json, normalize_model_json
 from reward_as_agent.requirement_audit import audit_prompt, validate_requirement_audit
 from reward_as_agent.focused_audit import focused_prompt, validate_focused_audit
 from reward_as_agent.training_reward import (
@@ -96,8 +96,8 @@ class EvidencePipeline:
             raise ValueError('Unknown REWARD_GATE_POLICY')
         if process_event_hook is not None and self.gate_policy!='evidence_process':
             raise ValueError('Grounded process events require REWARD_GATE_POLICY=evidence_process')
-        if settings.provider != 'doubao':
-            raise ValueError('evidence_v2 currently requires the validated Doubao transport')
+        if settings.provider not in {'doubao', 'openai'}:
+            raise ValueError('Evidence evaluation requires Doubao or an OpenAI-compatible transport')
         self.settings = replace(settings, max_tokens=max(settings.max_tokens, 8192))
         self.audit_mode = os.environ.get('REWARD_REQUIREMENT_AUDIT_MODE', 'joint')
         if self.audit_mode not in {'joint', 'focused', 'hybrid'}:
@@ -133,7 +133,8 @@ class EvidencePipeline:
         for name in modules:
             digest.update(name.encode())
             digest.update(Path(__file__).with_name(name).read_bytes())
-        digest.update(json.dumps({'model':settings.model,'api_base':settings.api_base,
+        digest.update(Path(__file__).with_name('llm.py').read_bytes())
+        digest.update(json.dumps({'provider':settings.provider,'model':settings.model,'api_base':settings.api_base,
                                  'frames':self.frame_budget,'max_tokens':self.settings.max_tokens,
                                  'thinking':'disabled','temperature':settings.temperature,
                                  'audit_mode':self.audit_mode,
@@ -189,6 +190,10 @@ class EvidencePipeline:
                 entry['output'] = parsed
                 if parsed is None:
                     raise ValueError('Output was not a JSON object')
+                parsed, removed_fields = normalize_model_json(parsed)
+                if removed_fields:
+                    entry['normalized_output'] = parsed
+                    entry['removed_model_fields'] = removed_fields
                 validator(parsed, set(valid_ids))
             except (ValueError, TypeError, KeyError, IndexError) as exc:
                 error = str(exc)

@@ -8,6 +8,28 @@ from contextlib import asynccontextmanager
 
 import httpx
 
+_MODEL_AUXILIARY_PREFIXES = ('reason_', 'explanation_', 'rationale_')
+
+
+def normalize_model_json(value):
+    """Drop non-semantic explanatory extras while preserving strict core fields."""
+    removed = []
+
+    def visit(node, path):
+        if isinstance(node, dict):
+            cleaned = {}
+            for key, item in node.items():
+                if isinstance(key, str) and key.startswith(_MODEL_AUXILIARY_PREFIXES):
+                    removed.append('.'.join(path + [key]))
+                    continue
+                cleaned[key] = visit(item, path + [str(key)])
+            return cleaned
+        if isinstance(node, list):
+            return [visit(item, path + [str(index)]) for index, item in enumerate(node)]
+        return node
+
+    return visit(value, []), removed
+
 
 class DPRequestRouter:
     """Bound and explicitly balance requests across local vLLM DP engines."""
@@ -86,7 +108,8 @@ English: Extract and parse a JSON object from model text, returning None on fail
     try:
         content = clean_output(content.strip())
         try:
-            return json.loads(content)
+            result = json.loads(content)
+            return result if isinstance(result, dict) else None
         except json.JSONDecodeError:
             pass
 
@@ -97,7 +120,7 @@ English: Extract and parse a JSON object from model text, returning None on fail
         if object_start < 0:
             return None
         result, _ = json.JSONDecoder().raw_decode(content[object_start:])
-        return result
+        return result if isinstance(result, dict) else None
     except Exception:
         traceback.print_exc()
         return None
@@ -132,14 +155,20 @@ English: Call an OpenAI-compatible chat completions endpoint."""
         # variables so a missing NO_PROXY entry cannot send vLLM requests via
         # Squid (or fail with a proxy-side timeout).
         async with httpx.AsyncClient(trust_env=False) as client:
+            from reward_as_agent.doubao import encode_request_payload, request_metadata, sampling_fields
+            request_body = encode_request_payload(payload)
             resp = await client.post(
                 f"{settings.api_base}/chat/completions",
-                json=payload,
-                headers=headers,
+                content=request_body,
+                headers={**headers, 'Content-Type': 'application/json'},
                 timeout=settings.llm_timeout,
             )
             resp.raise_for_status()
-            return resp.json()
+            result = resp.json()
+            result.update(request_metadata(payload, request_body))
+            result['response_sampling'] = sampling_fields(result)
+            result['sampling_metadata_status'] = 'recorded'
+            return result
 
 
 async def retry_llm_call(messages, idx, calc_score, settings):
