@@ -24,9 +24,10 @@ English: Verify that non-object JSON or invalid text returns None."""
 
 def test_normalize_model_json_removes_explanatory_extras_but_keeps_scores():
     value, removed = normalize_model_json({
-        "visual_assessment": {"verdict": "clear", "reason_zh": "清晰", "reason": "clear"},
+        "visual_assessment": {"verdict": "clear", "reason_zh": "清晰", "reason": "clear",
+                              "evidence_ids": ["E1"]},
         "score": 0.5,
         "reason_detail": "extra",
     })
     assert value == {"visual_assessment": {"verdict": "clear", "reason": "clear"}, "score": 0.5}
-    assert removed == ["visual_assessment.reason_zh", "reason_detail"]
+    assert removed == ["visual_assessment.reason_zh", "visual_assessment.evidence_ids", "reason_detail"]

@@ -98,6 +98,9 @@ class EvidencePipeline:
             raise ValueError('Grounded process events require REWARD_GATE_POLICY=evidence_process')
         if settings.provider not in {'doubao', 'openai'}:
             raise ValueError('Evidence evaluation requires Doubao or an OpenAI-compatible transport')
+        # Keep the complete evidence response budget for every profile. Speed
+        # optimizations in this pipeline must not reduce the model's evidence
+        # or repair budget and therefore must not change its scoring behavior.
         self.settings = replace(settings, max_tokens=max(settings.max_tokens, 8192))
         self.audit_mode = os.environ.get('REWARD_REQUIREMENT_AUDIT_MODE', 'joint')
         if self.audit_mode not in {'joint', 'focused', 'hybrid'}:
@@ -171,6 +174,7 @@ class EvidencePipeline:
             request_sha256 = hashlib.sha256(json.dumps(
                 messages, ensure_ascii=False, sort_keys=True, separators=(',', ':')
             ).encode()).hexdigest()
+            stage_start = time.monotonic()
             try:
                 response = await call_llm(messages, self.settings)
             except Exception as exc:
@@ -180,6 +184,7 @@ class EvidencePipeline:
                               'error': type(exc).__name__ + ': ' + str(exc)})
                 raise
             entry = {'stage': name, 'attempt': attempt + 1, 'response_id': response.get('id'),
+                     'elapsed_seconds': round(time.monotonic() - stage_start, 3),
                      'messages_sha256': request_sha256,
                      **sampling_trace_fields(response),
                      'usage': response.get('usage'), 'cache_reused': response.get('cache_reused', False),
@@ -347,9 +352,16 @@ class EvidencePipeline:
         manifest = video.manifest(indices)
         frames = await asyncio.to_thread(video.content, indices)
         # No task text in this stage: desired actions must not masquerade as observations.
-        observations = await self.stage('blind_observation', observation_prompt(manifest),
-            {'instruction': 'Describe only the supplied visible sequence.', 'pipeline_version': MODEL_CONTEXT_VERSION},
-            frames, indices, validate_observations, trace)
+        # Contract extraction follows observation to preserve strict baseline traces.
+        # Contract extraction is video-independent. Start it alongside the
+        # image observation so the first reward for a new task does not pay the
+        # two LLM latencies serially. The shared task cache still coalesces
+        # concurrent videos with the same prompt.
+        observations = await self.stage(
+            'blind_observation', observation_prompt(manifest),
+            {'instruction': 'Describe only the supplied visible sequence.',
+             'pipeline_version': MODEL_CONTEXT_VERSION}, frames, indices,
+            validate_observations, trace)
         contract = await self.resolve_task_contract(description, trace)
 
         def report_validator(value, valid_ids):

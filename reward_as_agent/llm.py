@@ -4,11 +4,47 @@ from __future__ import annotations
 
 import json
 import traceback
+import asyncio
 from contextlib import asynccontextmanager
 
 import httpx
 
 _MODEL_AUXILIARY_PREFIXES = ('reason_', 'explanation_', 'rationale_')
+_MODEL_AUXILIARY_KEYS = {'evidence_ids'}
+
+
+class _HTTPClientPool:
+    """Reuse node-local HTTP connections without changing request semantics."""
+
+    def __init__(self):
+        self._clients = {}
+        self._lock = asyncio.Lock()
+
+    async def get(self, key):
+        client = self._clients.get(key)
+        if client is not None:
+            return client
+        async with self._lock:
+            client = self._clients.get(key)
+            if client is None:
+                client = httpx.AsyncClient(trust_env=False)
+                self._clients[key] = client
+            return client
+
+    async def close(self):
+        clients = list(self._clients.values())
+        self._clients.clear()
+        if clients:
+            await asyncio.gather(*(client.aclose() for client in clients),
+                                 return_exceptions=True)
+
+
+_HTTP_CLIENTS = _HTTPClientPool()
+
+
+async def close_http_clients():
+    """Close persistent clients during service shutdown and test teardown."""
+    await _HTTP_CLIENTS.close()
 
 
 def normalize_model_json(value):
@@ -19,7 +55,9 @@ def normalize_model_json(value):
         if isinstance(node, dict):
             cleaned = {}
             for key, item in node.items():
-                if isinstance(key, str) and key.startswith(_MODEL_AUXILIARY_PREFIXES):
+                if (isinstance(key, str) and
+                        (key.startswith(_MODEL_AUXILIARY_PREFIXES)
+                         or key in _MODEL_AUXILIARY_KEYS)):
                     removed.append('.'.join(path + [key]))
                     continue
                 cleaned[key] = visit(item, path + [str(key)])
@@ -154,21 +192,22 @@ English: Call an OpenAI-compatible chat completions endpoint."""
         # Reward-node traffic is always node-local. Ignore cluster-wide proxy
         # variables so a missing NO_PROXY entry cannot send vLLM requests via
         # Squid (or fail with a proxy-side timeout).
-        async with httpx.AsyncClient(trust_env=False) as client:
-            from reward_as_agent.doubao import encode_request_payload, request_metadata, sampling_fields
-            request_body = encode_request_payload(payload)
-            resp = await client.post(
-                f"{settings.api_base}/chat/completions",
-                content=request_body,
-                headers={**headers, 'Content-Type': 'application/json'},
-                timeout=settings.llm_timeout,
-            )
-            resp.raise_for_status()
-            result = resp.json()
-            result.update(request_metadata(payload, request_body))
-            result['response_sampling'] = sampling_fields(result)
-            result['sampling_metadata_status'] = 'recorded'
-            return result
+        from reward_as_agent.doubao import encode_request_payload, request_metadata, sampling_fields
+        request_body = encode_request_payload(payload)
+        client = await _HTTP_CLIENTS.get((id(asyncio.get_running_loop()),
+                                           settings.api_base, settings.api_key))
+        resp = await client.post(
+            f"{settings.api_base}/chat/completions",
+            content=request_body,
+            headers={**headers, 'Content-Type': 'application/json'},
+            timeout=settings.llm_timeout,
+        )
+        resp.raise_for_status()
+        result = resp.json()
+        result.update(request_metadata(payload, request_body))
+        result['response_sampling'] = sampling_fields(result)
+        result['sampling_metadata_status'] = 'recorded'
+        return result
 
 
 async def retry_llm_call(messages, idx, calc_score, settings):

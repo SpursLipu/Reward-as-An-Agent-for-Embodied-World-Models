@@ -123,7 +123,7 @@ English: Build the service settings from environment variables and defaults."""
         max_retries=_env_int("REWARD_AS_AGENT_MAX_RETRIES", 10),
         dp_size=_env_int("REWARD_AS_AGENT_DP_SIZE", 1),
         max_inflight_per_dp=_env_int("REWARD_AS_AGENT_MAX_INFLIGHT_PER_DP", 8),
-        max_tokens=_env_int("REWARD_AS_AGENT_MAX_TOKENS", 2048),
+        max_tokens=_env_int("REWARD_AS_AGENT_MAX_TOKENS", 8192),
         heartbeat_interval=_env_float("REWARD_AS_AGENT_HEARTBEAT_INTERVAL", 30),
         motion_quality_path=_env_value("REWARD_AS_AGENT_MOTION_QUALITY_PATH") or None,
         enable_motion_quality=_env_bool("REWARD_AS_AGENT_ENABLE_MOTION_QUALITY", False),

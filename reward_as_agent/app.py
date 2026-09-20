@@ -17,6 +17,7 @@ from reward_as_agent.logging import save_result_to_txt_table
 from reward_as_agent.logging import save_video_and_prompt as save_video_and_prompt_base
 from reward_as_agent.metrics import MotionQualityMetrics
 from reward_as_agent.evidence_pipeline import EvidencePipeline
+from reward_as_agent.llm import close_http_clients
 from reward_as_agent.pipeline import process_one_video_safe
 
 
@@ -33,14 +34,18 @@ async def lifespan(app):
     from reward_as_agent.tool_runtime import configured_hook
     hook, client = configured_hook(SETTINGS)
     try:
-        ready = await client.evaluate({'operation': 'health'})
-        if ready.get('status') != 'ok':
-            raise RuntimeError('WMReward startup failed; inspect wmreward.stderr.log')
+        if hasattr(client, 'warmup'):
+            await client.warmup()
+        else:
+            ready = await client.evaluate({'operation': 'health'})
+            if ready.get('status') != 'ok':
+                raise RuntimeError('WMReward startup failed; inspect wmreward.stderr.log')
         PIPELINE = EvidencePipeline(SETTINGS, physics_hook=hook)
         yield
     finally:
         PIPELINE = None
         await client.close()
+        await close_http_clients()
 
 app = FastAPI(
     title="Reward as An Agent for Embodied World Models",
@@ -180,6 +185,7 @@ English: Return service health status and key runtime configuration."""
         "dp_size": SETTINGS.dp_size,
         "max_inflight_per_dp": SETTINGS.max_inflight_per_dp,
         "max_tokens": SETTINGS.max_tokens,
+        "wmreward_workers": int(os.environ.get("REWARD_WMREWARD_WORKERS", "1")),
         "heartbeat_interval": SETTINGS.heartbeat_interval,
         "motion_quality_enabled": SETTINGS.enable_motion_quality,
         "motion_quality_available": MOTION_QUALITY_AVAILABLE,
