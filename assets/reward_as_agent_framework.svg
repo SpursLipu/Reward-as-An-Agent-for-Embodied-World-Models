@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-labelledby="title desc">
 <title id="title">Reward as an Agent</title>
-<desc id="desc">Current Doubao full profile. Separate task-blind observations and frozen requirements feed initial task, physics and visual assessment. Adaptive crops and CoTracker3 motion evidence support verification. WMReward then supplies physics evidence for reflection, followed by requirement scope auditing and scoring. Video-content uncertainty maps to zero under the current policy; eligibility and review reasons remain explicit. Execution and protocol faults are not valid training rewards.</desc>
+<desc id="desc">Current full Reward Agent profile. Separate task-blind observations and frozen requirements feed initial task, physics and visual assessment. Adaptive crops and CoTracker3 motion evidence support verification. WMReward then supplies physics evidence for reflection, followed by requirement scope auditing and scoring. Video-content uncertainty maps to zero under the current policy; eligibility and review reasons remain explicit. Execution and protocol faults are not valid training rewards.</desc>
 <defs>
 <style>
 text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
@@ -23,7 +23,7 @@ text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
 </defs>
 <rect width="1600" height="800" fill="#fff"/>
 <text x="32" y="48" font-size="32" font-weight="700">Reward as an Agent</text>
-<text x="1560" y="46" text-anchor="end" class="body">Doubao full Agent · WMReward + CoTracker3</text>
+<text x="1560" y="46" text-anchor="end" class="body">Full Reward Agent · WMReward + CoTracker3</text>
 <path d="M32 70H1560" class="rule"/>
 
 <!-- Inputs retain separate observation and task-contract paths. -->
