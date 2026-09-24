@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="710" viewBox="0 0 1600 710" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="800" viewBox="0 0 1600 800" role="img" aria-labelledby="title desc">
 <title id="title">Reward as an Agent</title>
-<desc id="desc">Task-blind video observation and frozen task requirements feed joint task, physics and visual assessment. Required WMReward evidence and optional custom adapters feed Reflection. Fixed aggregation returns a reward, with zero for unverifiable video content. Execution faults remain separate.</desc>
+<desc id="desc">Current Doubao full profile. Separate task-blind observations and frozen requirements feed initial task, physics and visual assessment. Adaptive crops and CoTracker3 motion evidence support verification. WMReward then supplies physics evidence for reflection, followed by requirement scope auditing and scoring. Video-content uncertainty maps to zero under the current policy; eligibility and review reasons remain explicit. Execution and protocol faults are not valid training rewards.</desc>
 <defs>
 <style>
 text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
-.head{font-size:25px;font-weight:600}.label{font-size:21px;font-weight:600}.body{font-size:18px;fill:#597078}.small{font-size:16px;fill:#6a8188}
+.head{font-size:25px;font-weight:700}.label{font-size:21px;font-weight:700}.body{font-size:18px;fill:#597078}.small{font-size:16px;fill:#6a8188}
 .icon{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:#58747c}
-.flow{fill:none;stroke:#738e96;stroke-width:2;stroke-linejoin:round;marker-end:url(#arrow)}
+.flow{fill:none;stroke:#738e96;stroke-width:2;stroke-linejoin:round}
 .rule{stroke:#c3d1d3;stroke-width:1}
 </style>
 <marker id="arrow" viewBox="0 0 12 12" markerWidth="11" markerHeight="11" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M2 2L10 6L2 10" fill="none" stroke="#738e96" stroke-width="1.8"/></marker>
@@ -21,9 +21,9 @@ text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
 <g id="ok" class="icon"><circle cx="18" cy="18" r="16"/><path d="M9 18L15 24L28 11"/></g>
 <g id="review" class="icon"><path d="M3 3H33V28H15L5 36V28H3Z M18 9V18"/><circle cx="18" cy="23" r="1"/></g>
 </defs>
-<rect width="1600" height="710" fill="#fff"/>
-<text x="32" y="48" font-size="32" font-weight="600">Reward as an Agent</text>
-<text x="1560" y="46" text-anchor="end" class="body">Video-grounded assessment · tool-backed reflection</text>
+<rect width="1600" height="800" fill="#fff"/>
+<text x="32" y="48" font-size="32" font-weight="700">Reward as an Agent</text>
+<text x="1560" y="46" text-anchor="end" class="body">Doubao full Agent · WMReward + CoTracker3</text>
 <path d="M32 70H1560" class="rule"/>
 
 <!-- Inputs retain separate observation and task-contract paths. -->
@@ -53,7 +53,7 @@ text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
 <text x="286" y="511" class="small">Requested action · target object</text>
 <text x="286" y="542" class="small">Required end state</text>
 <text x="274" y="617" class="small">Separate observation and requirement paths</text>
-<path d="M206 237H270M206 474H270" class="flow"/>
+<path d="M206 237H270" class="flow"/><path d="M206 474H270" class="flow"/>
 
 <rect x="650" y="96" width="380" height="252" rx="15" fill="#edf4eb" stroke="#bfd0b9"/>
 <text x="674" y="133" class="head">Gated Multi-dimensional</text>
@@ -66,43 +66,50 @@ text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
 <text x="729" y="275" text-anchor="middle" class="label">Task</text><text x="729" y="302" text-anchor="middle" class="small">completion</text>
 <text x="840" y="275" text-anchor="middle" class="label">Physics</text><text x="840" y="302" text-anchor="middle" class="small">plausibility</text>
 <text x="949" y="275" text-anchor="middle" class="label">Visual</text><text x="949" y="302" text-anchor="middle" class="small">quality</text>
-<path d="M600 260H650" class="flow"/>
+<path d="M580 260H650" class="flow"/><path d="M580 480H624V310H650" class="flow"/>
 
 <rect x="1080" y="96" width="480" height="252" rx="15" fill="#eef2f7" stroke="#bdcbd9"/>
 <use href="#search" transform="translate(1104 115)"/>
 <text x="1153" y="142" class="head">Reflection Module</text>
 <text x="1536" y="140" text-anchor="end" class="small">03</text>
 <path d="M1104 165H1536" class="rule"/>
-<text x="1104" y="203" class="body">Recheck relevant video frames</text>
-<text x="1104" y="239" class="body">Incorporate external-tool feedback</text>
-<text x="1104" y="275" class="body">Audit requirement scope and revise judgements</text>
-<text x="1104" y="320" class="small">Evidence-supported revisions before scoring</text>
+<text x="1104" y="203" class="body">1. Verify original frames + adaptive crops</text>
+<text x="1104" y="239" class="body">2. Cross-check CoTracker motion evidence</text>
+<text x="1104" y="275" class="body">3. Reflect on WMReward physical evidence</text>
+<text x="1104" y="320" class="small">Audit task scope; revise grounded judgements</text>
 <path d="M1030 222H1080" class="flow"/>
 
-<rect x="650" y="392" width="380" height="248" rx="15" fill="#eef6f7" stroke="#bed1d6"/>
-<text x="674" y="429" class="label">External Tools</text>
-<text x="1006" y="429" text-anchor="end" class="small">Extensible</text>
-<use href="#wave" transform="translate(676 451)"/>
-<text x="730" y="475" class="label">WMReward</text>
-<text x="730" y="504" class="small">Required · physical evidence</text>
-<rect x="670" y="532" width="340" height="88" rx="8" fill="#f9fcfc" stroke="#a7bfc6" stroke-dasharray="5 5"/>
-<use href="#plug" transform="translate(676 549)"/>
-<text x="730" y="565" class="label">Custom adapters</text>
-<text x="730" y="594" class="small">Optional · shared tool interface</text>
-<path d="M1030 488H1055V313H1080" class="flow"/>
+<rect x="650" y="392" width="380" height="304" rx="15" fill="#eef6f7" stroke="#bed1d6"/>
+<text x="674" y="429" class="label">Evidence Tools</text>
+<text x="1006" y="429" text-anchor="end" class="small">Full profile</text>
+<use href="#search" transform="translate(676 448) scale(.85)"/>
+<text x="730" y="468" class="label">Adaptive inspection</text>
+<text x="730" y="494" class="small">Selected regions + original frames</text>
+<g class="icon" transform="translate(676 513)"><path d="M2 23L12 9L22 18L34 2M2 34L12 23L22 29L34 16"/><circle cx="2" cy="23" r="2"/><circle cx="34" cy="2" r="2"/></g>
+<text x="730" y="534" class="label">CoTracker3</text>
+<text x="730" y="560" class="small">2D tracks + motion overlays</text>
+<use href="#wave" transform="translate(676 580) scale(.85)"/>
+<text x="730" y="600" class="label">WMReward</text>
+<text x="730" y="626" class="small">Required physical evidence</text>
+<path d="M674 644H1006" class="rule"/>
+<text x="674" y="675" class="small">Custom adapters remain extensible</text>
+<path d="M1030 568H1055V313H1080" class="flow"/>
 
 <path d="M1320 348V392" class="flow"/>
 <rect x="1080" y="392" width="480" height="116" rx="14" fill="#f8efe9" stroke="#dac5b5"/>
 <use href="#balance" transform="translate(1105 414)"/>
 <text x="1157" y="430" class="label">Reward aggregation</text>
-<text x="1157" y="460" class="body">Fixed scoring + zero gates</text>
+<text x="1157" y="460" class="body">Fixed scoring + video-content gates</text>
 <text x="1157" y="487" class="small">Optional process checks</text>
-<path d="M1320 508V528H1191V548M1320 528H1448V548" class="flow"/>
+<path d="M1320 508V528H1191V548" class="flow"/><path d="M1320 528H1448V548" class="flow"/>
 <rect x="1080" y="550" width="222" height="90" rx="12" fill="#eef5ea" stroke="#bfd0b9"/>
 <use href="#ok" transform="translate(1098 574)"/>
 <text x="1145" y="585" class="label">Reward</text><text x="1145" y="613" class="body">score + report</text>
 <rect x="1330" y="550" width="230" height="90" rx="12" fill="#fcf5e6" stroke="#ddc99e"/>
 <use href="#review" transform="translate(1346 574)"/>
 <text x="1393" y="585" class="label">Unclear video</text><text x="1393" y="613" class="body">score = 0</text>
-<text x="800" y="684" text-anchor="middle" class="small">Frame-linked judgements and recorded tool provenance throughout the evaluation.</text>
+<path d="M32 722H1560" class="rule"/>
+<text x="800" y="751" text-anchor="middle" class="small">Frame citations · tool provenance · diagnostic scores · explicit training eligibility and review reasons</text>
+<text x="800" y="778" text-anchor="middle" class="small">Zero for unverifiable video content is a scoring policy. Tool / protocol faults are not valid training rewards.</text>
+<g fill="none" stroke="#738e96" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M262 233L270 237L262 241"/><path d="M262 470L270 474L262 478"/><path d="M642 256L650 260L642 264"/><path d="M642 306L650 310L642 314"/><path d="M1072 218L1080 222L1072 226"/><path d="M1072 309L1080 313L1072 317"/><path d="M1316 384L1320 392L1324 384"/><path d="M1187 540L1191 548L1195 540"/><path d="M1444 540L1448 548L1452 540"/></g>
 </svg>

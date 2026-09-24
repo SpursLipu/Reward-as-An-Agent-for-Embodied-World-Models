@@ -11,12 +11,14 @@ A multimodal reward agent that evaluates task progress, physical plausibility, a
 
 ## Framework
 
-<img src="assets/reward_as_agent_framework.png" alt="Planning Module, Gated Multi-dimensional Reward Module, Reflection Module, and reward aggregation with external-tool feedback" width="1100">
+<img src="assets/reward_as_agent_framework.png" alt="Current Doubao framework with adaptive crops, CoTracker3 motion evidence, WMReward reflection, and explicit reward eligibility" width="1100">
 
 - **Planning Module:** observe visible actions and state changes without task text; separately extract and freeze the requested action, target object, and required end state.
 - **Gated Multi-dimensional Reward Module:** jointly assess task completion, physical plausibility, and visual quality against the observations and frozen requirements.
-- **Reflection Module:** recheck relevant frames, incorporate WMReward feedback and CoTracker motion evidence, audit requirement scope, and revise inconsistent judgements.
+- **Reflection Module:** verify original frames with adaptive crops and CoTracker3 motion overlays, then incorporate WMReward physical evidence, audit requirement scope, and revise inconsistent judgements.
 - **Reward aggregation:** apply fixed scoring and review rules after Reflection, with optional process checks, to return a numerical reward (zero for unverifiable video content). Evaluator/protocol faults remain separate.
+
+[Vector diagram (SVG)](assets/reward_as_agent_framework.svg) · [PDF](assets/reward_as_agent_framework.pdf)
 
 The current release uses **WMReward + CoTracker3**, progress-aware rewards, and tool-backed demos. WMReward provides physical evidence—not the final task reward. Additional tools can be connected through the [worker interface](scripts/frozen_v41/worker_client.py) and [evidence hook](scripts/frozen_v41/physics_integration.py).
 
