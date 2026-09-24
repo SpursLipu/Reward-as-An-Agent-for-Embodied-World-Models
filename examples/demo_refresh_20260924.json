@@ -1,0 +1,102 @@
+{
+  "date": "2026-09-24",
+  "profile": "doubao-full-agent-cotracker",
+  "results": [
+    {
+      "demo": "demo_01",
+      "score": 0.595,
+      "status": "success",
+      "task": "partial",
+      "training_eligible": true,
+      "review_required": false,
+      "error": null,
+      "motion_status": [
+        "ok"
+      ],
+      "elapsed_seconds": 156.467
+    },
+    {
+      "demo": "demo_02",
+      "score": 0.615,
+      "status": "success",
+      "task": "partial",
+      "training_eligible": true,
+      "review_required": false,
+      "error": null,
+      "motion_status": [
+        "ok"
+      ],
+      "elapsed_seconds": 202.795
+    },
+    {
+      "demo": "demo_03",
+      "score": 0.0,
+      "status": "success",
+      "task": "failed",
+      "training_eligible": true,
+      "review_required": false,
+      "error": null,
+      "motion_status": [
+        "ok"
+      ],
+      "elapsed_seconds": 297.92
+    },
+    {
+      "demo": "demo_04",
+      "score": 0.0,
+      "status": "success",
+      "task": "failed",
+      "training_eligible": true,
+      "review_required": false,
+      "error": null,
+      "motion_status": [
+        "ok"
+      ],
+      "elapsed_seconds": 186.448
+    },
+    {
+      "demo": "demo_05",
+      "score": 0.0,
+      "status": "success",
+      "task": "failed",
+      "training_eligible": true,
+      "review_required": false,
+      "error": null,
+      "motion_status": [
+        "ok"
+      ],
+      "elapsed_seconds": 232.663
+    },
+    {
+      "demo": "demo_06",
+      "score": 1.0,
+      "status": "success",
+      "task": "complete",
+      "training_eligible": true,
+      "review_required": false,
+      "error": null,
+      "motion_status": [
+        "ok"
+      ],
+      "elapsed_seconds": 133.053
+    },
+    {
+      "demo": "demo_07",
+      "score": 1.0,
+      "status": "success",
+      "task": "complete",
+      "training_eligible": true,
+      "review_required": false,
+      "error": null,
+      "motion_status": [
+        "ok"
+      ],
+      "elapsed_seconds": 124.508
+    }
+  ],
+  "run_directory": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/runs/demo_current_20260924",
+  "effective_max_tokens": 4096,
+  "initial_client_attempt": "interrupted; preserved separately",
+  "cotracker_cache": "dedicated service cache; may reuse initial-attempt tracks",
+  "scoring_changes_in_this_refresh": false
+}

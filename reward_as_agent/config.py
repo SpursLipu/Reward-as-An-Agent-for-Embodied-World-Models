@@ -112,9 +112,9 @@ English: Build the service settings from environment variables and defaults."""
     load_dotenv()
     repo_root = Path(__file__).resolve().parents[1]
     return Settings(
-        api_base=_env_value("REWARD_AS_AGENT_API_BASE", "http://localhost:7000/v1"),
+        api_base=_env_value("REWARD_AS_AGENT_API_BASE", "https://ark.cn-beijing.volces.com/api/v3"),
         api_key=_env_value("REWARD_AS_AGENT_API_KEY", "dummy"),
-        model=_env_value("REWARD_AS_AGENT_MODEL", "/path/to/your/reward-model"),
+        model=_env_value("REWARD_AS_AGENT_MODEL", "ep-20260909144216-fgpxr"),
         host=_env_value("REWARD_AS_AGENT_HOST", "0.0.0.0"),
         port=_env_int("REWARD_AS_AGENT_PORT", 7024),
         log_root=Path(_env_value("REWARD_AS_AGENT_LOG_ROOT", str(repo_root / "runs"))),

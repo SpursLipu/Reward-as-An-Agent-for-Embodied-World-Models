@@ -2,9 +2,9 @@
   "before_tool_reflection": {
     "schema_version": "evidence-v2",
     "task": {
-      "requested_action": "由机器人左臂抓取最初放置在玩具灶台上的棕色纸箱，夹爪完全闭合固定纸箱后将其略微抬起，再移动到灶台右侧；全程右臂保持静止且不与任何物体交互",
-      "target_description": "最初放置在中央玩具灶台上、贴有黑胶带和Amazon Prime标签的棕色纸箱",
-      "final_state_requirement": "纸箱被迁移到灶台右侧；过程中无异常情况发生；带有白米色塑料设计和数字显示屏的灶台保持为场景中的固定元素"
+      "requested_action": "The robot's left arm moves to grasp a brown cardboard box initially resting on top of a toy stove, the gripper fully closes to secure the box, the arm lifts it slightly and moves it to the right side of the stove, while the right arm remains stationary and does not interact with any objects throughout the process.",
+      "target_description": "a brown cardboard box, which is initially resting on top of a toy stove",
+      "final_state_requirement": "The cardboard box marked with black tape and an Amazon Prime label is successfully relocated to the right side of the stove without any abnormal situations occurring; throughout this process, the right arm remains stationary and does not interact with any objects."
     },
     "requirement_checks": [
       {
@@ -13,7 +13,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "从源帧0到80，棕色纸箱始终停留在灶台炉头区域，未见机器人左臂移动到纸箱并形成有效抓取；画面左上角持续有模糊浅色虚影，但没有清晰可见的夹爪接触并抓取纸箱。"
+        "reason": "Across all provided frames, the brown cardboard box remains on the stove burners in the same general arrangement. A blurred light-colored shape is visible near the upper-left/back area of the box, but no clear left-arm motion to grasp the box is visible, and the box is not seen being contacted in a way that constitutes a grasp."
       },
       {
         "requirement_id": "R2",
@@ -21,7 +21,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "全部可见帧中没有看到清晰闭合并夹住纸箱的机械夹爪，纸箱也未被夹爪夹持固定。"
+        "reason": "No gripper is clearly seen closing around the box, and there is no visible state change showing the box secured by a closed gripper in any sampled frame."
       },
       {
         "requirement_id": "R3",
@@ -29,13 +29,13 @@
         "evidence": [
           "E1"
         ],
-        "reason": "纸箱从源帧0到80始终压在中央及右侧炉头上，没有出现被略微抬起后移动到灶台右侧的位移，仍处于初始灶台位置。"
+        "reason": "The box does not lift off the burners or move to the right side of the stove across the sampled frames; it remains resting over the stove burners with surrounding items in essentially the same arrangement."
       },
       {
         "requirement_id": "R4",
         "status": "unobservable",
         "evidence": [],
-        "reason": "画面主要呈现俯视灶台区域，未完整显示右臂，也无法辨认右臂是否全程静止且未与任何物体交互。"
+        "reason": "The robot arms are not clearly identifiable in the scene. A blurred light shape appears near the box, but a distinct right arm and whether it remained stationary without interacting with objects cannot be reliably distinguished."
       },
       {
         "requirement_id": "R5",
@@ -43,15 +43,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "可见棕色纸箱未迁移到灶台右侧，末态仍在灶台原位置；纸箱表面仅有模糊黑色印刷/痕迹，黑胶带和Amazon Prime标签细节因模糊与遮挡不能清晰确认，且迁移结果未出现。"
-      },
-      {
-        "requirement_id": "R6",
-        "status": "met",
-        "evidence": [
-          "E1"
-        ],
-        "reason": "带有白色台面、米黄/棕色边框、金属旋钮的灶台在源帧0到80始终位于场景中央，保持为可见固定元素。"
+        "reason": "By the final sampled frame, the cardboard box is still on the stove burners rather than relocated to the right side of the stove. The black tape and Amazon Prime label are not legible enough to confirm, and no successful relocation is visible."
       }
     ],
     "observations": [
@@ -140,7 +132,7 @@
           79,
           80
         ],
-        "description": "场景中央为白色台面、米黄/棕色边框、带银色旋钮与炉头的玩具灶台。棕色纸箱始终压在中央及右侧炉头区域；左前炉头盘绕黑色线缆，纸箱下方和旁边有褶皱的布/纸状物，右侧炉头上还有白色杯状物体、叠放物和小方形物件；画面右侧水槽区域可见绿色圆形物和橙色杯。左上角持续存在模糊浅色虚影，但在全部提供帧中，纸箱及其周围物件相对灶台的位置基本没有变化，没有可见的夹爪闭合夹持、纸箱抬起或向灶台右侧迁移；也未看到清晰的机械臂右臂。灶台整体位置保持不变。"
+        "description": "A white electric coil stove with silver knobs is visible. A brown cardboard box rests across the stove burners, with wrapped/cloth-like items and other objects under and around it on the burners; a coiled black cable is on the left burner, an orange cup is at the bottom right, and a green round object is near the sink area to the right. Across all listed frames, the box and surrounding items remain in essentially the same arrangement with no visible lifting, grasping, or relocation of the box. A blurred light-colored shape appears near the upper-left/back area of the box, but no clear robot gripper or completed arm action is identifiable."
       }
     ],
     "task_assessment": {
@@ -149,7 +141,7 @@
       "evidence": [
         "E1"
       ],
-      "reason": "所有提供的原帧中，棕色纸箱始终留在灶台原位置，没有出现左臂有效抓取、夹爪闭合固定、略微抬起并迁移到灶台右侧的核心动作结果；仅灶台保持固定这一场景条件可见满足。右臂因画面未完整展示无法核验，但核心搬运任务未见有效进展。",
+      "reason": "The core task requires the left arm to grasp, close on, lift, and move the brown cardboard box to the right side of the stove. In all provided frames, the box stays on the stove burners with no visible grasp, lift, or relocation, so there is no effective task progress toward the required final state. The right arm's state cannot be confirmed due to blur/framing, but the absence of the required manipulation of the box is directly visible.",
       "target_match": "uncertain"
     },
     "physics_assessment": {
@@ -159,27 +151,27 @@
         "E1"
       ],
       "issues": [],
-      "reason": "在可见画面内，灶台和纸箱处于静止叠放状态，没有可确认的穿透、悬浮或明显非因果运动异常；左上角模糊虚影更符合运动模糊或局部遮挡，没有足够证据构成物理缺陷。"
+      "reason": "The visible scene shows the box and surrounding objects remaining static on the stove; no confirmed interpenetration, unsupported floating, or impossible motion is observable. The blur near the box prevents fine identification of the robot part but does not by itself demonstrate a physical anomaly."
     },
     "visual_assessment": {
       "verdict": "minor_degradation",
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "E1"
       ],
-      "reason": "画面存在持续的运动模糊和细节偏软，左上角虚影尤其不清，但灶台、纸箱及其相对位置仍可辨认，足以判断纸箱未发生迁移。"
+      "reason": "The images are soft/blurry, especially around the area near the box, which limits fine detail of the robot and small markings; however, the stove, box, and major surrounding objects are still identifiable enough to determine that the box does not move to the right side."
     },
     "uncertainties": [
-      "所有解码帧均已提供，但视频存在明显运动模糊/残影，右臂及机械夹爪的完整形态没有被清晰呈现，右臂是否全程静止无法确认。",
-      "纸箱上的黑胶带和Amazon Prime标签因模糊、角度和遮挡无法清晰辨读，但可见其为灶台上的棕色纸箱。"
+      "The robot arms and gripper are not clearly resolved due to blur and framing, so the right arm's stationary state and the exact identity of the blurred shape near the box cannot be confirmed.",
+      "Fine markings on the box, including the claimed Amazon Prime label and black tape, are not legible in the provided frames."
     ]
   },
   "after_tool_reflection": {
     "schema_version": "evidence-v2",
     "task": {
-      "requested_action": "由机器人左臂抓取最初放置在玩具灶台上的棕色纸箱，夹爪完全闭合固定纸箱后将其略微抬起，再移动到灶台右侧；全程右臂保持静止且不与任何物体交互",
-      "target_description": "最初放置在中央玩具灶台上、贴有黑胶带和Amazon Prime标签的棕色纸箱",
-      "final_state_requirement": "纸箱被迁移到灶台右侧；过程中无异常情况发生；带有白米色塑料设计和数字显示屏的灶台保持为场景中的固定元素"
+      "requested_action": "The robot's left arm moves to grasp a brown cardboard box initially resting on top of a toy stove, the gripper fully closes to secure the box, the arm lifts it slightly and moves it to the right side of the stove, while the right arm remains stationary and does not interact with any objects throughout the process.",
+      "target_description": "a brown cardboard box, which is initially resting on top of a toy stove",
+      "final_state_requirement": "The cardboard box marked with black tape and an Amazon Prime label is successfully relocated to the right side of the stove without any abnormal situations occurring; throughout this process, the right arm remains stationary and does not interact with any objects."
     },
     "requirement_checks": [
       {
@@ -188,7 +180,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "从源帧0到80，棕色纸箱始终压在灶台炉头区域，未见清晰可辨认的机器人左臂移动到纸箱并形成有效抓取；左上角持续出现模糊浅色运动虚影，但没有可见夹爪可靠接触并抓取纸箱的证据。"
+        "reason": "Across frames 0–80, the brown cardboard box remains resting on the toy stove burners. A blurred light-colored shape is visible near the upper-left/back of the box, but no clear left-arm motion to grasp the box is visible, and the box is not seen being contacted in a way that constitutes a grasp."
       },
       {
         "requirement_id": "R2",
@@ -196,7 +188,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "全部提供帧中都无法辨认出闭合夹持纸箱的机械夹爪；纸箱没有被夹爪明显固定，仍压在灶台炉头及上面的杂物上。"
+        "reason": "No gripper is clearly seen closing around the box, and there is no visible state change showing the box secured by a closed gripper in any sampled frame."
       },
       {
         "requirement_id": "R3",
@@ -204,13 +196,13 @@
         "evidence": [
           "E1"
         ],
-        "reason": "从源帧0到80，纸箱相对灶台的位置基本不变，始终覆盖中央偏右炉头区域，没有出现被略微抬起后再移动到灶台右侧的可见位移。"
+        "reason": "The box does not lift off the burners or move to the right side of the stove across frames 0–80; it remains resting over the stove burners with surrounding items in essentially the same arrangement."
       },
       {
         "requirement_id": "R4",
         "status": "unobservable",
         "evidence": [],
-        "reason": "画面主要俯视灶台工作区，未完整显示右臂本体，无法判断右臂是否全程静止且未与任何物体交互。"
+        "reason": "The robot arms are not clearly identifiable in the scene. A blurred light shape appears near the box, but a distinct right arm and whether it remained stationary without interacting with objects cannot be reliably distinguished."
       },
       {
         "requirement_id": "R5",
@@ -218,15 +210,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "末态仍见纸箱压在灶台炉头区域，未迁移到灶台右侧；因纸箱未被搬运，“成功迁移”结果未实现。纸箱表面黑色印刷/痕迹在模糊下难以辨认为黑胶带和Amazon Prime标签细节，但整体为灶台上棕色纸箱仍可辨认。"
-      },
-      {
-        "requirement_id": "R6",
-        "status": "met",
-        "evidence": [
-          "E1"
-        ],
-        "reason": "从源帧0到80，白米色玩具灶台始终位于场景中央，旋钮、炉头和整体位置保持不变，是持续可见的固定背景元素；未见到独立数字显示屏的清晰细节，但灶台整体保持固定。"
+        "reason": "By frame 80, the cardboard box is still on the stove burners rather than relocated to the right side of the stove. The black tape and Amazon Prime label are not legible enough to confirm, and no successful relocation is visible."
       }
     ],
     "observations": [
@@ -315,7 +299,7 @@
           79,
           80
         ],
-        "description": "场景中央为白米色玩具灶台，带有银色旋钮和线圈炉头。棕色纸箱始终压在中央及右侧炉头区域，下方和周围有黑色盘绕线缆、褶皱布/纸状物、白色圆盖物、叠放物、小方形物件；画面右侧可见橙色杯和绿色圆形物。左上角持续存在模糊浅色运动虚影，但在全部提供帧中，纸箱及其周围物件相对灶台的位置没有出现可辨认的抓取、闭合夹持、抬起或向灶台右侧迁移。画面未完整展示机器人右臂。灶台整体位置保持不变。"
+        "description": "A white electric coil stove with silver knobs is visible. A brown cardboard box rests across the stove burners, with wrapped/cloth-like items and other objects under and around it on the burners; a coiled black cable is on the left burner, an orange cup is at the bottom right, and a green round object is near the sink area to the right. Across all listed frames, the box and surrounding items remain in essentially the same arrangement with no visible lifting, grasping, or relocation of the box. A blurred light-colored shape appears near the upper-left/back area of the box, but no clear robot gripper or completed arm action is identifiable."
       }
     ],
     "task_assessment": {
@@ -324,7 +308,7 @@
       "evidence": [
         "E1"
       ],
-      "reason": "提供的全部原帧中，棕色纸箱始终留在灶台炉头区域，未见左臂有效抓取、夹爪闭合固定、略微抬起并迁移到灶台右侧的核心动作与结果；仅灶台保持固定这一场景条件可见满足。右臂未完整入镜无法核验，但核心搬运结果明确未发生，因此任务没有有效完成。",
+      "reason": "The core task requires the left arm to grasp, close on, lift, and move the brown cardboard box to the right side of the stove. In all provided frames, the box stays on the stove burners with no visible grasp, lift, or relocation, so there is no effective task progress toward the required final state. The right arm's state cannot be confirmed due to blur/framing, but the absence of the required manipulation of the box is directly visible.",
       "target_match": "uncertain"
     },
     "physics_assessment": {
@@ -334,28 +318,27 @@
         "E1"
       ],
       "issues": [],
-      "reason": "可见范围内灶台、纸箱和周围杂物保持静止叠放，没有可确认的穿透、悬浮、形状畸变或非因果运动异常；左上角模糊虚影更符合运动模糊或采样拖影，缺乏足够证据构成物理缺陷。"
+      "reason": "The visible scene shows the box and surrounding objects remaining static on the stove; no confirmed interpenetration, unsupported floating, or impossible motion is observable. The blur near the box prevents fine identification of the robot part but does not by itself demonstrate a physical anomaly."
     },
     "visual_assessment": {
       "verdict": "minor_degradation",
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "E1"
       ],
-      "reason": "画面存在持续的运动模糊与细节偏软，左上角虚影尤其不清楚，但灶台、纸箱及其相对位置仍可辨认，足以判断纸箱未发生位置迁移。"
+      "reason": "The images are soft/blurry, especially around the area near the box, which limits fine detail of the robot and small markings; however, the stove, box, and major surrounding objects are still identifiable enough to determine that the box does not move to the right side."
     },
     "uncertainties": [
-      "所有提供帧均存在较明显运动模糊/残影，机械夹爪与右臂的完整形态未被清晰呈现，右臂是否全程静止无法确认。",
-      "纸箱表面的黑胶带和Amazon Prime标签因模糊与角度无法清晰辨读，但整体可见为放置在灶台上的棕色纸箱。",
-      "视频采样间隔约0.0625秒，未显示更细的中间动作；但在现有帧范围内，纸箱位置始终未变，不构成需要修正为已抓取的歧义。"
+      "The robot arms and gripper are not clearly resolved due to blur and framing, so the right arm's stationary state and the exact identity of the blurred shape near the box cannot be confirmed.",
+      "Fine markings on the box, including the claimed Amazon Prime label and black tape, are not legible in the provided frames."
     ]
   },
   "final_after_scope_audit": {
     "schema_version": "evidence-v2",
     "task": {
-      "requested_action": "由机器人左臂抓取最初放置在玩具灶台上的棕色纸箱，夹爪完全闭合固定纸箱后将其略微抬起，再移动到灶台右侧；全程右臂保持静止且不与任何物体交互",
-      "target_description": "最初放置在中央玩具灶台上、贴有黑胶带和Amazon Prime标签的棕色纸箱",
-      "final_state_requirement": "纸箱被迁移到灶台右侧；过程中无异常情况发生；带有白米色塑料设计和数字显示屏的灶台保持为场景中的固定元素"
+      "requested_action": "The robot's left arm moves to grasp a brown cardboard box initially resting on top of a toy stove, the gripper fully closes to secure the box, the arm lifts it slightly and moves it to the right side of the stove, while the right arm remains stationary and does not interact with any objects throughout the process.",
+      "target_description": "a brown cardboard box, which is initially resting on top of a toy stove",
+      "final_state_requirement": "The cardboard box marked with black tape and an Amazon Prime label is successfully relocated to the right side of the stove without any abnormal situations occurring; throughout this process, the right arm remains stationary and does not interact with any objects."
     },
     "requirement_checks": [
       {
@@ -364,7 +347,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "从源帧0到80，棕色纸箱始终压在灶台炉头区域，未见清晰可辨认的机器人左臂移动到纸箱并形成有效抓取；左上角持续出现模糊浅色运动虚影，但没有可见夹爪可靠接触并抓取纸箱的证据。"
+        "reason": "Across frames 0–80, the brown cardboard box remains resting on the toy stove burners. A blurred light-colored shape is visible near the upper-left/back of the box, but no clear left-arm motion to grasp the box is visible, and the box is not seen being contacted in a way that constitutes a grasp."
       },
       {
         "requirement_id": "R2",
@@ -372,7 +355,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "全部提供帧中都无法辨认出闭合夹持纸箱的机械夹爪；纸箱没有被夹爪明显固定，仍压在灶台炉头及上面的杂物上。"
+        "reason": "No gripper is clearly seen closing around the box, and there is no visible state change showing the box secured by a closed gripper in any sampled frame."
       },
       {
         "requirement_id": "R3",
@@ -380,13 +363,13 @@
         "evidence": [
           "E1"
         ],
-        "reason": "从源帧0到80，纸箱相对灶台的位置基本不变，始终覆盖中央偏右炉头区域，没有出现被略微抬起后再移动到灶台右侧的可见位移。"
+        "reason": "The box does not lift off the burners or move to the right side of the stove across frames 0–80; it remains resting over the stove burners with surrounding items in essentially the same arrangement."
       },
       {
         "requirement_id": "R4",
         "status": "unobservable",
         "evidence": [],
-        "reason": "画面主要俯视灶台工作区，未完整显示右臂本体，无法判断右臂是否全程静止且未与任何物体交互。"
+        "reason": "The robot arms are not clearly identifiable in the scene. A blurred light shape appears near the box, but a distinct right arm and whether it remained stationary without interacting with objects cannot be reliably distinguished."
       },
       {
         "requirement_id": "R5",
@@ -394,15 +377,7 @@
         "evidence": [
           "E1"
         ],
-        "reason": "末态仍见纸箱压在灶台炉头区域，未迁移到灶台右侧；因纸箱未被搬运，“成功迁移”结果未实现。纸箱表面黑色印刷/痕迹在模糊下难以辨认为黑胶带和Amazon Prime标签细节，但整体为灶台上棕色纸箱仍可辨认。"
-      },
-      {
-        "requirement_id": "R6",
-        "status": "met",
-        "evidence": [
-          "E1"
-        ],
-        "reason": "从源帧0到80，白米色玩具灶台始终位于场景中央，旋钮、炉头和整体位置保持不变，是持续可见的固定背景元素；未见到独立数字显示屏的清晰细节，但灶台整体保持固定。"
+        "reason": "By frame 80, the cardboard box is still on the stove burners rather than relocated to the right side of the stove. The black tape and Amazon Prime label are not legible enough to confirm, and no successful relocation is visible."
       }
     ],
     "observations": [
@@ -491,7 +466,7 @@
           79,
           80
         ],
-        "description": "场景中央为白米色玩具灶台，带有银色旋钮和线圈炉头。棕色纸箱始终压在中央及右侧炉头区域，下方和周围有黑色盘绕线缆、褶皱布/纸状物、白色圆盖物、叠放物、小方形物件；画面右侧可见橙色杯和绿色圆形物。左上角持续存在模糊浅色运动虚影，但在全部提供帧中，纸箱及其周围物件相对灶台的位置没有出现可辨认的抓取、闭合夹持、抬起或向灶台右侧迁移。画面未完整展示机器人右臂。灶台整体位置保持不变。"
+        "description": "A white electric coil stove with silver knobs is visible. A brown cardboard box rests across the stove burners, with wrapped/cloth-like items and other objects under and around it on the burners; a coiled black cable is on the left burner, an orange cup is at the bottom right, and a green round object is near the sink area to the right. Across all listed frames, the box and surrounding items remain in essentially the same arrangement with no visible lifting, grasping, or relocation of the box. A blurred light-colored shape appears near the upper-left/back area of the box, but no clear robot gripper or completed arm action is identifiable."
       }
     ],
     "task_assessment": {
@@ -500,7 +475,7 @@
       "evidence": [
         "E1"
       ],
-      "reason": "提供的全部原帧中，棕色纸箱始终留在灶台炉头区域，未见左臂有效抓取、夹爪闭合固定、略微抬起并迁移到灶台右侧的核心动作与结果；仅灶台保持固定这一场景条件可见满足。右臂未完整入镜无法核验，但核心搬运结果明确未发生，因此任务没有有效完成。",
+      "reason": "The core task requires the left arm to grasp, close on, lift, and move the brown cardboard box to the right side of the stove. In all provided frames, the box stays on the stove burners with no visible grasp, lift, or relocation, so there is no effective task progress toward the required final state. The right arm's state cannot be confirmed due to blur/framing, but the absence of the required manipulation of the box is directly visible.",
       "target_match": "uncertain"
     },
     "physics_assessment": {
@@ -510,20 +485,19 @@
         "E1"
       ],
       "issues": [],
-      "reason": "可见范围内灶台、纸箱和周围杂物保持静止叠放，没有可确认的穿透、悬浮、形状畸变或非因果运动异常；左上角模糊虚影更符合运动模糊或采样拖影，缺乏足够证据构成物理缺陷。"
+      "reason": "The visible scene shows the box and surrounding objects remaining static on the stove; no confirmed interpenetration, unsupported floating, or impossible motion is observable. The blur near the box prevents fine identification of the robot part but does not by itself demonstrate a physical anomaly."
     },
     "visual_assessment": {
       "verdict": "minor_degradation",
-      "confidence": "medium",
+      "confidence": "high",
       "evidence": [
         "E1"
       ],
-      "reason": "画面存在持续的运动模糊与细节偏软，左上角虚影尤其不清楚，但灶台、纸箱及其相对位置仍可辨认，足以判断纸箱未发生位置迁移。"
+      "reason": "The images are soft/blurry, especially around the area near the box, which limits fine detail of the robot and small markings; however, the stove, box, and major surrounding objects are still identifiable enough to determine that the box does not move to the right side."
     },
     "uncertainties": [
-      "所有提供帧均存在较明显运动模糊/残影，机械夹爪与右臂的完整形态未被清晰呈现，右臂是否全程静止无法确认。",
-      "纸箱表面的黑胶带和Amazon Prime标签因模糊与角度无法清晰辨读，但整体可见为放置在灶台上的棕色纸箱。",
-      "视频采样间隔约0.0625秒，未显示更细的中间动作；但在现有帧范围内，纸箱位置始终未变，不构成需要修正为已抓取的歧义。"
+      "The robot arms and gripper are not clearly resolved due to blur and framing, so the right arm's stationary state and the exact identity of the blurred shape near the box cannot be confirmed.",
+      "Fine markings on the box, including the claimed Amazon Prime label and black tape, are not legible in the provided frames."
     ]
   }
 }

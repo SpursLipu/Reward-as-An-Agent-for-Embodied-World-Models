@@ -1,0 +1,14 @@
+{
+  "profile": "doubao-full-agent-cotracker",
+  "source": "/increase_kairos_vepfs/increase/lipu/grpo/reward_doubao_service_20260923",
+  "historical_reasonable": 170,
+  "n": 180,
+  "same_family_judge": true,
+  "wmreward": true,
+  "cotracker": true,
+  "gpu": 6,
+  "reserved_gpu": 7,
+  "concurrency": 8,
+  "physical_completion": "required",
+  "backup": "/increase_kairos_vepfs/increase/lipu/grpo/reward_repo_before_doubao_sync_20260923_170949"
+}

@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock, patch
 
 from reward_as_agent.config import get_settings
 from reward_as_agent.evidence_pipeline import EvidencePipeline
-from reward_as_agent.llm import call_llm
+from reward_as_agent.llm import call_llm, close_http_clients
 
 
 def test_openai_pipeline_preserves_prompt_budget_and_distinguishes_provider(monkeypatch):
@@ -28,8 +28,13 @@ def test_local_transport_records_exact_payload_and_retains_images():
     from unittest.mock import Mock
     client.post.return_value = Mock(json=lambda: {'choices': [{'message': {'content': '{}'}}]})
     with patch('reward_as_agent.llm.httpx.AsyncClient') as factory:
-        factory.return_value.__aenter__.return_value = client
-        result = asyncio.run(call_llm(messages, settings))
+        factory.return_value = client
+        async def request():
+            try:
+                return await call_llm(messages, settings)
+            finally:
+                await close_http_clients()
+        result = asyncio.run(request())
     body = client.post.call_args.kwargs['content']
     payload = json.loads(body)
     assert payload['messages'] == messages

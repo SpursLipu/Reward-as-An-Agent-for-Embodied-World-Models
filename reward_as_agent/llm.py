@@ -164,7 +164,7 @@ English: Extract and parse a JSON object from model text, returning None on fail
         return None
 
 
-async def call_llm(messages, settings):
+async def call_llm(messages, settings, output_schema=None):
     """中文：调用 OpenAI 兼容的 chat completions 接口。
 English: Call an OpenAI-compatible chat completions endpoint."""
     if settings.provider == "doubao":
@@ -184,6 +184,9 @@ English: Call an OpenAI-compatible chat completions endpoint."""
             "chat_template_kwargs": {"enable_thinking": False},
             "response_format": {"type": "json_object"},
         }
+        if output_schema is not None:
+            payload['response_format'] = {'type': 'json_schema', 'json_schema': {
+                'name': 'grounded_report_v1', 'strict': False, 'schema': output_schema}}
         headers = {"Authorization": f"Bearer {settings.api_key}"}
         if settings.dp_size > 1:
             # vLLM 0.19 accepts this header and bypasses its imbalanced

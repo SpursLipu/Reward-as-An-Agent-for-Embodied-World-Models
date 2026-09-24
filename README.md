@@ -15,22 +15,50 @@ A multimodal reward agent that evaluates task progress, physical plausibility, a
 
 - **Planning Module:** observe visible actions and state changes without task text; separately extract and freeze the requested action, target object, and required end state.
 - **Gated Multi-dimensional Reward Module:** jointly assess task completion, physical plausibility, and visual quality against the observations and frozen requirements.
-- **Reflection Module:** recheck relevant frames, incorporate WMReward feedback, audit requirement scope, and revise inconsistent judgements.
-- **Reward aggregation:** apply fixed scoring and review rules after Reflection, with optional process checks, to return a reward or `needs_review`.
+- **Reflection Module:** recheck relevant frames, incorporate WMReward feedback and CoTracker motion evidence, audit requirement scope, and revise inconsistent judgements.
+- **Reward aggregation:** apply fixed scoring and review rules after Reflection, with optional process checks, to return a numerical reward (zero for unverifiable video content). Evaluator/protocol faults remain separate.
 
-The current release includes required **WMReward** integration, progress-aware rewards, and tool-backed demos. WMReward provides physical evidence—not the final task reward. Additional tools can be connected through the [worker interface](scripts/frozen_v41/worker_client.py) and [evidence hook](scripts/frozen_v41/physics_integration.py).
+The current release uses **WMReward + CoTracker3**, progress-aware rewards, and tool-backed demos. WMReward provides physical evidence—not the final task reward. Additional tools can be connected through the [worker interface](scripts/frozen_v41/worker_client.py) and [evidence hook](scripts/frozen_v41/physics_integration.py).
 
+
+## Current default: Doubao + WMReward + CoTracker
+
+The current profile is **Doubao full Agent + WMReward + CoTracker3**, with adaptive
+visual inspection and motion evidence. No local Qwen model or vLLM server is
+needed for this deployment. [Profile](configs/doubao_full.json).
+
+| Setting | Current behavior |
+| --- | --- |
+| Provider / model endpoint | Doubao Ark / deployment ID configured in `.env` |
+| Sampling | Temperature 0; non-thinking generation |
+| Initial visual evidence | 32 original frames, followed by verification and adaptive crops |
+| Output budget | Configured 8192; current `EvidencePipeline` caps requests at **4096** |
+| Concurrency | Service limit 8; demo runner uses 2 concurrent videos |
+| Tools | Required WMReward inference and Reflection; CoTracker3 motion evidence |
+| Process policy | `REWARD_GATE_POLICY=off`; native failure/video-uncertainty scoring remains active |
+| Physical completion | `required` |
+
+The server-local profile uses physical GPU 6 (`CUDA_VISIBLE_DEVICES=6`, logical
+`cuda:0`) for the tools and reserves GPU 7. These are deployment choices; configure
+available devices on your own host. Source and checkpoint hashes are verified.
+Historical selection statistics in the profile are development results, not a
+new accuracy measurement or independent human validation.
 
 ## Quick Start
 
-Requires Python 3.10+, a model endpoint, and a CUDA environment for [WMReward](#wmreward-deployment).
+Requires Python 3.10+, a model endpoint, and a CUDA environment for [WMReward](#wmreward-deployment) and [CoTracker](#cotracker-deployment).
 
 ```bash
 python -m pip install -e .
 cp .env.example .env
-# Configure model credentials and REWARD_WMREWARD_* paths in .env.
-python -m reward_as_agent.cli serve
+# Configure Ark credentials, WMReward and CoTracker paths in .env.
+bash start_evidence_reward.sh
 ```
+
+`start_evidence_reward.sh` and `start_doubao_reward.sh` both launch the current
+repository implementation. Read credentials from `ARK_API_KEY_FILE`; do not put
+secrets in Git. Configure working outbound access to Ark; a temporary relay on
+one host is not a portable deployment dependency.
 
 See [.env.example](.env.example) for configuration. The service loads WMReward at startup and requires tool-backed Reflection; missing tools or tool failures never silently fall back to model-only evaluation.
 
@@ -46,29 +74,34 @@ curl -N http://127.0.0.1:7024/eval_video \
 
 ## Demo Videos
 
-All seven demos were evaluated with real WMReward inference and Reflection. Click a preview for the full video, or a result for its evidence and trace.
+Refreshed **2026-09-24** using this repository’s current Doubao full Agent, WMReward and CoTracker3 configuration. All seven runs completed without execution errors; WMReward Reflection and CoTracker provenance were checked for every video.
 
-| Demo | Preview | Doubao task | Doubao reward | Qwen task | Qwen reward |
-| --- | --- | --- | --- | --- | --- |
-| Sweep a carton and peel | [<img src="assets/demos/demo_06.gif" width="200" alt="Sweep carton preview">](examples/demo_06/video.mp4) | Complete | [**1.0**](examples/demo_06/response.json) | — | — |
-| Sweep several pieces of litter | [<img src="assets/demos/demo_07.gif" width="200" alt="Sweep litter preview">](examples/demo_07/video.mp4) | Complete | [**1.0**](examples/demo_07/response.json) | — | — |
-| Cloth manipulation | [<img src="assets/demos/demo_01.gif" width="200" alt="Cloth manipulation preview">](examples/demo_01/video_1.mp4) | Partial | [0.615](examples/demo_01/response.json) | partial | [0.615](runs/qwen38_20260918/final/demo_01) |
-| Refrigerator drawer opening | [<img src="assets/demos/demo_02.gif" width="200" alt="Drawer opening preview">](examples/demo_02/video_1.mp4) | Partial | [0.595](examples/demo_02/response.json) | complete | [**1.0**](runs/qwen38_20260918/retry/final/demo_02) |
-| Basket handle grasping | [<img src="assets/demos/demo_03.gif" width="200" alt="Basket handle preview">](examples/demo_03/video_0.mp4) | Partial / needs review | [null](examples/demo_03/response.json) | partial | [0.615](runs/qwen38_20260918/final/demo_03) |
-| Green cube placing | [<img src="assets/demos/demo_04.gif" width="200" alt="Cube placing preview">](examples/demo_04/video_0.mp4) | Failed | [0](examples/demo_04/response.json) | failed | [0](runs/qwen38_20260918/final/demo_04) |
-| Box relocation | [<img src="assets/demos/demo_05.gif" width="200" alt="Box relocation preview">](examples/demo_05/video_0.mp4) | Failed | [0](examples/demo_05/response.json) | failed | [0](runs/qwen38_20260918/final/demo_05) |
+| Demo | Preview | Current task judgement | Reward | Evidence |
+| --- | --- | --- | --- | --- |
+| Sweep a carton and peel | [<img src="assets/demos/demo_06.gif" width="200" alt="Sweep a carton and peel preview">](examples/demo_06/video.mp4) | complete | [1](examples/demo_06/response.json) | [WMReward](examples/demo_06/tools.json) · [Motion](examples/demo_06/motion.json) · [Run](examples/demo_06/run.json) |
+| Sweep several pieces of litter | [<img src="assets/demos/demo_07.gif" width="200" alt="Sweep several pieces of litter preview">](examples/demo_07/video.mp4) | complete | [1](examples/demo_07/response.json) | [WMReward](examples/demo_07/tools.json) · [Motion](examples/demo_07/motion.json) · [Run](examples/demo_07/run.json) |
+| Cloth manipulation | [<img src="assets/demos/demo_01.gif" width="200" alt="Cloth manipulation preview">](examples/demo_01/video_1.mp4) | partial | [0.595](examples/demo_01/response.json) | [WMReward](examples/demo_01/tools.json) · [Motion](examples/demo_01/motion.json) · [Run](examples/demo_01/run.json) |
+| Refrigerator drawer opening | [<img src="assets/demos/demo_02.gif" width="200" alt="Refrigerator drawer opening preview">](examples/demo_02/video_1.mp4) | partial | [0.615](examples/demo_02/response.json) | [WMReward](examples/demo_02/tools.json) · [Motion](examples/demo_02/motion.json) · [Run](examples/demo_02/run.json) |
+| Basket handle grasping | [<img src="assets/demos/demo_03.gif" width="200" alt="Basket handle grasping preview">](examples/demo_03/video_0.mp4) | failed | [0](examples/demo_03/response.json) | [WMReward](examples/demo_03/tools.json) · [Motion](examples/demo_03/motion.json) · [Run](examples/demo_03/run.json) |
+| Green cube placing | [<img src="assets/demos/demo_04.gif" width="200" alt="Green cube placing preview">](examples/demo_04/video_0.mp4) | failed | [0](examples/demo_04/response.json) | [WMReward](examples/demo_04/tools.json) · [Motion](examples/demo_04/motion.json) · [Run](examples/demo_04/run.json) |
+| Box relocation | [<img src="assets/demos/demo_05.gif" width="200" alt="Box relocation preview">](examples/demo_05/video_0.mp4) | failed | [0](examples/demo_05/response.json) | [WMReward](examples/demo_05/tools.json) · [Motion](examples/demo_05/motion.json) · [Run](examples/demo_05/run.json) |
 
-These are recorded Agent outputs, not ground-truth labels. The two 1.0 cases are real-robot recordings with 3× previews; evaluation used the original videos. Each [demo folder](examples/) includes `tools.json` (raw tool output), `reports.json` (Reflection), and `run.json` (provenance).
+These are recorded Agent judgements, **not ground-truth labels or an accuracy benchmark**. All seven returned `training_eligible: true` in this run; this does not validate their correctness. The sweeps use 3× previews, while evaluation uses the original full-duration videos. Old Qwen comparisons and pre-refresh outputs are not mixed into this table.
 
-Doubao and Qwen results use the same WMReward and Reflection pipeline. `—` means no valid final output was available in that run.
+Each demo folder also contains `reports.json` (before/after Reflection) and `deployment.json` (settings and source hashes). [Refresh summary](examples/demo_refresh_20260924.json). The first client attempt was interrupted because byte-at-a-time JSONL reading stalled on large traces; its logs and previous example outputs remain in the server-local run archive. The refreshed run uses chunked reading and a dedicated per-service CoTracker cache, which may reuse tracks computed by that first attempt.
 
-With the service running, reproduce all demos:
+With the current Doubao service running, reproduce all seven demos:
 
 ```bash
-python scripts/run_demos.py --output runs/my_tool_demos --jobs 2
+python scripts/run_demos.py --url http://127.0.0.1:7024 \
+  --output runs/doubao_full_demos_NEW --jobs 2 --timeout 3600 --require-motion
 ```
 
-Use a fresh output directory; repeat `--demo demo_XX` to select cases. The runner verifies actual tool completion and Reflection.
+Use a fresh output directory. Each request uses the original full-duration video
+and unchanged task text. The runner checks WMReward completion and Reflection;
+`--require-motion` additionally checks `cotracker3_motion_tool` records and
+retains them as `motion.json`. A `success` status is an evaluator status, not proof
+that the robot task succeeded or that the score is correct.
 
 ## WMReward Deployment
 
@@ -102,11 +135,63 @@ Verify the downloaded digest matches. The checkpoint is approximately 16.5 GB; a
 
 For standalone evaluation without an HTTP server, use [scripts/run_wmreward_demo.py](scripts/run_wmreward_demo.py) (`--help` lists worker and checkpoint options).
 
+## CoTracker Deployment
+
+The current backend loads **CoTracker3 scaled_offline** from a local checkout of
+[co-tracker](https://github.com/facebookresearch/co-tracker) at commit
+`82e02e8029753ad4ef13cf06be7f4fc5facdda4d`. Install its dependencies in the
+Agent's CUDA environment. Set `REWARD_COTRACKER_REPO`,
+`REWARD_COTRACKER_CHECKPOINT`, `REWARD_COTRACKER_SHA256`, and
+`REWARD_COTRACKER_CACHE` in `.env` (see `.env.example`).
+
+The checkout must contain `SOURCE_MANIFEST.json` with `commit` and
+`files_sha256`, mapping source-relative filenames to their SHA256 values.
+The backend verifies those files before loading the model. The current
+`scaled_offline.pth` checkpoint SHA256 is
+`2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834`.
+For a fresh checkout, run the following in the Agent CUDA environment (the
+checkpoint URL is also listed by the pinned upstream `hubconf.py`):
+
+```bash
+git clone https://github.com/facebookresearch/co-tracker.git
+cd co-tracker
+git checkout 82e02e8029753ad4ef13cf06be7f4fc5facdda4d
+python -m pip install -e .
+python -m pip install matplotlib flow_vis tqdm tensorboard
+mkdir -p checkpoints
+curl -L https://huggingface.co/facebook/cotracker3/resolve/main/scaled_offline.pth -o checkpoints/scaled_offline.pth
+sha256sum checkpoints/scaled_offline.pth
+python - <<'MANIFEST'
+import hashlib, json, pathlib, subprocess
+root = pathlib.Path('.')
+names = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+files = {n: hashlib.sha256((root / n).read_bytes()).hexdigest()
+         for n in names if n and (root / n).is_file()}
+manifest = {'commit': subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode().strip(),
+            'files_sha256': files}
+(root / 'SOURCE_MANIFEST.json').write_text(json.dumps(manifest, indent=2))
+MANIFEST
+```
+
+Verify the checkpoint digest against the value above before launching. This
+installation recipe follows the pinned source; this refresh reused the existing
+validated tool environment rather than testing a fresh installation.
+
+Use a writable cache directory. Keep `REWARD_MOTION_EVIDENCE=1` and
+`REWARD_ADAPTIVE_CROP=1` for this full profile; the defaults enable both when
+`REWARD_FAST_TRAINING=0`.
+
+CoTracker runs in the Agent process on logical `cuda:0`; WMReward runs in its
+separate worker. Predicted 2D tracks are supporting evidence, not contact labels,
+3D physics, or proof of task success. A low track survival rate alone does not
+establish a failed video.
+
 ## Reward & RL Usage
 
 - **Complete / partial:** reward reflects supported completion or effective progress; unmet requirements do not automatically erase progress.
 - **Failed:** confirmed failure without effective progress returns `0`.
-- **Needs review:** unresolved evidence affecting the reward returns `score: null`, not zero.
+- **Unclear video:** unobservable outcomes, uncertain targets, low-confidence visual evidence, and unresolved visible requirements return `score: 0`, with `training_eligible: true`. Factual uncertainty stays in the report and `video_quality_gate.reasons`; it is not relabeled as proven task failure.
+- **Review flags:** inspect `review_required`, `review_reasons`, and `training_eligible`. The current HTTP adapter can emit `status: success, score: 0` even when review is required; that zero is not automatically an eligible training reward. Contract/protocol problems remain distinct from video-content uncertainty.
 - **Errors:** tool or Reflection failures are not valid training results.
 
 `status: success` means evaluation completed, not task success. For RL, use `score` only when `training_eligible: true`; retry or mask review/error samples. `diagnostic_score` and WMReward's raw surprise are not replacement rewards. Trainer-side masking is not implemented here, and reward calibration/stable RL suitability remains unvalidated. Exact rules: [training_reward.py](reward_as_agent/training_reward.py).

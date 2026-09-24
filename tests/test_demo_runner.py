@@ -137,3 +137,18 @@ def test_load_case_rejects_video_outside_repository(tmp_path, monkeypatch):
     path.write_text(json.dumps(request), encoding="utf-8")
     with pytest.raises(ValueError, match="existing repository file"):
         runner.load_case("demo_06")
+
+
+def test_motion_validation_accepts_real_low_survival():
+    runner.validate_motion_evidence([{
+        "tool": "cotracker3-motion-v1", "status": "insufficient_tracks",
+        "model_provenance": {"checkpoint_sha256": "abc"},
+        "source_decoded_sha256": "def", "tracking_source_frames": [0, 1],
+    }])
+
+
+@pytest.mark.parametrize("records", [[], [{"tool": "disabled", "status": "disabled"}],
+    [{"tool": "cotracker3-motion-v1", "status": "ok"}]])
+def test_motion_validation_rejects_missing_execution(records):
+    with pytest.raises(ValueError):
+        runner.validate_motion_evidence(records)

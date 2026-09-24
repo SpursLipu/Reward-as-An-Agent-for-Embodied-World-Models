@@ -18,6 +18,7 @@ from reward_as_agent.logging import save_video_and_prompt as save_video_and_prom
 from reward_as_agent.metrics import MotionQualityMetrics
 from reward_as_agent.evidence_pipeline import EvidencePipeline
 from reward_as_agent.llm import close_http_clients
+from reward_as_agent.training_reward import SCORING_VERSION
 from reward_as_agent.pipeline import process_one_video_safe
 
 
@@ -101,10 +102,14 @@ English: Convert a full internal result into one streamed API response object.""
             'diagnostic_review_required': result['diagnostic_review_required'],
             'diagnostic_review_reasons': result['diagnostic_review_reasons'],
         }
+    if 'video_quality_gate' in result.get('scoring', {}):
+        extra['video_quality_gate'] = result['scoring']['video_quality_gate']
+        extra['scoring_version'] = result['scoring']['scoring_version']
     if result.get('review_required'):
-        return {'index': planning_api_output['index'], 'score': None,
+        return {'index': planning_api_output['index'], 'score': 0.0,
                 'provisional_score': total_score if total_score != -1 else None,
-                'status': 'needs_review', 'review_reasons': result.get('scoring', {}).get('review_reasons', []),
+                'status': 'success', 'review_required': True,
+                'review_reasons': result.get('scoring', {}).get('review_reasons', []),
                 **extra}
     if total_score != -1:
         return {
@@ -180,6 +185,7 @@ English: Return service health status and key runtime configuration."""
         "pipeline": PIPELINE_NAME,
         "external_tools": ["wmreward"],
         "tool_reflection_required": True,
+        "scoring_version": SCORING_VERSION,
         "tool_runtime_initialized": PIPELINE is not None,
         "api_base": SETTINGS.api_base,
         "dp_size": SETTINGS.dp_size,

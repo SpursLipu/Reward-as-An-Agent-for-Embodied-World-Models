@@ -1,0 +1,21 @@
+{
+  "profile": "qwen38-27b-full-agent-v1",
+  "model": "Qwen3.8-27B",
+  "selection_metric": "historical reasonable_count / 180",
+  "source_experiment": "reward_agent_detail_opt_v1_20260922",
+  "reasonable": 141,
+  "n": 180,
+  "negative_positive": 13,
+  "negative_n": 60,
+  "progress_zero": 4,
+  "progress_n": 20,
+  "original_development_acceptance": false,
+  "selected_by_user_request_for_highest_reasonable_rate": true,
+  "not_a_fresh_evaluation": true,
+  "protocol": "14be220da4283875d3521ea0627fff79544a8c86d7ec8af7fab0bea703e9247b",
+  "cotracker": false,
+  "adaptive_crops": false,
+  "wmreward": "required",
+  "numeric_physics_completion": "optional",
+  "reserved_gpu": 7
+}

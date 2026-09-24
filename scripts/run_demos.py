@@ -42,7 +42,7 @@ DEMOS = discover_demos()
 PUBLIC_HEALTH_FIELDS = (
     "status", "model", "provider", "pipeline", "dp_size",
     "max_inflight_per_dp", "max_tokens", "heartbeat_interval",
-    "motion_quality_enabled", "motion_quality_available",
+    "motion_quality_enabled", "motion_quality_available", "scoring_version",
     "external_tools", "tool_reflection_required", "tool_runtime_initialized",
 )
 
@@ -110,9 +110,22 @@ def write_json(path: Path, value: object) -> None:
         output.write("\n")
 
 
+def validate_motion_evidence(records: list) -> None:
+    """Require real CoTracker provenance; low survival is not execution failure."""
+    if len(records) != 1 or not isinstance(records[0], dict):
+        raise ValueError("Expected one CoTracker motion evidence record")
+    record = records[0]
+    if (record.get("tool") != "cotracker3-motion-v1"
+            or record.get("status") not in {"ok", "insufficient_tracks"}
+            or not record.get("model_provenance", {}).get("checkpoint_sha256")
+            or not record.get("source_decoded_sha256")
+            or not record.get("tracking_source_frames")):
+        raise ValueError("CoTracker execution/provenance is missing or disabled")
+
+
 def run_case(
     demo: str, url: str, output_root: Path, timeout: float,
-    configuration: dict, source_hashes: dict[str, str],
+    configuration: dict, source_hashes: dict[str, str], require_motion: bool = False,
 ) -> dict:
     payload, inputs = load_case(demo)
     input_hashes = hash_files(inputs)
@@ -146,7 +159,7 @@ def run_case(
                         except json.JSONDecodeError:
                             response_record = {"http_status": response.status_code, "body": body}
                         raise RuntimeError(f"HTTP {response.status_code}")
-                    for line in response.iter_lines(chunk_size=1):
+                    for line in response.iter_lines(chunk_size=65536):
                         if time.monotonic() - started > timeout:
                             raise TimeoutError(f"evaluation exceeded {timeout:g} seconds")
                         if not line:
@@ -178,6 +191,14 @@ def run_case(
             details, details.get('trace', []), sha256_file(inputs[-1]))
         if errors:
             raise ValueError('Required tool evaluation incomplete: ' + '; '.join(errors))
+        motion = [entry.get('output') for entry in details.get('trace', [])
+                  if entry.get('stage') == 'cotracker3_motion_tool']
+        if require_motion:
+            validate_motion_evidence(motion)
+        if motion:
+            write_json(directory / 'motion.json', motion)
+        metadata['motion_evidence_required'] = require_motion
+        metadata['motion_evidence_status'] = [item.get('status') for item in motion]
         write_json(directory / 'tools.json', evidence)
         write_json(directory / 'reports.json', {
             'before_tool_reflection': evidence.get('pre_tool_report'),
@@ -225,6 +246,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", required=True, type=Path, help="New results directory; cases are never overwritten")
     parser.add_argument("--jobs", type=int, choices=(1, 2), default=1)
     parser.add_argument("--timeout", type=float, default=900, help="Per-demo timeout in seconds")
+    parser.add_argument("--require-motion", action="store_true", help="Require CoTracker evidence for the current full profile")
     args = parser.parse_args(argv)
     if not available_demos:
         parser.error("no bundled demos with request.json and prompt.txt were found")
@@ -252,7 +274,7 @@ def main(argv: list[str] | None = None) -> int:
         args.output.mkdir(parents=True, exist_ok=True)
         with ThreadPoolExecutor(max_workers=args.jobs) as executor:
             futures = [executor.submit(
-                run_case, demo, evaluation_url, args.output, args.timeout, configuration, source_hashes,
+                run_case, demo, evaluation_url, args.output, args.timeout, configuration, source_hashes, args.require_motion,
             ) for demo in demos]
             results = [future.result() for future in futures]
         errors = sum(result["execution_error"] is not None for result in results)

@@ -91,19 +91,21 @@ def test_uncertain_target_and_unrelated_scope_require_independent_resolution():
     assert after["diagnostic_score"] == 0.28
 
 
-def test_uncertain_target_is_not_overridden_by_confident_failed_label():
+def test_uncertain_target_gets_quality_zero_without_claiming_decisive_failure():
     report, contract, _ = fixture(target="uncertain")
     out = score(report, contract, audits(report), failure_resolution=resolution(established=False))
-    assert out["review_required"] and out["task_reward"] is None
-    assert "task: target identity is uncertain" in out["review_reasons"]
+    assert not out["review_required"] and out["task_reward"] == 0
+    assert not out["decisive_failure"]
+    assert "task: target identity is uncertain" in out["video_quality_gate"]["reasons"]
 
 
 @pytest.mark.parametrize("confidence", ["low", "medium"])
-def test_non_high_confidence_failure_is_withheld(confidence):
+def test_non_high_confidence_failure_gets_quality_zero(confidence):
     report, contract, scope = fixture(confidence=confidence)
     out = score(report, contract, scope)
-    assert out["review_required"] and out["task_reward"] is None
-    assert out["total_score"] is None and out["diagnostic_score"] == 0.3
+    assert not out["review_required"] and out["task_reward"] == 0
+    assert out["total_score"] == 0 and out["diagnostic_score"] == 0.3
+    assert not out["decisive_failure"]
     assert not needs_failure_resolution(report, contract, scope)
 
 
@@ -125,12 +127,12 @@ def test_unrelated_scope_issue_requires_resolution_but_does_not_taint_witness():
     assert out["task_reward"] == 0 and out["diagnostic_review_required"]
 
 
-def test_unobservable_other_requirement_requires_resolution():
+def test_unobservable_other_requirement_gets_zero_without_resolution():
     report, contract, _ = fixture()
     report["requirement_checks"][1].update(status="unobservable", evidence=[])
     scope = audits(report)
     assert needs_failure_resolution(report, contract, scope)
-    assert score(report, contract, scope)["task_reward"] is None
+    assert score(report, contract, scope)["task_reward"] == 0
     assert score(report, contract, scope, failure_resolution=resolution())["task_reward"] == 0
 
 
@@ -156,14 +158,16 @@ def test_contract_ambiguity_always_blocks_zero():
     assert any(reason.startswith("task contract:") for reason in out["review_reasons"])
 
 
-def test_unobservable_input_always_blocks_zero():
+def test_unobservable_input_gets_quality_zero():
     report, contract, scope = fixture()
     scoring = score_report(core_report(report))
     scoring["total_score"] = None
     out = apply_training_reward(scoring, report, contract, scope,
                                 physics_evidence={"input_unobservable": True},
                                 failure_resolution=resolution())
-    assert out["task_reward"] is None and not out["decisive_failure"]
+    assert out["task_reward"] == 0 and not out["decisive_failure"]
+    assert out["video_quality_gate"]["applied"]
+    assert out["quality_adjusted_diagnostic_score"] == 0
 
 
 def test_protocol_or_required_external_evidence_failure_is_not_cleared():
@@ -263,4 +267,38 @@ def test_witness_without_shared_task_evidence_is_not_candidate():
     report["task_assessment"]["evidence"] = ["E2"]
     scope = audits(report)
     assert failure_candidates(report, contract, scope) == []
-    assert score(report, contract, scope)["task_reward"] is None
+    assert score(report, contract, scope)["task_reward"] == 0
+
+
+@pytest.mark.parametrize("dimension", ["task", "physics", "visual"])
+def test_unobservable_dimension_returns_numeric_zero_and_preserves_report(dimension):
+    report, contract, _ = fixture(status="partial")
+    report[dimension + "_assessment"].update(verdict="unobservable", confidence="low")
+    before = copy.deepcopy(report)
+    out = score(report, contract, audits(report))
+    assert out["total_score"] == out["task_reward"] == 0
+    assert not out["review_required"] and not out["decisive_failure"]
+    assert out["video_quality_gate"]["applied"]
+    assert out["quality_adjusted_diagnostic_score"] == 0
+    assert out["diagnostic_score"] is None
+    assert all("no numeric reward" not in reason for reason in out["video_quality_gate"]["reasons"])
+    assert report == before
+
+
+def test_unclear_video_does_not_hide_required_tool_failure():
+    report, contract, _ = fixture(status="unobservable", confidence="low")
+    scoring = score_report(core_report(report))
+    scoring["physical_completion"] = {"required": True, "complete": False}
+    scoring["review_reasons"].append("required physical evidence: failed tool")
+    out = apply_training_reward(scoring, report, contract, audits(report))
+    assert out["review_required"] and out["task_reward"] is None
+    assert not out["video_quality_gate"]["applied"]
+
+
+def test_visible_partial_with_unresolved_required_action_returns_zero():
+    report, contract, _ = fixture(status="partial")
+    report["requirement_checks"][0].update(status="uncertain", evidence=[])
+    out = score(report, contract, audits(report))
+    assert out["task_reward"] == 0 and not out["review_required"]
+    assert out["diagnostic_score"] == 0.615
+    assert out["quality_adjusted_diagnostic_score"] == 0

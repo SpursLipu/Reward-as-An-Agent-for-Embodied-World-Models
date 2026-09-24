@@ -35,16 +35,23 @@ class EvidenceVideo:
         return parts
 
 
+class InvalidVideoContent(ValueError):
+    """Readable input bytes cannot provide valid temporal video evidence."""
+
+
 def load_evidence_video(path):
+    # File access failures are infrastructure errors, not bad generated content.
+    with open(path, "rb") as source:
+        source.read(1)
     cv2 = get_cv2()
     cap = cv2.VideoCapture(str(path))
     try:
         if not cap.isOpened():
-            raise ValueError(f'Could not open video: {path}')
+            raise InvalidVideoContent(f'Could not open video: {path}')
         fps = float(cap.get(cv2.CAP_PROP_FPS))
         declared_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         if not math.isfinite(fps) or fps <= 0:
-            raise ValueError('Video has no valid frame rate; temporal evidence cannot be located')
+            raise InvalidVideoContent('Video has no valid frame rate; temporal evidence cannot be located')
         frames = []
         while True:
             ok, frame = cap.read()
@@ -52,9 +59,9 @@ def load_evidence_video(path):
                 break
             frames.append(frame)
         if not frames:
-            raise ValueError('Video contains no decoded frames')
+            raise InvalidVideoContent('Video contains no decoded frames')
         if declared_count > 0 and len(frames) < declared_count - 1:
-            raise ValueError(f'Video decoding ended prematurely: decoded {len(frames)} of {declared_count} declared frames')
+            raise InvalidVideoContent(f'Video decoding ended prematurely: decoded {len(frames)} of {declared_count} declared frames')
         height, width = frames[0].shape[:2]
         return EvidenceVideo(frames, fps, width, height)
     finally:

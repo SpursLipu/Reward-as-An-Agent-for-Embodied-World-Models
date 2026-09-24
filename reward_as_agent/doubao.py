@@ -13,6 +13,20 @@ import time
 import httpx
 
 _cooldown_until = 0.0
+_dispatch_lock = asyncio.Lock()
+_last_dispatch = 0.0
+
+async def paced_dispatch():
+    """Spread requests, including retries, instead of bursting after a cooldown."""
+    global _last_dispatch
+    async with _dispatch_lock:
+        while True:
+            delay = max(_cooldown_until, _last_dispatch + 1.0) - time.monotonic()
+            if delay <= 0:
+                _last_dispatch = time.monotonic()
+                return
+            await asyncio.sleep(delay)
+
 
 
 class DoubaoRequestError(RuntimeError):
@@ -134,8 +148,7 @@ async def call_doubao(messages, settings):
     # Ark needs the machine's outbound proxy, unlike node-local vLLM.
     async with httpx.AsyncClient(trust_env=True) as client:
         for attempt in range(settings.max_retries + 1):
-            while time.monotonic() < _cooldown_until:
-                await asyncio.sleep(_cooldown_until - time.monotonic())
+            await paced_dispatch()
             started = time.monotonic()
             try:
                 response = await client.post(url, content=request_body,
@@ -155,9 +168,13 @@ async def call_doubao(messages, settings):
                             retry_after = float(response.headers.get("Retry-After", "60"))
                         except ValueError:
                             retry_after = 60
-                        delay = min(120, max(60, retry_after))
+                        delay = max(0, retry_after) if math.isfinite(retry_after) else 60
                         _cooldown_until = max(_cooldown_until, time.monotonic() + delay)
-                        print(json.dumps({"event": "doubao_rate_limit", "cooldown_seconds": delay}), flush=True)
+                        try:
+                            rate_code = str(response.json().get("error", {}).get("code", "unknown")).replace(key, "[REDACTED]")[:100]
+                        except Exception:
+                            rate_code = "unknown"
+                        print(json.dumps({"event": "doubao_rate_limit", "cooldown_seconds": delay, "code": rate_code, "retry_after_provided": "Retry-After" in response.headers}), flush=True)
                     else:
                         await asyncio.sleep(min(2 ** attempt, 30))
                     continue
@@ -190,7 +207,7 @@ async def call_doubao(messages, settings):
                               "usage": body.get("usage", {})}), flush=True)
             # Preserve the internal interface expected by retry_llm_call.
             result = {"choices": [{"message": {"content": text}}], "usage": body.get("usage", {}),
-                      "id": body.get("id"), "cache_reused": False, **metadata}
+                      "id": body.get("id"), "provider_model": body.get("model"), "provider_status": body.get("status"), "cache_reused": False, **metadata}
             if cache_path:
                 result["_cache_path"] = str(cache_path)
                 cache_path.parent.mkdir(parents=True, exist_ok=True)

@@ -100,3 +100,20 @@ English: Verify internal results convert to stable streamed API outputs."""
         "status": "error",
         "error": "boom",
     }
+
+
+def test_unclear_video_api_returns_zero_with_reason():
+    result = {
+        "planning_api_output": {"index": 0}, "total_score": 0.0,
+        "diagnostic_score": None, "diagnostic_review_required": True,
+        "diagnostic_review_reasons": ["task: unobservable"],
+        "evidence_report": {"task_assessment": {"verdict": "unobservable"}},
+        "training_eligible": True, "review_required": False,
+        "scoring": {"scoring_version": "task-failure-video-uncertainty-zero-v2",
+                    "video_quality_gate": {"applied": True, "reasons": ["task: unobservable"]}},
+    }
+    response = reward_app.response_from_result(result)
+    assert response["score"] == 0 and response["status"] == "success"
+    assert response["training_eligible"] is True
+    assert response["task_verdict"] == "unobservable"
+    assert response["video_quality_gate"]["reasons"] == ["task: unobservable"]

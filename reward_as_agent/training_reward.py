@@ -1,9 +1,8 @@
-"""Task-failure reward policy; diagnostic doubts need not invalidate a known zero.
+"""Numerical training rewards with zero credit for unverifiable video content.
 
-This reducer checks provenance and categorical consistency, not visual truth. The
-existing grounded assessment and scope audit remain intact. Where task-related
-ambiguity remains, only a separate image-backed independence decision can make a
-failure decisive; no natural-language keyword rules infer that decision.
+Factual uncertainty stays in the grounded report. The reducer penalizes it without
+claiming an observed task failure; invalid contracts, audits, and tool execution
+remain separate blockers. Raw diagnostic scores are retained for audit.
 """
 from __future__ import annotations
 
@@ -17,7 +16,7 @@ from reward_as_agent.requirement_audit import validate_requirement_audit
 from reward_as_agent.task_contract import validate_requirement_checks
 
 
-SCORING_VERSION = "task-failure-material-review-v1"
+SCORING_VERSION = "task-failure-video-uncertainty-zero-v2"
 RESOLUTION_VERSION = "failure-reward-resolution-v1"
 
 
@@ -29,8 +28,8 @@ def _own_frames(report):
 def _validated_context(report, contract, scope_audits, valid_ids=None):
     validate_grounded_report(report, _own_frames(report) if valid_ids is None else valid_ids, contract)
     summary = validate_requirement_checks(report["requirement_checks"], contract, report)
-    if not isinstance(scope_audits, list) or len(scope_audits) not in (1, 2):
-        raise ValueError("scope_audits: require final scope audit with at most one repair")
+    if not isinstance(scope_audits, list) or not 1 <= len(scope_audits) <= 4:
+        raise ValueError("scope_audits: require final scope audit with at most three repairs")
     final = scope_audits[-1]
     expected = hashlib.sha256(json.dumps(
         report, ensure_ascii=False, sort_keys=True, separators=(",", ":")
@@ -170,7 +169,8 @@ def apply_training_reward(scoring, report, contract, scope_audits, *,
 
     The caller supplies the existing reducer including optional process/protocol
     gates. Unknown additional review reasons are conservatively kept as blockers.
-    Non-failed cases keep their existing numeric score and review semantics.
+    Video-content uncertainty receives zero, without asserting factual failure.
+    Contract, scope/protocol and required-tool failures remain execution blockers.
     """
     summary, audit = _validated_context(report, contract, scope_audits)
     if failure_resolution is not None:
@@ -190,7 +190,8 @@ def apply_training_reward(scoring, report, contract, scope_audits, *,
     hard_blocked = bool(contract_review or (physics_evidence or {}).get("input_unobservable")
                         or any(reason not in baseline_reasons for reason in original_reasons))
     physical = scoring.get("physical_completion")
-    if isinstance(physical, dict) and physical.get("required") and not physical.get("complete"):
+    if (isinstance(physical, dict) and physical.get("required")
+            and not physical.get("complete")):
         hard_blocked = True
     ambiguous = _task_ambiguity(report, summary, audit)
     resolution_established = bool(failure_resolution
@@ -217,6 +218,51 @@ def apply_training_reward(scoring, report, contract, scope_audits, *,
                 reasons.append("task: failed verdict lacks a scope-clean evidence-backed failed requirement")
             if ambiguous and not resolution_established:
                 reasons.append("task: independence of failure from unresolved task evidence is not established")
+    # Unverifiable video quality is a zero-valued training outcome, not abstention.
+    # Keep factual labels/diagnostics intact: an unobservable task is not evidence
+    # of an established failure. Evaluator/protocol faults are not video defects.
+    execution_blocked = bool(
+        contract_review
+        or any(check["issues"] for check in audit["checks"])
+        or any(reason not in baseline_reasons for reason in original_reasons)
+        or (isinstance(physical, dict) and physical.get("required")
+            and not physical.get("complete"))
+    )
+    content_reasons = [reason for reason in _baseline_reasons(
+        report, summary, audit, physics_evidence=physics_evidence
+    ) if "unresolved scope audit" not in reason]
+    # A content-quality penalty does not require a scope-clean positive task
+    # score. Keep scope findings diagnostic when visibility itself earns zero.
+    content_execution_blocked = bool(
+        contract_review
+        or any(reason not in baseline_reasons for reason in original_reasons)
+        or (isinstance(physical, dict) and physical.get("required") and not physical.get("complete"))
+    )
+    quality_zero = bool(content_reasons and not content_execution_blocked)
+    # This baseline applies the same video-quality rule before the failure gate,
+    # allowing a matched numerical failure-gate ablation even on unclear videos.
+    out["quality_adjusted_diagnostic_score"] = 0.0 if quality_zero else diagnostic["total_score"]
+    out["video_quality_gate"] = {
+        "applied": quality_zero,
+        "reasons": list(dict.fromkeys(content_reasons)) if quality_zero else [],
+        "policy": "Unverifiable video content receives zero; factual labels are preserved.",
+    }
+    if quality_zero:
+        out["total_score"] = 0.0
+        reasons = []
+    elif not execution_blocked and task["verdict"] == "failed" and reasons:
+        # A valid failed assessment without a decisive high-confidence witness
+        # also earns no positive reward; do not call it a proven failure.
+        out["total_score"] = 0.0
+        out["video_quality_gate"]["applied"] = True
+        out["video_quality_gate"]["reasons"] = list(dict.fromkeys(reasons))
+        out["quality_adjusted_diagnostic_score"] = 0.0
+        reasons = []
+    out["video_quality_gate"]["reasons"] = [
+        reason.replace("no numeric reward can be assigned", "video evidence is insufficient; training reward is zero")
+              .replace("for a training zero", "for a confirmed-failure label")
+        for reason in out["video_quality_gate"]["reasons"]
+    ]
     out["review_reasons"] = list(dict.fromkeys(reasons))
     out["review_required"] = bool(out["review_reasons"])
     out["task_reward"] = None if out["review_required"] else out["total_score"]

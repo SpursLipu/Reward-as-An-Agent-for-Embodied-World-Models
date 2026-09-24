@@ -55,6 +55,8 @@ class SamplingConfigTests(unittest.TestCase):
     def test_other_configuration_defaults_and_overrides_are_preserved(self):
         defaults = get_settings()
         self.assertEqual(defaults.provider, "doubao")
+        self.assertEqual(defaults.model, "ep-20260909144216-fgpxr")
+        self.assertEqual(defaults.api_base, "https://ark.cn-beijing.volces.com/api/v3")
         self.assertEqual(defaults.port, 7024)
         self.assertEqual(defaults.llm_timeout, 600)
         self.assertTrue(defaults.save_inputs)

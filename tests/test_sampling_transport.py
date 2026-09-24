@@ -130,7 +130,7 @@ class SamplingTransportTests(unittest.IsolatedAsyncioTestCase):
         omitted = EvidencePipeline(config)
         explicit = EvidencePipeline(replace(config, temperature=0))
         self.assertNotEqual(omitted.evaluator_version, explicit.evaluator_version)
-        self.assertEqual(PIPELINE_VERSION, 'evidence-v7.0-focused1')
+        self.assertEqual(PIPELINE_VERSION, 'evidence-v12-cotracker3-tool-probe')
         with patch.dict(os.environ, {'REWARD_REQUIREMENT_AUDIT_MODE': 'focused'}):
             focused = EvidencePipeline(config)
         self.assertNotEqual(omitted.evaluator_version, focused.evaluator_version)

@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="710" viewBox="0 0 1600 710" role="img" aria-labelledby="title desc">
 <title id="title">Reward as an Agent</title>
-<desc id="desc">Task-blind video observation and frozen task requirements feed joint task, physics and visual assessment. Required WMReward evidence and optional custom adapters feed Reflection. Fixed aggregation returns a reward or needs review.</desc>
+<desc id="desc">Task-blind video observation and frozen task requirements feed joint task, physics and visual assessment. Required WMReward evidence and optional custom adapters feed Reflection. Fixed aggregation returns a reward, with zero for unverifiable video content. Execution faults remain separate.</desc>
 <defs>
 <style>
 text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
@@ -95,7 +95,7 @@ text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
 <rect x="1080" y="392" width="480" height="116" rx="14" fill="#f8efe9" stroke="#dac5b5"/>
 <use href="#balance" transform="translate(1105 414)"/>
 <text x="1157" y="430" class="label">Reward aggregation</text>
-<text x="1157" y="460" class="body">Fixed scoring + review gate</text>
+<text x="1157" y="460" class="body">Fixed scoring + zero gates</text>
 <text x="1157" y="487" class="small">Optional process checks</text>
 <path d="M1320 508V528H1191V548M1320 528H1448V548" class="flow"/>
 <rect x="1080" y="550" width="222" height="90" rx="12" fill="#eef5ea" stroke="#bfd0b9"/>
@@ -103,6 +103,6 @@ text{font-family:'Liberation Sans',Arial,sans-serif;fill:#293f46}
 <text x="1145" y="585" class="label">Reward</text><text x="1145" y="613" class="body">score + report</text>
 <rect x="1330" y="550" width="230" height="90" rx="12" fill="#fcf5e6" stroke="#ddc99e"/>
 <use href="#review" transform="translate(1346 574)"/>
-<text x="1393" y="585" class="label">Needs review</text><text x="1393" y="613" class="body">score = null</text>
+<text x="1393" y="585" class="label">Unclear video</text><text x="1393" y="613" class="body">score = 0</text>
 <text x="800" y="684" text-anchor="middle" class="small">Frame-linked judgements and recorded tool provenance throughout the evaluation.</text>
 </svg>

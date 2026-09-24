@@ -165,7 +165,7 @@ class EvidencePipelineTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn('frozen task contract', result['trace'][1]['validation_error'])
         self.assertEqual(result['evidence_report']['task'], contract_fixture()['task'])
 
-    async def test_unresolved_requirement_cannot_be_silently_training_eligible(self):
+    async def test_unresolved_requirement_is_zero_with_visible_reason(self):
         final = report_fixture()
         final['task_assessment']['verdict'] = 'mostly_complete'
         final['requirement_checks'][0]['status'] = 'uncertain'
@@ -173,9 +173,10 @@ class EvidencePipelineTests(unittest.IsolatedAsyncioTestCase):
         with patch('reward_as_agent.evidence_pipeline.load_evidence_video', return_value=FakeVideo()), \
                 patch('reward_as_agent.evidence_pipeline.call_llm', model):
             result = await self.pipeline.process_one_video('not-opened.mp4', 'Place block in basket.', 0)
-        self.assertFalse(result['training_eligible'])
+        self.assertTrue(result['training_eligible'])
+        self.assertEqual(result['total_score'], 0)
         self.assertEqual(result['requirement_summary']['unresolved_requirement_ids'], ['R1'])
-        self.assertTrue(any('R1' in reason for reason in result['scoring']['review_reasons']))
+        self.assertTrue(any('R1' in reason for reason in result['scoring']['video_quality_gate']['reasons']))
 
     async def test_task_interpretation_review_is_separate_from_visible_uncertainty(self):
         review = {'status': 'requires_review', 'source_sha256': contract_fixture()['source_sha256'],
@@ -202,7 +203,7 @@ class EvidencePipelineTests(unittest.IsolatedAsyncioTestCase):
         for call in model.await_args_list:
             self.assertNotIn('image_url', json.dumps(call.args[0]))
 
-    async def test_unknown_component_is_abstention_and_never_training_reward_zero(self):
+    async def test_unknown_component_returns_training_zero(self):
         final = report_fixture()
         final["task_assessment"].update(verdict="unobservable", confidence="low", evidence=[])
         final['requirement_checks'][0].update(status='unobservable', evidence=[])
@@ -210,21 +211,22 @@ class EvidencePipelineTests(unittest.IsolatedAsyncioTestCase):
         with patch("reward_as_agent.evidence_pipeline.load_evidence_video", return_value=FakeVideo()), \
                 patch("reward_as_agent.evidence_pipeline.call_llm", model):
             result = await self.pipeline.process_one_video("not-opened.mp4", "Place block", 0)
-        self.assertIsNone(result["scoring"]["total_score"])
-        self.assertEqual(result["total_score"], -1)
-        self.assertTrue(result["review_required"])
-        self.assertFalse(result["training_eligible"])
+        self.assertEqual(result["scoring"]["total_score"], 0)
+        self.assertEqual(result["total_score"], 0)
+        self.assertFalse(result["review_required"])
+        self.assertTrue(result["training_eligible"])
 
-    async def test_low_confidence_retains_provisional_score_but_prevents_training(self):
+    async def test_low_confidence_returns_training_zero_and_preserves_diagnostic(self):
         final = report_fixture()
         final["task_assessment"]["confidence"] = "low"
         model = AsyncMock(side_effect=[response(observation_fixture()), response(report_fixture()), response(final), response(clean_audit())])
         with patch("reward_as_agent.evidence_pipeline.load_evidence_video", return_value=FakeVideo()), \
                 patch("reward_as_agent.evidence_pipeline.call_llm", model):
             result = await self.pipeline.process_one_video("not-opened.mp4", "Place block", 0)
-        self.assertEqual(result["total_score"], 1.0)
-        self.assertTrue(result["review_required"])
-        self.assertFalse(result["training_eligible"])
+        self.assertEqual(result["total_score"], 0.0)
+        self.assertEqual(result["diagnostic_score"], 1.0)
+        self.assertFalse(result["review_required"])
+        self.assertTrue(result["training_eligible"])
 
     async def test_invalid_cached_frame_citation_is_evicted_before_structural_retry(self):
         invalid = report_fixture()

@@ -202,6 +202,12 @@ coverage_notes，不成为完成门槛；只有原文明确要求改变、保持
 """
 
 
+_EXTRACTION_RULES += "\n先判断原文的语法结构和词性。并列名词不应误拆为额外动作，省略短语不应扩展成惯常完整流程。有歧义时保留原文对象短语并记录歧义，不能凭常识增添新的操作要求。"
+
+_EXTRACTION_RULES += '\n角色语义核对：严格保留执行者、动作对象、来源、目的地和方式的区别。英文from短语通常标记来源，to短语通常标记目的地，with/by短语依语法标记工具或执行者；不得仅因出现左右手名称就断言该手是执行者。将每条要求反向对应原文：原文是否真的要求此执行者、方向或动作？并列名词优先按同一支配动词解释；无法唯一消歧时保留原始关系，记录歧义，不凭空添加具体动作或末态。'
+
+_EXTRACTION_RULES += '\n原文保留约束：在看到图像之前，不翻译或补全含糊的对象名称。task.target_description必须直接使用原文中的连续对象短语，不引入原文没有的名词。requirements.text和final_state_requirement如需解释关系，仍保留对象原词；不得把缩略名词扩写为你猜测的具体物体或用途。动作与关系可释义，但不能创造额外动作、物体或末态条件。原文简短而有歧义时在coverage_notes记录，留给后续实际图像辨认。'
+
 def extraction_prompt(source_text):
     _text(source_text, "source_text")
     return _EXTRACTION_RULES + "\n原始任务：\n" + json.dumps({"source_text": source_text}, ensure_ascii=False)

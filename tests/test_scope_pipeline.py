@@ -103,8 +103,9 @@ class ScopePipelineTests(unittest.IsolatedAsyncioTestCase):
                 ])
                 self.assertEqual(model.await_count, 5)
                 self.assertEqual(result['failure_reward_resolution'], resolution)
-                self.assertEqual(result['training_eligible'], established)
-                self.assertEqual(result['review_required'], not established)
+                self.assertTrue(result['training_eligible'])
+                self.assertFalse(result['review_required'])
+                self.assertEqual(result['scoring']['decisive_failure'], established)
                 self.assertEqual(result['trace'][-1]['stage'], 'failure_reward_resolution')
                 self.assertEqual(model.await_args_list[-1].args[0][1]['content'][1:],
                                  model.await_args_list[2].args[0][1]['content'][1:])
@@ -115,8 +116,8 @@ class ScopePipelineTests(unittest.IsolatedAsyncioTestCase):
                 row = {**source, 'details': result,
                        'task_contract_sha256': contract_fixture()['contract_sha256'],
                        'new_score': result['scoring']['total_score'],
-                       'training_eligible': established,
-                       'status': 'success' if established else 'needs_review'}
+                       'training_eligible': True,
+                       'status': 'success'}
                 check_record(row, source, contract_fixture(), None)
 
     async def test_contract_ambiguity_cannot_be_bypassed_by_failed_verdict(self):

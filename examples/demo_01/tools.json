@@ -21,7 +21,7 @@
         "artifact_refs": [],
         "evidence_scope": "whole_sampled_video",
         "peak_memory_mb": 8355.1689453125,
-        "cold_start_ms": 56207.701639970765,
+        "cold_start_ms": 49349.74559908733,
         "params": {
           "window_size": 16,
           "context_frames": 8,
@@ -230,7 +230,7 @@
             78
           ]
         ],
-        "latency_ms": 2025.1715320628136,
+        "latency_ms": 2000.04490185529,
         "transport": {
           "cold_start_request": false,
           "timeout_s": 900
@@ -245,63 +245,53 @@
     "all_frames_spatially_uniform": false,
     "limit": "Only detects exactly uniform decoded frames; does not judge general visibility, task completion, or physics."
   },
-  "tool_records_sha256": "fb595a289ad8a34aaf00f5333a550f9b6b8d71b2d89bc8b4e6bb9a660b16132f",
+  "tool_records_sha256": "78133fe618a3ca8f3f591099c8ec63e4956e95287d2ed7403787e0f6ae48c8b5",
   "pre_tool_report": {
     "schema_version": "evidence-v2",
     "task": {
-      "requested_action": "黑色带夹爪末端执行器的机械臂先移向折叠绿布，下降抓取绿布，再将绿布抬起并向木质台面后方移动",
-      "target_description": "木质台面上的折叠绿布；台面上另有左侧双耳金属锅、锅旁黄色香蕉形物体、带圆勺头的蓝色量勺，背景为灰色面板与木墙",
-      "final_state_requirement": "绿布被机械臂抓取抬起并移向木质台面后方"
+      "requested_action": "The black robotic arm with a gripper end effector moves toward the folded green cloth, descends to grasp it, lifts it, and shifts it toward the back of the countertop.",
+      "target_description": "the folded green cloth",
+      "final_state_requirement": "The folded green cloth is grasped, lifted, and shifted toward the back of the countertop by the robotic arm."
     },
     "requirement_checks": [
       {
         "requirement_id": "R1",
         "status": "met",
         "evidence": [
-          "E1",
-          "E2"
+          "E1"
         ],
-        "reason": "帧0时黑色夹爪位于台面上方偏后、靠近蓝色量勺区域；到帧10时夹爪已移动到折叠绿布上方，可见其完成向绿布移动的阶段。"
+        "reason": "黑色机械夹爪从初始高位先移动到蓝色量勺附近，随后继续移动到绿色折叠布上方区域，可见其朝向绿布靠近。"
       },
       {
         "requirement_id": "R2",
         "status": "partial",
         "evidence": [
-          "E3",
-          "E4",
-          "E5"
+          "E2"
         ],
-        "reason": "帧12起夹爪下降并压到绿布上，后续帧夹爪持续接触绿布并将其在台面向后推压；但未见夹爪牢固抓起绿布离地的明确状态，到帧65以后夹爪抬离绿布时绿布仍平铺在台面上，因此“下降接触”已发生，“成功抓取”未被确认完成。"
+        "reason": "夹爪下降到绿色布上并与布面接触、按压和小幅调整位置，但可见画面中夹指没有形成明确闭合夹持绿布的状态，不能确认已成功抓取。"
       },
       {
         "requirement_id": "R3",
         "status": "not_met",
         "evidence": [
-          "E4",
-          "E5"
+          "E2",
+          "E3"
         ],
-        "reason": "从接触阶段到末态帧80，绿布始终平铺在木质台面上，仅被夹爪推动发生台面上的位移；夹爪抬离绿布后绿布没有被带起，不存在可见的“绿布被抓取后抬离台面”状态。"
+        "reason": "在夹爪接触绿布后到末帧，绿布始终铺在台面上，没有被提起离开台面；夹爪随后张开抬离绿布，绿布仍留在台面上，未出现被机械臂提起的可见结果。"
       },
       {
         "requirement_id": "R4",
-        "status": "partial",
+        "status": "not_met",
         "evidence": [
-          "E4",
-          "E5"
+          "E2",
+          "E3"
         ],
-        "reason": "绿布在夹爪按压推动下相对初始位置向台面后方（靠近背景木墙一侧）发生了小幅位移，但它始终未被抓取抬起，因此不是按要求“被抬起后再向后方移送”；仅出现了台面上的推后滑动，未完成目标移送方式。"
+        "reason": "绿布未被机械臂抓起，末帧仍位于台面右侧靠近后角处，没有可见证据显示机械臂夹持绿布并将其向台面后方搬运移位。"
       }
     ],
     "observations": [
       {
         "id": "E1",
-        "frames": [
-          0
-        ],
-        "description": "木质台面上左侧有双耳金属锅，锅旁有黄色香蕉形物体，中间靠后有蓝柄灰勺头的量勺，右前方铺着一块折叠绿布；黑色带夹爪末端执行器位于台面上方偏后位置，背景为浅色木纹墙面与侧边蓝色/灰色板面。"
-      },
-      {
-        "id": "E2",
         "frames": [
           0,
           3,
@@ -309,23 +299,17 @@
           8,
           10
         ],
-        "description": "黑色夹爪从台面上方偏后、蓝色量勺附近向折叠绿布方向移动；到帧10时夹爪已运动到绿布上方并接近绿布表面。"
+        "description": "木质台面上左侧有不锈钢双耳小锅、黄色香蕉形物体、蓝色柄灰色勺头的量勺，右前方是一块折叠的绿色布；黑色机械夹爪初始位于台面上方，先移动到蓝色量勺附近，随后移动到绿色布上方。"
       },
       {
-        "id": "E3",
+        "id": "E2",
         "frames": [
-          12,
+          13,
           15,
           18,
           21,
           23,
-          26
-        ],
-        "description": "夹爪下降并压到绿布上，两个夹指置于绿布表面，绿布仍铺在木质台面上。"
-      },
-      {
-        "id": "E4",
-        "frames": [
+          26,
           28,
           31,
           34,
@@ -341,19 +325,20 @@
           59,
           62
         ],
-        "description": "夹爪持续与绿布接触并推动绿布，绿布相对初始位置向台面后方小幅平移，但始终保持平铺在台面上，没有被抬离台面；金属锅、黄色香蕉形物体和蓝色量勺位置基本未变。"
+        "description": "夹爪下降到绿色布上，两个夹指压在布面并小幅调整位置；绿色布被按压后位置有轻微变化，但始终铺在台面上，未离开台面；不锈钢锅、香蕉形物体和蓝色量勺保持原位。"
       },
       {
-        "id": "E5",
+        "id": "E3",
         "frames": [
           65,
-          68,
-          71,
-          74,
+          67,
+          70,
+          72,
+          75,
           77,
           80
         ],
-        "description": "夹爪张开并向上抬起离开绿布，随后继续抬升后移；绿布仍留在木质台面上靠近后方的位置，未被夹爪带起。到帧80时，绿布平铺在台面上，夹爪位于绿布上方空中。"
+        "description": "夹爪张开并从绿色布上抬起，离开布面向上移动；到末帧时夹爪已抬离绿布，绿色布仍留在台面右侧靠近后角处，其余物体位置未变。"
       }
     ],
     "task_assessment": {
@@ -362,40 +347,34 @@
       "evidence": [
         "E1",
         "E2",
-        "E3",
-        "E4",
-        "E5"
+        "E3"
       ],
-      "reason": "机械臂已完成向绿布靠近，并下降接触绿布；接触过程中绿布被推得向台面后方小幅移位，存在沿任务方向的有效进展。但关键的“抓取并抬起绿布”未实现：绿布全程未离开台面，末态仍是绿布平铺在台面上、夹爪空手抬起，因此未满足“绿布被抓取抬起并移向台面后方”的必要末态。",
+      "reason": "机械臂完成了朝向绿布移动并下降接触绿布的前期动作，但可见证据显示绿布未被成功提起，也未被向台面后方搬运移位；因此任务有明确进展，但核心的抓取、提起和后移结果未实现。",
       "target_match": "match"
     },
     "physics_assessment": {
       "verdict": "plausible",
-      "confidence": "high",
+      "confidence": "medium",
       "evidence": [
         "E1",
         "E2",
-        "E3",
-        "E4",
-        "E5"
+        "E3"
       ],
       "issues": [],
-      "reason": "可见过程中机械臂移动、下降按压、在台面上推动绿布后抬离，接触关系与位移表现符合日常物理：绿布未被夹牢时留在台面上并发生平面滑动；运动较快处的模糊属于正常运动模糊，没有出现可确认的穿模、悬浮、物体瞬移或明显违背重力的状态。"
+      "reason": "可见范围内机械臂运动、夹爪与布的接触以及布始终留在台面上的状态均可理解为抓取未成功的正常接触过程；未发现可确认的穿模、悬浮或明显违背因果的运动异常。运动模糊主要来自快速动作，不构成已确认物理缺陷。"
     },
     "visual_assessment": {
-      "verdict": "clear",
+      "verdict": "minor_degradation",
       "confidence": "high",
       "evidence": [
         "E1",
         "E2",
-        "E3",
-        "E4",
-        "E5"
+        "E3"
       ],
-      "reason": "尽管机械臂运动阶段存在局部运动模糊，但台面物品布局、绿布位置、夹爪与绿布的接触/分离状态以及末态都能清楚辨认，足以判断任务进展与结果。"
+      "reason": "机械臂运动时存在运动模糊，尤其在夹爪快速移动阶段局部细节不够锐利，但台面物体、绿布位置以及夹爪是否提起绿布等关键状态仍可辨认。"
     },
     "uncertainties": [
-      "视频原始帧率为16fps，夹爪闭合瞬间是否存在极短暂的布边夹取无法被更高时间分辨率验证；但在所有提供帧中均未看到绿布被抬离台面，且末态明确显示绿布留在台面上。"
+      "所有解码帧均已提供，但夹爪与布接触时局部存在运动模糊，无法完全排除极短暂夹持后立即松开的情况；不过在所有可见帧中绿布均未离开台面。"
     ]
   },
   "fallback_to_baseline": false,
