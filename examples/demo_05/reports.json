@@ -1,0 +1,494 @@
+{
+  "before_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The robot's left arm moves to grasp a brown cardboard box that is initially resting on top of a toy stove, fully closes the gripper to secure the box, lifts it slightly, and moves it to the right side of the stove, while the right arm remains stationary and does not interact with any objects throughout the process.",
+      "target_description": "a brown cardboard box, which is initially resting on top of a toy stove",
+      "final_state_requirement": "The cardboard box is relocated to the right side of the stove without any abnormal situations occurring; the right arm remains stationary and does not interact with any objects throughout the process."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Across all provided frames, the brown cardboard box remains resting on the stove burners in the same general arrangement, and no clearly identifiable left robot arm is seen moving to grasp it; there is no visible grasp action on the box."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "unobservable",
+        "evidence": [],
+        "reason": "A robot gripper is not clearly visible in the provided frames, so whether it fully closed to secure the box cannot be determined."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The box does not show visible lifting or rightward relocation across the sampled frames; it remains resting over the stove burners from the first to last provided frame."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "unobservable",
+        "evidence": [],
+        "reason": "The robot's right arm is not clearly visible in the scene, so whether it remained stationary and did not interact with objects cannot be verified from the provided frames."
+      },
+      {
+        "requirement_id": "R5",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The brown cardboard box is not relocated to the right side of the stove in the visible frames; it stays in its initial position on the stove. The box's black tape and Amazon Prime label details are also not clearly legible, but the primary failure is that no successful relocation is visible."
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80
+        ],
+        "description": "A white electric coil stove with silver knobs is visible. A brown cardboard box rests across the stove burners, with bundled/fabric-like items and two white cylindrical objects under/around it. A coiled black cable sits on the left burner; an orange cup is at the bottom right; a green round object is visible in the sink area to the right. Across all listed frames, the box, stove, and surrounding items remain in essentially the same static arrangement, with no visible robot arm clearly grasping, lifting, or moving the box."
+      }
+    ],
+    "task_assessment": {
+      "verdict": "failed",
+      "confidence": "high",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The provided frames show the brown cardboard box remaining on the stove throughout, with no visible left-arm grasp, gripper closure, lifting, or relocation to the right side of the stove. The required core manipulation does not occur in the visible evidence.",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "issues": [],
+      "reason": "Within the visible static scene, objects rest on the stove without confirmed interpenetration, impossible support, or non-causal motion. The lack of visible robot action is a task failure rather than a confirmed physical anomaly; no concrete physical contradiction is shown."
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The images are somewhat blurry and soft, but the stove, brown box, orange cup, green object, and overall layout remain identifiable. The blur does not completely prevent seeing that the box stays on the stove, though fine details like labels and any small gripper features are not sharp."
+    },
+    "uncertainties": [
+      "The robot arms, especially the gripper and right arm, are not clearly visible in the provided frames, so their exact presence and motion cannot be fully assessed beyond the visible static scene."
+    ]
+  },
+  "after_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The robot's left arm moves to grasp a brown cardboard box that is initially resting on top of a toy stove, fully closes the gripper to secure the box, lifts it slightly, and moves it to the right side of the stove, while the right arm remains stationary and does not interact with any objects throughout the process.",
+      "target_description": "a brown cardboard box, which is initially resting on top of a toy stove",
+      "final_state_requirement": "The cardboard box is relocated to the right side of the stove without any abnormal situations occurring; the right arm remains stationary and does not interact with any objects throughout the process."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Across the provided frames, the brown cardboard box remains resting on the stove burners in the same arrangement, and no clearly identifiable left robot arm is seen moving to grasp it; there is no visible grasp action on the box."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "unobservable",
+        "evidence": [],
+        "reason": "A robot gripper is not clearly visible in the provided frames, so whether it fully closed to secure the box cannot be determined."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The box does not show visible lifting or rightward relocation across the sampled frames; it remains resting over the stove burners from the first to last provided frame."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "unobservable",
+        "evidence": [],
+        "reason": "The robot's right arm is not clearly visible in the scene, so whether it remained stationary and did not interact with objects cannot be verified from the provided frames."
+      },
+      {
+        "requirement_id": "R5",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The brown cardboard box is not relocated to the right side of the stove in the visible frames; it stays in its initial position on the stove. The box's black tape and Amazon Prime label details are also not clearly legible, but the primary failure is that no successful relocation is visible."
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80
+        ],
+        "description": "A white electric coil stove with silver knobs is visible. A brown cardboard box rests across the stove burners, with bundled/fabric-like items and two white cylindrical objects under/around it. A coiled black cable sits on the left burner; an orange cup is at the bottom right; a green round object is visible in the sink area to the right. Across all listed frames, the box, stove, and surrounding items remain in essentially the same static arrangement, with no visible robot arm clearly grasping, lifting, or moving the box."
+      }
+    ],
+    "task_assessment": {
+      "verdict": "failed",
+      "confidence": "high",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The provided frames show the brown cardboard box remaining on the stove throughout, with no visible left-arm grasp, gripper closure, lifting, or relocation to the right side of the stove. The required core manipulation does not occur in the visible evidence.",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "issues": [],
+      "reason": "Within the visible static scene, objects rest on the stove without confirmed interpenetration, impossible support, or non-causal motion. The lack of visible robot action is a task failure rather than a confirmed physical anomaly; no concrete physical contradiction is shown."
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The images are somewhat blurry and soft, but the stove, brown box, orange cup, green object, and overall layout remain identifiable. The blur does not completely prevent seeing that the box stays on the stove, though fine details like labels and any small gripper features are not sharp."
+    },
+    "uncertainties": [
+      "The robot arms, especially the gripper and right arm, are not clearly visible in the provided frames, so their exact presence and motion cannot be fully assessed beyond the visible static scene."
+    ]
+  },
+  "final_after_scope_audit": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The robot's left arm moves to grasp a brown cardboard box that is initially resting on top of a toy stove, fully closes the gripper to secure the box, lifts it slightly, and moves it to the right side of the stove, while the right arm remains stationary and does not interact with any objects throughout the process.",
+      "target_description": "a brown cardboard box, which is initially resting on top of a toy stove",
+      "final_state_requirement": "The cardboard box is relocated to the right side of the stove without any abnormal situations occurring; the right arm remains stationary and does not interact with any objects throughout the process."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Across the provided frames, the brown cardboard box remains resting on the stove burners in the same arrangement, and no clearly identifiable left robot arm is seen moving to grasp it; there is no visible grasp action on the box."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "unobservable",
+        "evidence": [],
+        "reason": "A robot gripper is not clearly visible in the provided frames, so whether it fully closed to secure the box cannot be determined."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The box does not show visible lifting or rightward relocation across the sampled frames; it remains resting over the stove burners from the first to last provided frame."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "unobservable",
+        "evidence": [],
+        "reason": "The robot's right arm is not clearly visible in the scene, so whether it remained stationary and did not interact with objects cannot be verified from the provided frames."
+      },
+      {
+        "requirement_id": "R5",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The brown cardboard box is not relocated to the right side of the stove in the visible frames; it stays in its initial position on the stove. The box's black tape and Amazon Prime label details are also not clearly legible, but the primary failure is that no successful relocation is visible."
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80
+        ],
+        "description": "A white electric coil stove with silver knobs is visible. A brown cardboard box rests across the stove burners, with bundled/fabric-like items and two white cylindrical objects under/around it. A coiled black cable sits on the left burner; an orange cup is at the bottom right; a green round object is visible in the sink area to the right. Across all listed frames, the box, stove, and surrounding items remain in essentially the same static arrangement, with no visible robot arm clearly grasping, lifting, or moving the box."
+      }
+    ],
+    "task_assessment": {
+      "verdict": "failed",
+      "confidence": "high",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The provided frames show the brown cardboard box remaining on the stove throughout, with no visible left-arm grasp, gripper closure, lifting, or relocation to the right side of the stove. The required core manipulation does not occur in the visible evidence.",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "issues": [],
+      "reason": "Within the visible static scene, objects rest on the stove without confirmed interpenetration, impossible support, or non-causal motion. The lack of visible robot action is a task failure rather than a confirmed physical anomaly; no concrete physical contradiction is shown."
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The images are somewhat blurry and soft, but the stove, brown box, orange cup, green object, and overall layout remain identifiable. The blur does not completely prevent seeing that the box stays on the stove, though fine details like labels and any small gripper features are not sharp."
+    },
+    "uncertainties": [
+      "The robot arms, especially the gripper and right arm, are not clearly visible in the provided frames, so their exact presence and motion cannot be fully assessed beyond the visible static scene."
+    ]
+  }
+}

@@ -1,0 +1,379 @@
+{
+  "mode": "reflect",
+  "tool_records": [
+    {
+      "worker": "wmreward",
+      "request": {
+        "video_uri": "/increase_kairos_vepfs/increase/lipu/grpo/Reward-as-An-Agent-for-Embodied-World-Models/examples/demo_03/video_0.mp4",
+        "video_sha256": "c3ba7cb1fc6d723894c850b634bda41445856639ab495c778e167819b868bf76",
+        "operation": "check_physics"
+      },
+      "result": {
+        "status": "ok",
+        "tool_name": "wmreward",
+        "raw_score": 0.48133984208106995,
+        "score_direction": "lower_better",
+        "score_semantics": "mean_one_minus_cosine",
+        "model_revision": "f2af53737f64f12915f249f3ad18012e6afea1ba:vjepa2-c2963a47433ecca0ad4f06ec28bcfa8cb5b5cefb:vitg:67129f011434e605d894e69f2c8e13d9db118deabe59d54bf6e0fa62c2c5cb8e",
+        "preprocessing_revision": "wmreward-official-linspace49-resize256-fp32-v1",
+        "cache_hit": false,
+        "observations": [],
+        "artifact_refs": [],
+        "evidence_scope": "whole_sampled_video",
+        "peak_memory_mb": 8355.1689453125,
+        "cold_start_ms": 58434.938246849924,
+        "params": {
+          "window_size": 16,
+          "context_frames": 8,
+          "stride": 8,
+          "seed": 42,
+          "max_frames": 49
+        },
+        "evidence_id": "d9f36940b5ebd87a995fd0ceab6ba074500f9627412f728286a0273877a46ebf",
+        "video_sha256": "c3ba7cb1fc6d723894c850b634bda41445856639ab495c778e167819b868bf76",
+        "decoded_frames": 121,
+        "original_fps": 24.0,
+        "frame_indices": [
+          0,
+          2,
+          5,
+          7,
+          10,
+          12,
+          15,
+          17,
+          20,
+          22,
+          25,
+          27,
+          30,
+          32,
+          35,
+          37,
+          40,
+          42,
+          45,
+          47,
+          50,
+          52,
+          55,
+          57,
+          60,
+          62,
+          65,
+          67,
+          70,
+          72,
+          75,
+          77,
+          80,
+          82,
+          85,
+          87,
+          90,
+          92,
+          95,
+          97,
+          100,
+          102,
+          105,
+          107,
+          110,
+          112,
+          115,
+          117,
+          120
+        ],
+        "timestamps_s": [
+          0.0,
+          0.08333333333333333,
+          0.20833333333333334,
+          0.2916666666666667,
+          0.4166666666666667,
+          0.5,
+          0.625,
+          0.7083333333333334,
+          0.8333333333333334,
+          0.9166666666666666,
+          1.0416666666666667,
+          1.125,
+          1.25,
+          1.3333333333333333,
+          1.4583333333333333,
+          1.5416666666666667,
+          1.6666666666666667,
+          1.75,
+          1.875,
+          1.9583333333333333,
+          2.0833333333333335,
+          2.1666666666666665,
+          2.2916666666666665,
+          2.375,
+          2.5,
+          2.5833333333333335,
+          2.7083333333333335,
+          2.7916666666666665,
+          2.9166666666666665,
+          3.0,
+          3.125,
+          3.2083333333333335,
+          3.3333333333333335,
+          3.4166666666666665,
+          3.5416666666666665,
+          3.625,
+          3.75,
+          3.8333333333333335,
+          3.9583333333333335,
+          4.041666666666667,
+          4.166666666666667,
+          4.25,
+          4.375,
+          4.458333333333333,
+          4.583333333333333,
+          4.666666666666667,
+          4.791666666666667,
+          4.875,
+          5.0
+        ],
+        "raw_output": {
+          "surprise": 0.48133984208106995
+        },
+        "window_frame_indices": [
+          [
+            0,
+            2,
+            5,
+            7,
+            10,
+            12,
+            15,
+            17,
+            20,
+            22,
+            25,
+            27,
+            30,
+            32,
+            35,
+            37
+          ],
+          [
+            20,
+            22,
+            25,
+            27,
+            30,
+            32,
+            35,
+            37,
+            40,
+            42,
+            45,
+            47,
+            50,
+            52,
+            55,
+            57
+          ],
+          [
+            40,
+            42,
+            45,
+            47,
+            50,
+            52,
+            55,
+            57,
+            60,
+            62,
+            65,
+            67,
+            70,
+            72,
+            75,
+            77
+          ],
+          [
+            60,
+            62,
+            65,
+            67,
+            70,
+            72,
+            75,
+            77,
+            80,
+            82,
+            85,
+            87,
+            90,
+            92,
+            95,
+            97
+          ],
+          [
+            80,
+            82,
+            85,
+            87,
+            90,
+            92,
+            95,
+            97,
+            100,
+            102,
+            105,
+            107,
+            110,
+            112,
+            115,
+            117
+          ]
+        ],
+        "latency_ms": 1152.3060421459377,
+        "transport": {
+          "cold_start_request": false,
+          "timeout_s": 900
+        }
+      }
+    }
+  ],
+  "input_visibility": {
+    "method": "exact-spatially-uniform-rgb-v1",
+    "decoded_frames": 121,
+    "spatially_uniform_frames": 0,
+    "all_frames_spatially_uniform": false,
+    "limit": "Only detects exactly uniform decoded frames; does not judge general visibility, task completion, or physics."
+  },
+  "tool_records_sha256": "26edc9ed565f23a3bd4e71e357b9c27a5cfc61792cba901d8566b1b0e0ba54f0",
+  "pre_tool_report": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket, then move the left arm to grasp the basket's black handle.",
+      "target_description": "the red Coca-Cola can; the yellow plastic shopping basket; the basket's black handle",
+      "final_state_requirement": "The red Coca-Cola can is lowered into the yellow plastic shopping basket by the right arm, and the left arm is moved to grasp the basket's black handle."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "partial",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "初态时右侧机械臂夹着红色易拉罐位于黄色购物篮外桌面；随后该臂将罐移向篮内并在中段可见罐位于篮内，但后续帧显示该臂又把红色罐移到篮外桌面，再重新移回篮上方；末帧红色罐仍被夹爪夹持在篮内上方，未看到罐已由篮子稳定承重、夹爪脱离承重的完成状态。"
+      },
+      {
+        "requirement_id": "R2",
+        "status": "not_met",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "左侧机械臂在可见过程中先向篮内放入一个红银包装物体，随后参与移动红色易拉罐；末帧可见的是机械臂夹着红色罐位于篮内上方，没有看到左臂在放罐之后移动并抓握住篮子的黑色把手。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          4,
+          8,
+          12,
+          15,
+          19,
+          23,
+          27,
+          31,
+          35
+        ],
+        "description": "黄色塑料购物篮放在白色桌面上，篮上有黑色提手，篮内初始为空；画面右上方的黑色机械臂夹着一个红色易拉罐停在篮右侧桌面，画面左侧的另一机械臂从左进入并移动到篮的左上方/篮口附近。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          39,
+          43,
+          46,
+          50,
+          54,
+          58,
+          62,
+          66,
+          70,
+          74,
+          77,
+          81,
+          85,
+          89
+        ],
+        "description": "左侧机械臂将一个红银相间的包装物体放入篮内；随后右上方机械臂夹着红色易拉罐从桌面移向篮子，并把罐放入篮内区域，夹爪在篮内按压/调整该罐，罐在这些帧中位于篮内。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          93,
+          97,
+          101,
+          105,
+          108
+        ],
+        "description": "夹爪离开篮口后，红色易拉罐在93、97、101帧仍可见立在篮内；到105帧篮内物体外观变为模糊的红色块，108帧篮内变空，同时左侧机械臂夹着一个红白/红色罐出现在篮左侧桌面。"
+      },
+      {
+        "id": "E4",
+        "frames": [
+          112,
+          116,
+          120
+        ],
+        "description": "夹着红色罐的机械臂从左侧桌面回到篮子上方，将罐移到篮口并向下放入；在120帧，红色罐仍被夹爪夹持，位于黄色篮内部上方，未释放到篮底。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "partial",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "reason": "可见右臂/右侧机械臂确实把红色易拉罐从篮外桌面移动并放入过篮内，存在有效进展；但后续罐又被移出篮外并在末帧仍被夹爪持在篮内上方，未稳定完成放入。左臂没有在放罐后抓握篮的黑色把手，而是参与放置/移动物体，因此第二项要求未完成。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "issues": [],
+      "reason": "在可辨认范围内，机械臂夹持、移动、放入和再次取回红色罐的过程可由正常操作解释；105到108帧之间篮内罐消失并出现在左侧夹爪中，属于采样间隔内未展示的取回动作，现有证据不足以确认穿模、悬浮或不可能的运动。画面存在运动模糊，但没有明确可定位且无法用遮挡/正常接触解释的物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "high",
+      "evidence": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "reason": "整体场景、篮子、黑色把手和红色罐的位置关系可辨认，但机械臂快速移动时存在运动模糊，105帧附近篮内物体细节模糊，对罐的精确姿态和中间取回动作的细节观察有一定影响。"
+    },
+    "uncertainties": [
+      "105到108帧之间红色罐从篮内到左侧夹爪的中间动作未被提供帧完整展示，无法看到具体取回过程。",
+      "快速运动造成的局部模糊使部分帧中罐的标签细节和夹爪精确接触点不够清晰。"
+    ]
+  },
+  "fallback_to_baseline": false,
+  "reflection_applied": true
+}

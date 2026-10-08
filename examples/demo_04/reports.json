@@ -1,0 +1,485 @@
+{
+  "before_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The robot's right arm moves to grasp a small green cube-shaped object, securely holds it with the gripper fully closed, then carefully places it onto the table surface; the left arm remains stationary and does not interact with any objects.",
+      "target_description": "a small green cube-shaped object located on a gray mat in the center of the table",
+      "final_state_requirement": "The green cube is placed on the table surface; the left arm remains stationary and does not interact with any objects."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Across all provided frames, the visible right gripper remains near the lower-left table edge and does not move to the green cube; the green cube stays on the white rectangular sheet/paper area rather than being approached or grasped."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "No frame shows the right gripper contacting or closing around the green cube, so secure holding with a fully closed gripper is not observed."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The green cube remains on the white rectangular sheet/paper area in the final visible frame and is not seen being lifted, moved, or placed onto the exposed table surface."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Throughout the provided frames, the left-side robotic structure remains in the same visible position and shows no interaction with any table objects."
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80
+        ],
+        "description": "A top-down view shows a light wooden table with a blue round object left of center, a white rectangular sheet near center, a small green rectangular/cube-like object resting on that sheet, and a white pump bottle on the right. A black gripper/arm is visible at the lower left near the table edge, and another dark robotic structure is at the bottom center. Across all listed frames, the scene remains essentially static: the right gripper does not move toward the green object, there is no visible contact, grasping, lifting, or repositioning of the green object, and the green object stays on the white sheet rather than being placed onto the exposed table surface. The left-side robotic structure also remains stationary with no visible object interaction."
+      }
+    ],
+    "task_assessment": {
+      "verdict": "failed",
+      "confidence": "high",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The left arm remains stationary and does not interact with objects (R4 met), but the required right-arm grasp-hold-place sequence is not performed. Across all provided frames, the right arm/gripper does not move to the green cube, does not close around it to hold it securely, and does not place it onto the table surface; the green cube remains on the white sheet in the final visible state, so there is no effective progress toward the core grasp-and-place goal.",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "issues": [],
+      "reason": "In the visible frames, objects remain stationary on the table and no confirmed interpenetration, unstable support, or impossible motion is observed. The lack of task action is a task failure rather than a visible physical anomaly; the image is somewhat soft, but no concrete physical defect is shown."
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The scene is somewhat soft/blurry and lacks sharp detail, but the table, green object, blue object, white bottle, and visible robotic parts are still identifiable enough to determine that no grasp or placement occurs in the provided frames."
+    },
+    "uncertainties": [
+      "The green cube rests on a white rectangular sheet rather than a clearly visible gray mat in the center, but the small green cube-like object is still identifiable as the intended target.",
+      "All decoded frames are provided, so there is no evaluator sampling gap; however, the image quality is soft and limits fine detail such as exact gripper finger closure."
+    ]
+  },
+  "after_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The robot's right arm moves to grasp a small green cube-shaped object, securely holds it with the gripper fully closed, then carefully places it onto the table surface; the left arm remains stationary and does not interact with any objects.",
+      "target_description": "a small green cube-shaped object located on a gray mat in the center of the table",
+      "final_state_requirement": "The green cube is placed on the table surface; the left arm remains stationary and does not interact with any objects."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Across frames 0–80, the visible right gripper stays near the lower-left table edge and does not move to the small green cube-like object; the green object remains on the white rectangular sheet/paper area without being approached or grasped."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "No frame shows the right gripper contacting, enclosing, or closing around the green cube-like object, so secure holding with a fully closed gripper is not observed."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The green cube-like object remains on the white rectangular sheet/paper area through the final visible frame 80; it is not lifted, moved, or placed onto the exposed wooden table surface."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Throughout frames 0–80, the left-side robotic structure remains in the same visible position and shows no contact or interaction with any table objects."
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80
+        ],
+        "description": "A top-down view shows a light wooden table with a blue round object left of center, a white rectangular sheet near center, a small green rectangular/cube-like object resting on that sheet, and a white pump bottle on the right. A black gripper/arm is visible at the lower left near the table edge, and another dark robotic structure is at the bottom center. Across all listed frames, the scene remains essentially static: the right gripper does not move toward the green object, there is no visible contact, grasping, lifting, or repositioning of the green object, and the green object stays on the white sheet rather than being placed onto the exposed table surface. The left-side robotic structure also remains stationary with no visible object interaction."
+      }
+    ],
+    "task_assessment": {
+      "verdict": "failed",
+      "confidence": "high",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The left arm remains stationary and does not interact with objects (R4 met), but the required right-arm grasp-hold-place sequence is not performed. Across all provided frames, the right arm/gripper does not move to the green cube-like object, does not close around it to hold it securely, and does not place it onto the table surface; the green object remains on the white sheet in the final visible state, so there is no effective progress toward the core grasp-and-place goal.",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "issues": [],
+      "reason": "In the visible frames, objects remain stationary on the table and no confirmed interpenetration, unstable support, or impossible motion is observed. The lack of task action is a task failure rather than a visible physical anomaly; the image is somewhat soft, but no concrete physical defect is shown."
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The scene is somewhat soft/blurry and lacks sharp detail, but the table, green object, blue object, white bottle, and visible robotic parts are still identifiable enough to determine that no grasp or placement occurs in the provided frames."
+    },
+    "uncertainties": [
+      "The green cube rests on a white rectangular sheet rather than a clearly visible gray mat in the center, but the small green cube-like object is still identifiable as the intended target.",
+      "All decoded frames are provided, so there is no evaluator sampling gap; however, the image quality is soft and limits fine detail such as exact gripper finger closure."
+    ]
+  },
+  "final_after_scope_audit": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The robot's right arm moves to grasp a small green cube-shaped object, securely holds it with the gripper fully closed, then carefully places it onto the table surface; the left arm remains stationary and does not interact with any objects.",
+      "target_description": "a small green cube-shaped object located on a gray mat in the center of the table",
+      "final_state_requirement": "The green cube is placed on the table surface; the left arm remains stationary and does not interact with any objects."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Across frames 0–80, the visible right gripper stays near the lower-left table edge and does not move to the small green cube-like object; the green object remains on the white rectangular sheet/paper area without being approached or grasped."
+      },
+      {
+        "requirement_id": "R2",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "No frame shows the right gripper contacting, enclosing, or closing around the green cube-like object, so secure holding with a fully closed gripper is not observed."
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "The green cube-like object remains on the white rectangular sheet/paper area through the final visible frame 80; it is not lifted, moved, or placed onto the exposed wooden table surface."
+      },
+      {
+        "requirement_id": "R4",
+        "status": "met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "Throughout frames 0–80, the left-side robotic structure remains in the same visible position and shows no contact or interaction with any table objects."
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80
+        ],
+        "description": "A top-down view shows a light wooden table with a blue round object left of center, a white rectangular sheet near center, a small green rectangular/cube-like object resting on that sheet, and a white pump bottle on the right. A black gripper/arm is visible at the lower left near the table edge, and another dark robotic structure is at the bottom center. Across all listed frames, the scene remains essentially static: the right gripper does not move toward the green object, there is no visible contact, grasping, lifting, or repositioning of the green object, and the green object stays on the white sheet rather than being placed onto the exposed table surface. The left-side robotic structure also remains stationary with no visible object interaction."
+      }
+    ],
+    "task_assessment": {
+      "verdict": "failed",
+      "confidence": "high",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The left arm remains stationary and does not interact with objects (R4 met), but the required right-arm grasp-hold-place sequence is not performed. Across all provided frames, the right arm/gripper does not move to the green cube-like object, does not close around it to hold it securely, and does not place it onto the table surface; the green object remains on the white sheet in the final visible state, so there is no effective progress toward the core grasp-and-place goal.",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "issues": [],
+      "reason": "In the visible frames, objects remain stationary on the table and no confirmed interpenetration, unstable support, or impossible motion is observed. The lack of task action is a task failure rather than a visible physical anomaly; the image is somewhat soft, but no concrete physical defect is shown."
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "medium",
+      "evidence": [
+        "E1"
+      ],
+      "reason": "The scene is somewhat soft/blurry and lacks sharp detail, but the table, green object, blue object, white bottle, and visible robotic parts are still identifiable enough to determine that no grasp or placement occurs in the provided frames."
+    },
+    "uncertainties": [
+      "The green cube rests on a white rectangular sheet rather than a clearly visible gray mat in the center, but the small green cube-like object is still identifiable as the intended target.",
+      "All decoded frames are provided, so there is no evaluator sampling gap; however, the image quality is soft and limits fine detail such as exact gripper finger closure."
+    ]
+  }
+}

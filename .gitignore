@@ -20,11 +20,4 @@ experiments/
 
 # Generated evaluation records
 examples/demo_refresh_*.json
-examples/demo_*/response.json
-examples/demo_*/reports.json
-examples/demo_*/run.json
-examples/demo_*/deployment.json
-examples/demo_*/tools.json
-examples/demo_*/motion.json
-examples/demo_*/source.json
 examples/demo_*/wmreward/

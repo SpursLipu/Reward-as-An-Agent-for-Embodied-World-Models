@@ -1,0 +1,440 @@
+{
+  "before_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket, then move the left arm to grasp the basket's black handle.",
+      "target_description": "the red Coca-Cola can; the yellow plastic shopping basket; the basket's black handle",
+      "final_state_requirement": "The red Coca-Cola can is lowered into the yellow plastic shopping basket by the right arm, and the left arm is moved to grasp the basket's black handle."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "partial",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "初态时右侧机械臂夹着红色易拉罐位于黄色购物篮外桌面；随后该臂将罐移向篮内并在中段可见罐位于篮内，但后续帧显示该臂又把红色罐移到篮外桌面，再重新移回篮上方；末帧红色罐仍被夹爪夹持在篮内上方，未看到罐已由篮子稳定承重、夹爪脱离承重的完成状态。"
+      },
+      {
+        "requirement_id": "R2",
+        "status": "not_met",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4"
+        ],
+        "reason": "左侧机械臂在可见过程中先向篮内放入一个红银包装物体，随后参与移动红色易拉罐；末帧可见的是机械臂夹着红色罐位于篮内上方，没有看到左臂在放罐之后移动并抓握住篮子的黑色把手。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          4,
+          8,
+          12,
+          15,
+          19,
+          23,
+          27,
+          31,
+          35
+        ],
+        "description": "黄色塑料购物篮放在白色桌面上，篮上有黑色提手，篮内初始为空；画面右上方的黑色机械臂夹着一个红色易拉罐停在篮右侧桌面，画面左侧的另一机械臂从左进入并移动到篮的左上方/篮口附近。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          39,
+          43,
+          46,
+          50,
+          54,
+          58,
+          62,
+          66,
+          70,
+          74,
+          77,
+          81,
+          85,
+          89
+        ],
+        "description": "左侧机械臂将一个红银相间的包装物体放入篮内；随后右上方机械臂夹着红色易拉罐从桌面移向篮子，并把罐放入篮内区域，夹爪在篮内按压/调整该罐，罐在这些帧中位于篮内。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          93,
+          97,
+          101,
+          105,
+          108
+        ],
+        "description": "夹爪离开篮口后，红色易拉罐在93、97、101帧仍可见立在篮内；到105帧篮内物体外观变为模糊的红色块，108帧篮内变空，同时左侧机械臂夹着一个红白/红色罐出现在篮左侧桌面。"
+      },
+      {
+        "id": "E4",
+        "frames": [
+          112,
+          116,
+          120
+        ],
+        "description": "夹着红色罐的机械臂从左侧桌面回到篮子上方，将罐移到篮口并向下放入；在120帧，红色罐仍被夹爪夹持，位于黄色篮内部上方，未释放到篮底。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "partial",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "reason": "可见右臂/右侧机械臂确实把红色易拉罐从篮外桌面移动并放入过篮内，存在有效进展；但后续罐又被移出篮外并在末帧仍被夹爪持在篮内上方，未稳定完成放入。左臂没有在放罐后抓握篮的黑色把手，而是参与放置/移动物体，因此第二项要求未完成。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "issues": [],
+      "reason": "在可辨认范围内，机械臂夹持、移动、放入和再次取回红色罐的过程可由正常操作解释；105到108帧之间篮内罐消失并出现在左侧夹爪中，属于采样间隔内未展示的取回动作，现有证据不足以确认穿模、悬浮或不可能的运动。画面存在运动模糊，但没有明确可定位且无法用遮挡/正常接触解释的物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "high",
+      "evidence": [
+        "E2",
+        "E3",
+        "E4"
+      ],
+      "reason": "整体场景、篮子、黑色把手和红色罐的位置关系可辨认，但机械臂快速移动时存在运动模糊，105帧附近篮内物体细节模糊，对罐的精确姿态和中间取回动作的细节观察有一定影响。"
+    },
+    "uncertainties": [
+      "105到108帧之间红色罐从篮内到左侧夹爪的中间动作未被提供帧完整展示，无法看到具体取回过程。",
+      "快速运动造成的局部模糊使部分帧中罐的标签细节和夹爪精确接触点不够清晰。"
+    ]
+  },
+  "after_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket, then move the left arm to grasp the basket's black handle.",
+      "target_description": "the red Coca-Cola can; the yellow plastic shopping basket; the basket's black handle",
+      "final_state_requirement": "The red Coca-Cola can is lowered into the yellow plastic shopping basket by the right arm, and the left arm is moved to grasp the basket's black handle."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "partial",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4",
+          "E5"
+        ],
+        "reason": "初态时红色易拉罐位于黄色购物篮右侧桌面并被右上机械臂夹持；随后该机械臂将罐移向篮内，罐在中段被放入篮内并短暂由篮体包围，但后续可见该罐又被移出篮外到左侧桌面，末帧红色罐仍被机械夹爪夹持在黄色篮内部上方，未看到罐已由篮子稳定承重、夹爪脱离承重的完成放入状态。"
+      },
+      {
+        "requirement_id": "R2",
+        "status": "not_met",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4",
+          "E5"
+        ],
+        "reason": "左侧机械臂在可见过程中先向篮内放入一个红银包装物体，随后参与移动/调整红色易拉罐；末帧可见的是机械臂夹着红色罐位于篮内上方，没有看到左臂在放罐之后移动并抓握住篮子的黑色把手。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          7,
+          8,
+          9,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          22,
+          23,
+          24
+        ],
+        "description": "黄色塑料购物篮放在白色桌面上，篮上有黑色提手，篮内初始为空；画面右上方的黑色机械臂夹着一个红色易拉罐停在篮右侧桌面，画面左侧的另一机械臂从左进入并移动到篮的左上方/篮口附近。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          26,
+          27,
+          28,
+          30,
+          31,
+          35,
+          39,
+          43
+        ],
+        "description": "左侧机械臂将一个红银相间的包装物体放入篮内；随后右上方机械臂夹着红色易拉罐从桌面移向篮子，并把罐放入篮内区域，夹爪在篮内按压/调整该罐，罐在这些帧中位于篮内。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          46,
+          50,
+          54,
+          58,
+          62,
+          66,
+          70,
+          74,
+          77,
+          81,
+          85,
+          89,
+          93,
+          97
+        ],
+        "description": "夹爪在篮内继续调整红色易拉罐；到93、97帧，红色易拉罐立在篮内，夹爪已离开罐并移到篮左侧。"
+      },
+      {
+        "id": "E4",
+        "frames": [
+          101,
+          105,
+          108
+        ],
+        "description": "101帧左侧机械臂夹着一个红白/红色罐出现在篮左侧桌面，篮内仍有红色罐；105帧篮内红色物体外观变模糊，108帧篮内变空，红色罐被夹在左侧机械臂中位于篮左侧桌面。"
+      },
+      {
+        "id": "E5",
+        "frames": [
+          112,
+          116,
+          120
+        ],
+        "description": "夹着红色罐的机械臂从左侧桌面回到篮子上方，将罐移到篮口并向下放入；在120帧，红色罐仍被夹爪夹持，位于黄色篮内部上方，未释放到篮底，黑色提手仍在篮口上方，未被左臂抓握。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "partial",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "reason": "可见右上机械臂确实把红色易拉罐从篮外桌面移动并放入过篮内，存在有效进展；但后续罐又被移出篮外并在末帧仍被夹爪持在篮内上方，未稳定完成放入。左臂没有在放罐后抓握篮的黑色把手，而是参与放置/移动物体，因此第二项要求未完成。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "issues": [],
+      "reason": "在可辨认范围内，机械臂夹持、移动、放入和再次取回红色罐的过程可由正常操作解释；105到108帧之间篮内罐消失并出现在左侧夹爪中，属于采样间隔内未展示的取回动作，现有证据不足以确认穿模、悬浮或不可能的运动。画面存在运动模糊，但没有明确可定位且无法用遮挡/正常接触解释的物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "high",
+      "evidence": [
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "reason": "整体场景、篮子、黑色把手和红色罐的位置关系可辨认，但机械臂快速移动时存在运动模糊，105帧附近篮内物体细节模糊，对罐的精确姿态和中间取回动作的细节观察有一定影响。"
+    },
+    "uncertainties": [
+      "105到108帧之间红色罐从篮内到左侧夹爪的中间动作未被提供帧完整展示，无法看到具体取回过程。",
+      "快速运动造成的局部模糊使部分帧中罐的标签细节和夹爪精确接触点不够清晰。"
+    ]
+  },
+  "final_after_scope_audit": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "Use the right arm to lower the red Coca-Cola can into the yellow plastic shopping basket, then move the left arm to grasp the basket's black handle.",
+      "target_description": "the red Coca-Cola can; the yellow plastic shopping basket; the basket's black handle",
+      "final_state_requirement": "The red Coca-Cola can is lowered into the yellow plastic shopping basket by the right arm, and the left arm is moved to grasp the basket's black handle."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "partial",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4",
+          "E5"
+        ],
+        "reason": "初态时红色易拉罐位于黄色购物篮右侧桌面并被右上机械臂夹持；随后该机械臂将罐移向篮内，罐在中段被放入篮内并短暂由篮体包围，但后续可见该罐又被移出篮外到左侧桌面，末帧红色罐仍被机械夹爪夹持在黄色篮内部上方，未看到罐已由篮子稳定承重、夹爪脱离承重的完成放入状态。"
+      },
+      {
+        "requirement_id": "R2",
+        "status": "not_met",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3",
+          "E4",
+          "E5"
+        ],
+        "reason": "左侧机械臂在可见过程中先向篮内放入一个红银包装物体，随后参与移动/调整红色易拉罐；末帧可见的是机械臂夹着红色罐位于篮内上方，没有看到左臂在放罐之后移动并抓握住篮子的黑色把手。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          1,
+          3,
+          4,
+          5,
+          7,
+          8,
+          9,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          18,
+          19,
+          20,
+          22,
+          23,
+          24
+        ],
+        "description": "黄色塑料购物篮放在白色桌面上，篮上有黑色提手，篮内初始为空；画面右上方的黑色机械臂夹着一个红色易拉罐停在篮右侧桌面，画面左侧的另一机械臂从左进入并移动到篮的左上方/篮口附近。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          26,
+          27,
+          28,
+          30,
+          31,
+          35,
+          39,
+          43
+        ],
+        "description": "左侧机械臂将一个红银相间的包装物体放入篮内；随后右上方机械臂夹着红色易拉罐从桌面移向篮子，并把罐放入篮内区域，夹爪在篮内按压/调整该罐，罐在这些帧中位于篮内。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          46,
+          50,
+          54,
+          58,
+          62,
+          66,
+          70,
+          74,
+          77,
+          81,
+          85,
+          89,
+          93,
+          97
+        ],
+        "description": "夹爪在篮内继续调整红色易拉罐；到93、97帧，红色易拉罐立在篮内，夹爪已离开罐并移到篮左侧。"
+      },
+      {
+        "id": "E4",
+        "frames": [
+          101,
+          105,
+          108
+        ],
+        "description": "101帧左侧机械臂夹着一个红白/红色罐出现在篮左侧桌面，篮内仍有红色罐；105帧篮内红色物体外观变模糊，108帧篮内变空，红色罐被夹在左侧机械臂中位于篮左侧桌面。"
+      },
+      {
+        "id": "E5",
+        "frames": [
+          112,
+          116,
+          120
+        ],
+        "description": "夹着红色罐的机械臂从左侧桌面回到篮子上方，将罐移到篮口并向下放入；在120帧，红色罐仍被夹爪夹持，位于黄色篮内部上方，未释放到篮底，黑色提手仍在篮口上方，未被左臂抓握。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "partial",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "reason": "可见右上机械臂确实把红色易拉罐从篮外桌面移动并放入过篮内，存在有效进展；但后续罐又被移出篮外并在末帧仍被夹爪持在篮内上方，未稳定完成放入。左臂没有在放罐后抓握篮的黑色把手，而是参与放置/移动物体，因此第二项要求未完成。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "issues": [],
+      "reason": "在可辨认范围内，机械臂夹持、移动、放入和再次取回红色罐的过程可由正常操作解释；105到108帧之间篮内罐消失并出现在左侧夹爪中，属于采样间隔内未展示的取回动作，现有证据不足以确认穿模、悬浮或不可能的运动。画面存在运动模糊，但没有明确可定位且无法用遮挡/正常接触解释的物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "high",
+      "evidence": [
+        "E2",
+        "E3",
+        "E4",
+        "E5"
+      ],
+      "reason": "整体场景、篮子、黑色把手和红色罐的位置关系可辨认，但机械臂快速移动时存在运动模糊，105帧附近篮内物体细节模糊，对罐的精确姿态和中间取回动作的细节观察有一定影响。"
+    },
+    "uncertainties": [
+      "105到108帧之间红色罐从篮内到左侧夹爪的中间动作未被提供帧完整展示，无法看到具体取回过程。",
+      "快速运动造成的局部模糊使部分帧中罐的标签细节和夹爪精确接触点不够清晰。"
+    ]
+  }
+}

@@ -1,0 +1,407 @@
+{
+  "before_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The black robotic arm with a gripper end effector moves toward the folded green cloth, descends to grasp it, lifts it, and shifts it toward the back of the wooden countertop.",
+      "target_description": "the folded green cloth",
+      "final_state_requirement": "The folded green cloth is grasped by the robotic arm, lifted, and shifted toward the back of the countertop."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "从帧0到帧12，黑色机械臂夹爪从台面上方偏后位置移动到绿色折叠布上方，相对绿布的距离明显减小，完成了朝向绿布的接近。"
+      },
+      {
+        "requirement_id": "R2",
+        "status": "partial",
+        "evidence": [
+          "E2",
+          "E3"
+        ],
+        "reason": "机械臂在帧13至帧64期间下降并将夹爪压在绿色折叠布表面，有明确接触和下压动作；但可见帧中夹爪没有形成能带动布体的稳定抓持，帧65以后夹爪抬起时绿布仍平铺在台面上，没有被夹爪带起，因此“descends to grasp it”只有下降接触，抓持未被证实。"
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E2",
+          "E3"
+        ],
+        "reason": "在机械臂下压及随后抬起的可见过程中，绿色折叠布始终铺在木质台面上，没有出现被机械臂提起、离开台面的状态；末帧布仍由台面支撑，未实现提起。"
+      },
+      {
+        "requirement_id": "R4",
+        "status": "partial",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "reason": "绿布在机械臂下压推动下从帧0靠近台面右前侧的位置，到帧36至帧80位于更靠后、更靠近后墙的位置，出现了向台面后部的小幅位移；但该位移发生在布仍置于台面上、未被机械臂抓持提起的情况下，不是机械臂抓持后将其向后移送的结果。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          3,
+          5,
+          8,
+          10,
+          12
+        ],
+        "description": "木质台面上可见不锈钢双耳小锅、黄色香蕉形物体、蓝色手柄灰色勺头的小勺和一块折叠的绿色布；黑色机械臂夹爪初始悬在台面上方偏后位置，随后向台面右前方移动，经过小勺附近，到帧12时夹爪到达绿色布上方。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          13,
+          15,
+          18,
+          21,
+          23,
+          26,
+          28,
+          31,
+          34,
+          36,
+          39,
+          41,
+          44,
+          46,
+          49,
+          52,
+          54,
+          57,
+          59,
+          62,
+          64
+        ],
+        "description": "机械臂夹爪下降并压在绿色布上，夹爪与布接触并持续下压/调整；绿色布在接触过程中被推动，位置从靠近台面右前侧逐渐移向更靠后、靠近后墙的区域，但布始终平铺在台面上，未见被夹爪提起离开台面。不锈钢锅、香蕉形物体和小勺位置基本保持不变。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          65,
+          67,
+          70,
+          72,
+          75,
+          77,
+          80
+        ],
+        "description": "机械臂夹爪从绿色布上方抬起并离开布，向画面上方/后方移动；末帧夹爪悬在台面上方，绿色布仍平铺在台面靠后区域，由台面支撑，未被夹爪带走或悬空。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "partial",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "reason": "机械臂确实朝向绿色折叠布移动并下降接触布面，布也在接触推动下向台面后部发生了小幅位移，因此存在有效进展；但关键的抓持和提起未完成：可见帧中布始终留在台面上，夹爪抬起时没有带起布，末态也不是机械臂抓持并提起布后向后移送的状态。任务未完整完成，但并非完全没有进展。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "issues": [],
+      "reason": "可见范围内机械臂移动、下压接触布面、随后抬起的过程整体符合普通接触力学；布在被夹爪压推时发生小幅滑动，之后仍由台面支撑，没有确认的穿模、悬浮或明显非因果运动。运动模糊主要来自机械臂快速移动，未形成可确认的物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "reason": "视频存在机械臂运动造成的局部模糊，尤其在夹爪快速移动和下压阶段细节不够锐利；但台面、绿布、小勺、锅和香蕉形物体的位置关系，以及绿布最终仍在台面上的结果仍可辨认，不影响对主要动作成败的判断。"
+    },
+    "uncertainties": [
+      "夹爪与布接触的局部细节受运动模糊影响，无法完全排除极短暂抓持后立即松脱的可能；但在所有可见帧中布均未离开台面，因此不支持已完成提起。"
+    ]
+  },
+  "after_tool_reflection": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The black robotic arm with a gripper end effector moves toward the folded green cloth, descends to grasp it, lifts it, and shifts it toward the back of the wooden countertop.",
+      "target_description": "the folded green cloth",
+      "final_state_requirement": "The folded green cloth is grasped by the robotic arm, lifted, and shifted toward the back of the countertop."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "从帧0到帧12，黑色机械臂夹爪从台面上方偏后位置移动到绿色折叠布上方，相对绿布的距离明显减小，完成了朝向绿布的接近。"
+      },
+      {
+        "requirement_id": "R2",
+        "status": "partial",
+        "evidence": [
+          "E2",
+          "E3"
+        ],
+        "reason": "机械臂在帧13至帧64期间下降并将夹爪压在绿色折叠布表面，有明确接触和下压动作；但可见帧中夹爪没有形成能带动布体的稳定抓持，帧65以后夹爪抬起时绿布仍平铺在台面上，没有被夹爪带起，因此“descends to grasp it”只有下降接触，抓持未被证实。"
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E2",
+          "E3"
+        ],
+        "reason": "在机械臂下压及随后抬起的可见过程中，绿色折叠布始终铺在木质台面上，没有出现被机械臂提起、离开台面的状态；末帧布仍由台面支撑，未实现提起。"
+      },
+      {
+        "requirement_id": "R4",
+        "status": "partial",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "reason": "绿布在机械臂下压推动下从帧0靠近台面右前侧的位置，到帧36至帧80位于更靠后、更靠近后墙的位置，出现了向台面后部的小幅位移；但该位移发生在布仍置于台面上、未被机械臂抓持提起的情况下，不是机械臂抓持后将其向后移送的结果。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          3,
+          5,
+          8,
+          10,
+          12
+        ],
+        "description": "木质台面上可见不锈钢双耳小锅、黄色香蕉形物体、蓝色手柄灰色勺头的小勺和一块折叠的绿色布；黑色机械臂夹爪初始悬在台面上方偏后位置，随后向台面右前方移动，经过小勺附近，到帧12时夹爪到达绿色布上方。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          13,
+          15,
+          18,
+          21,
+          23,
+          26,
+          28,
+          31,
+          34,
+          36,
+          39,
+          41,
+          44,
+          46,
+          49,
+          52,
+          54,
+          57,
+          59,
+          62,
+          64
+        ],
+        "description": "机械臂夹爪下降并压在绿色布上，夹爪与布接触并持续下压/调整；绿色布在接触过程中被推动，位置从靠近台面右前侧逐渐移向更靠后、靠近后墙的区域，但布始终平铺在台面上，未见被夹爪提起离开台面。不锈钢锅、香蕉形物体和小勺位置基本保持不变。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          65,
+          67,
+          70,
+          72,
+          75,
+          77,
+          80
+        ],
+        "description": "机械臂夹爪从绿色布上方抬起并离开布，向画面上方/后方移动；末帧夹爪悬在台面上方，绿色布仍平铺在台面靠后区域，由台面支撑，未被夹爪带走或悬空。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "partial",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "reason": "机械臂确实朝向绿色折叠布移动并下降接触布面，布也在接触推动下向台面后部发生了小幅位移，因此存在有效进展；但关键的抓持和提起未完成：可见帧中布始终留在台面上，夹爪抬起时没有带起布，末态也不是机械臂抓持并提起布后向后移送的状态。任务未完整完成，但并非完全没有进展。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "issues": [],
+      "reason": "可见范围内机械臂移动、下压接触布面、随后抬起的过程整体符合普通接触力学；布在被夹爪压推时发生小幅滑动，之后仍由台面支撑，没有确认的穿模、悬浮或明显非因果运动。运动模糊主要来自机械臂快速移动，未形成可确认的物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "reason": "视频存在机械臂运动造成的局部模糊，尤其在夹爪快速移动和下压阶段细节不够锐利；但台面、绿布、小勺、锅和香蕉形物体的位置关系，以及绿布最终仍在台面上的结果仍可辨认，不影响对主要动作成败的判断。"
+    },
+    "uncertainties": [
+      "夹爪与布接触的局部细节受运动模糊影响，无法完全排除极短暂抓持后立即松脱的可能；但在所有可见帧中布均未离开台面，因此不支持已完成提起。"
+    ]
+  },
+  "final_after_scope_audit": {
+    "schema_version": "evidence-v2",
+    "task": {
+      "requested_action": "The black robotic arm with a gripper end effector moves toward the folded green cloth, descends to grasp it, lifts it, and shifts it toward the back of the wooden countertop.",
+      "target_description": "the folded green cloth",
+      "final_state_requirement": "The folded green cloth is grasped by the robotic arm, lifted, and shifted toward the back of the countertop."
+    },
+    "requirement_checks": [
+      {
+        "requirement_id": "R1",
+        "status": "met",
+        "evidence": [
+          "E1"
+        ],
+        "reason": "从帧0到帧12，黑色机械臂夹爪从台面上方偏后位置移动到绿色折叠布上方，相对绿布的距离明显减小，完成了朝向绿布的接近。"
+      },
+      {
+        "requirement_id": "R2",
+        "status": "partial",
+        "evidence": [
+          "E2",
+          "E3"
+        ],
+        "reason": "机械臂在帧13至帧64期间下降并将夹爪压在绿色折叠布表面，有明确接触和下压动作；但可见帧中夹爪没有形成能带动布体的稳定抓持，帧65以后夹爪抬起时绿布仍平铺在台面上，没有被夹爪带起，因此“descends to grasp it”只有下降接触，抓持未被证实。"
+      },
+      {
+        "requirement_id": "R3",
+        "status": "not_met",
+        "evidence": [
+          "E2",
+          "E3"
+        ],
+        "reason": "在机械臂下压及随后抬起的可见过程中，绿色折叠布始终铺在木质台面上，没有出现被机械臂提起、离开台面的状态；末帧布仍由台面支撑，未实现提起。"
+      },
+      {
+        "requirement_id": "R4",
+        "status": "met",
+        "evidence": [
+          "E1",
+          "E2",
+          "E3"
+        ],
+        "reason": "对比帧0与帧80，绿色折叠布从台面右前侧位置移动到更靠后、更靠近后墙的位置；机械臂夹爪在帧13至帧64期间持续接触并推动绿布，随后夹爪抬起离开，末帧绿布停在台面靠后区域，可见绿布已被机械臂作用后向台面后部移动。"
+      }
+    ],
+    "observations": [
+      {
+        "id": "E1",
+        "frames": [
+          0,
+          3,
+          5,
+          8,
+          10,
+          12
+        ],
+        "description": "木质台面上可见不锈钢双耳小锅、黄色香蕉形物体、蓝色手柄灰色勺头的小勺和一块折叠的绿色布；黑色机械臂夹爪初始悬在台面上方偏后位置，随后向台面右前方移动，经过小勺附近，到帧12时夹爪到达绿色布上方。"
+      },
+      {
+        "id": "E2",
+        "frames": [
+          13,
+          15,
+          18,
+          21,
+          23,
+          26,
+          28,
+          31,
+          34,
+          36,
+          39,
+          41,
+          44,
+          46,
+          49,
+          52,
+          54,
+          57,
+          59,
+          62,
+          64
+        ],
+        "description": "机械臂夹爪下降并压在绿色布上，夹爪与布接触并持续下压/调整；绿色布在接触过程中被推动，位置从靠近台面右前侧逐渐移向更靠后、靠近后墙的区域，但布始终平铺在台面上，未见被夹爪提起离开台面。不锈钢锅、香蕉形物体和小勺位置基本保持不变。"
+      },
+      {
+        "id": "E3",
+        "frames": [
+          65,
+          67,
+          70,
+          72,
+          75,
+          77,
+          80
+        ],
+        "description": "机械臂夹爪从绿色布上方抬起并离开布，向画面上方/后方移动；末帧夹爪悬在台面上方，绿色布仍平铺在台面靠后区域，由台面支撑，未被夹爪带走或悬空。"
+      }
+    ],
+    "task_assessment": {
+      "verdict": "partial",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "reason": "机械臂确实朝向绿色折叠布移动、下降接触布面，并在接触推动下将布向台面后部移动，因此接近、下降接触和向后移位已有可见进展；但关键的抓持和提起未完成：可见帧中布始终留在台面上，夹爪抬起时没有带起布，末态不是机械臂抓持并提起布的状态。任务未完整完成，但并非完全没有进展。",
+      "target_match": "match"
+    },
+    "physics_assessment": {
+      "verdict": "plausible",
+      "confidence": "medium",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "issues": [],
+      "reason": "可见范围内机械臂移动、下压接触布面、随后抬起的过程整体符合普通接触力学；布在被夹爪压推时发生小幅滑动，之后仍由台面支撑，没有确认的穿模、悬浮或明显非因果运动。运动模糊主要来自机械臂快速移动，未形成可确认的物理异常。"
+    },
+    "visual_assessment": {
+      "verdict": "minor_degradation",
+      "confidence": "high",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "reason": "视频存在机械臂运动造成的局部模糊，尤其在夹爪快速移动和下压阶段细节不够锐利；但台面、绿布、小勺、锅和香蕉形物体的位置关系，以及绿布最终仍在台面上的结果仍可辨认，不影响对主要动作成败的判断。"
+    },
+    "uncertainties": [
+      "夹爪与布接触的局部细节受运动模糊影响，无法完全排除极短暂抓持后立即松脱的可能；但在所有可见帧中布均未离开台面，因此不支持已完成提起。"
+    ]
+  }
+}
