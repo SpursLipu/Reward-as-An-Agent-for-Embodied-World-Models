@@ -78,15 +78,15 @@ curl -N http://127.0.0.1:7024/eval_video \
 
 The repository includes video inputs and prompts for exercising the service. Each demo includes recorded inference outputs, tool evidence, and an explanation. These are model judgments, not ground-truth labels. Run the demo client to generate new results locally.
 
-| Demo | Preview | Input |
-| --- | --- | --- |
-| Sweep a carton and peel | [<img src="assets/demos/demo_06.gif" width="200" alt="Sweep a carton and peel preview">](examples/demo_06/video.mp4) | [inputs and inference results](examples/demo_06/) |
-| Sweep several pieces of litter | [<img src="assets/demos/demo_07.gif" width="200" alt="Sweep several pieces of litter preview">](examples/demo_07/video.mp4) | [inputs and inference results](examples/demo_07/) |
-| Cloth manipulation | [<img src="assets/demos/demo_01.gif" width="200" alt="Cloth manipulation preview">](examples/demo_01/video_1.mp4) | [inputs and inference results](examples/demo_01/) |
-| Refrigerator drawer opening | [<img src="assets/demos/demo_02.gif" width="200" alt="Refrigerator drawer opening preview">](examples/demo_02/video_1.mp4) | [inputs and inference results](examples/demo_02/) |
-| Basket handle grasping | [<img src="assets/demos/demo_03.gif" width="200" alt="Basket handle grasping preview">](examples/demo_03/video_0.mp4) | [inputs and inference results](examples/demo_03/) |
-| Green cube placing | [<img src="assets/demos/demo_04.gif" width="200" alt="Green cube placing preview">](examples/demo_04/video_0.mp4) | [inputs and inference results](examples/demo_04/) |
-| Box relocation | [<img src="assets/demos/demo_05.gif" width="200" alt="Box relocation preview">](examples/demo_05/video_0.mp4) | [inputs and inference results](examples/demo_05/) |
+| Demo | Preview | Final inference | Input and results |
+| --- | --- | --- | --- |
+| Sweep a carton and peel | [<img src="assets/demos/demo_06.gif" width="200" alt="Sweep a carton and peel preview">](examples/demo_06/video.mp4) | **complete**, score **1.0** | [demo_06](examples/demo_06/) |
+| Sweep several pieces of litter | [<img src="assets/demos/demo_07.gif" width="200" alt="Sweep several pieces of litter preview">](examples/demo_07/video.mp4) | **complete**, score **1.0** | [demo_07](examples/demo_07/) |
+| Cloth manipulation | [<img src="assets/demos/demo_01.gif" width="200" alt="Cloth manipulation preview">](examples/demo_01/video_1.mp4) | **partial**, score **0.595** | [demo_01](examples/demo_01/) |
+| Refrigerator drawer opening | [<img src="assets/demos/demo_02.gif" width="200" alt="Refrigerator drawer opening preview">](examples/demo_02/video_1.mp4) | **partial**, score **0.595** | [demo_02](examples/demo_02/) |
+| Basket handle grasping | [<img src="assets/demos/demo_03.gif" width="200" alt="Basket handle grasping preview">](examples/demo_03/video_0.mp4) | **partial**, score **0.595** | [demo_03](examples/demo_03/) |
+| Green cube placing | [<img src="assets/demos/demo_04.gif" width="200" alt="Green cube placing preview">](examples/demo_04/video_0.mp4) | **failed**, score **0** | [demo_04](examples/demo_04/) |
+| Box relocation | [<img src="assets/demos/demo_05.gif" width="200" alt="Box relocation preview">](examples/demo_05/video_0.mp4) | **failed**, score **0** | [demo_05](examples/demo_05/) |
 
 With the current Doubao service running, reproduce all seven demos:
 
