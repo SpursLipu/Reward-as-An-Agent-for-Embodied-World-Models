@@ -1,0 +1,12 @@
+{
+  "profile": "doubao-full-agent-cotracker",
+  "implementation": "current",
+  "wmreward": true,
+  "cotracker": true,
+  "concurrency": 8,
+  "physical_completion": "required",
+  "completion_audit": true,
+  "partial_audit": false,
+  "scope_repairs": 3,
+  "gate_policy": "off"
+}

@@ -1,0 +1,7 @@
+{
+  "video_path": [
+    "examples/demo_07/video.mp4"
+  ],
+  "prompt": "Sweep the trash into the dustpan using a broom.\n",
+  "return_details": true
+}

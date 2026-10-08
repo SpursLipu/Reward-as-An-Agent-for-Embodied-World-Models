@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="1296pt" height="720pt" viewBox="0 0 1296 720" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-10-08T04:23:24.446640</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.10.3, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 720
+L 1296 720
+L 1296 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 38.16 343.44
+L 303.84 343.44
+Q 314.64 343.44 314.64 332.64
+L 314.64 149.76
+Q 314.64 138.96 303.84 138.96
+L 38.16 138.96
+Q 27.36 138.96 27.36 149.76
+L 27.36 332.64
+Q 27.36 343.44 38.16 343.44
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #f1f5f7; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 354.96 343.44
+L 620.64 343.44
+Q 631.44 343.44 631.44 332.64
+L 631.44 149.76
+Q 631.44 138.96 620.64 138.96
+L 354.96 138.96
+Q 344.16 138.96 344.16 149.76
+L 344.16 332.64
+Q 344.16 343.44 354.96 343.44
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #fcf4e6; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 671.76 343.44
+L 937.44 343.44
+Q 948.24 343.44 948.24 332.64
+L 948.24 149.76
+Q 948.24 138.96 937.44 138.96
+L 671.76 138.96
+Q 660.96 138.96 660.96 149.76
+L 660.96 332.64
+Q 660.96 343.44 671.76 343.44
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #eef5e9; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 988.56 343.44
+L 1254.24 343.44
+Q 1265.04 343.44 1265.04 332.64
+L 1265.04 149.76
+Q 1265.04 138.96 1254.24 138.96
+L 988.56 138.96
+Q 977.76 138.96 977.76 149.76
+L 977.76 332.64
+Q 977.76 343.44 988.56 343.44
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #eaf3fa; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 988.56 584.64
+L 1254.24 584.64
+Q 1265.04 584.64 1265.04 573.84
+L 1265.04 390.96
+Q 1265.04 380.16 1254.24 380.16
+L 988.56 380.16
+Q 977.76 380.16 977.76 390.96
+L 977.76 573.84
+Q 977.76 584.64 988.56 584.64
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #eaf3fa; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 671.76 584.64
+L 937.44 584.64
+Q 948.24 584.64 948.24 573.84
+L 948.24 390.96
+Q 948.24 380.16 937.44 380.16
+L 671.76 380.16
+Q 660.96 380.16 660.96 390.96
+L 660.96 573.84
+Q 660.96 584.64 671.76 584.64
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #f0edf8; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 354.96 584.64
+L 620.64 584.64
+Q 631.44 584.64 631.44 573.84
+L 631.44 390.96
+Q 631.44 380.16 620.64 380.16
+L 354.96 380.16
+Q 344.16 380.16 344.16 390.96
+L 344.16 573.84
+Q 344.16 584.64 354.96 584.64
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #f0edf8; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 38.16 584.64
+L 303.84 584.64
+Q 314.64 584.64 314.64 573.84
+L 314.64 390.96
+Q 314.64 380.16 303.84 380.16
+L 38.16 380.16
+Q 27.36 380.16 27.36 390.96
+L 27.36 573.84
+Q 27.36 584.64 38.16 584.64
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #e9f4ef; stroke: #cad6db; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 316.638369 241.2
+Q 328.677882 241.2 338.704933 241.2
+" clip-path="url(#p7a94636d7c)" style="fill: none; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 331.904933 237.8
+L 338.704933 241.2
+L 331.904933 244.6
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #648492; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 633.438369 241.2
+Q 645.477882 241.2 655.504933 241.2
+" clip-path="url(#p7a94636d7c)" style="fill: none; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 648.704933 237.8
+L 655.504933 241.2
+L 648.704933 244.6
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #648492; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 950.238369 241.2
+Q 962.277882 241.2 972.304933 241.2
+" clip-path="url(#p7a94636d7c)" style="fill: none; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 965.504933 237.8
+L 972.304933 241.2
+L 965.504933 244.6
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #648492; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 1121.04 346.163906
+Q 1121.04 361.442459 1121.04 374.70855
+" clip-path="url(#p7a94636d7c)" style="fill: none; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 1124.44 367.90855
+L 1121.04 374.70855
+L 1117.64 367.90855
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #648492; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 975.040049 482.4
+Q 963.720124 482.4 954.41266 482.4
+" clip-path="url(#p7a94636d7c)" style="fill: none; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 961.21266 485.8
+L 954.41266 482.4
+L 961.21266 479
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #648492; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 658.240049 482.4
+Q 646.920124 482.4 637.61266 482.4
+" clip-path="url(#p7a94636d7c)" style="fill: none; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 644.41266 485.8
+L 637.61266 482.4
+L 644.41266 479
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #648492; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 341.440049 482.4
+Q 330.120124 482.4 320.81266 482.4
+" clip-path="url(#p7a94636d7c)" style="fill: none; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+    <path d="M 327.61266 485.8
+L 320.81266 482.4
+L 327.61266 479
+z
+" clip-path="url(#p7a94636d7c)" style="fill: #648492; stroke: #648492; stroke-width: 1.8; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    <text style="font-weight: 700; font-size: 27px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="28.8" y="32.4" transform="rotate(-0 28.8 32.4)">Reward as an Agent</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526d7c" x="28.8" y="66.24" transform="rotate(-0 28.8 66.24)">current  /  evidence-grounded inference with WMReward + CoTracker3</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526d7c" x="28.8" y="97.2" transform="rotate(-0 28.8 97.2)">Selected evaluation profile: completion audit ON · partial audit OFF · process gate OFF</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="44.64" y="169.2" transform="rotate(-0 44.64 169.2)">01 / INPUT</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="44.64" y="199.44" transform="rotate(-0 44.64 199.44)">Video + task</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="233.28" transform="rotate(-0 44.64 233.28)">Original full-duration video</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="257.76" transform="rotate(-0 44.64 257.76)">Decode + visibility inspection</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="282.24" transform="rotate(-0 44.64 282.24)">Keep task text separate</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="306.72" transform="rotate(-0 44.64 306.72)">Invalid/unobservable input → 0</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="361.44" y="169.2" transform="rotate(-0 361.44 169.2)">02 / PLANNING</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="361.44" y="199.44" transform="rotate(-0 361.44 199.44)">Observe + freeze</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="233.28" transform="rotate(-0 361.44 233.28)">Task-blind visual observations</text>
+   </g>
+   <g id="text_13">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="257.76" transform="rotate(-0 361.44 257.76)">Extract task requirements</text>
+   </g>
+   <g id="text_14">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="282.24" transform="rotate(-0 361.44 282.24)">Audit contract coverage</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="306.72" transform="rotate(-0 361.44 306.72)">Freeze action, target, end state</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="678.24" y="169.2" transform="rotate(-0 678.24 169.2)">03 / ASSESSMENT</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="678.24" y="199.44" transform="rotate(-0 678.24 199.44)">Grounded draft</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="233.28" transform="rotate(-0 678.24 233.28)">Task progress / completion</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="257.76" transform="rotate(-0 678.24 257.76)">Physical plausibility</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="282.24" transform="rotate(-0 678.24 282.24)">Visual quality</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="306.72" transform="rotate(-0 678.24 306.72)">Cite supplied source frames</text>
+   </g>
+   <g id="text_22">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="995.04" y="169.2" transform="rotate(-0 995.04 169.2)">04 / VERIFICATION</text>
+   </g>
+   <g id="text_23">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="995.04" y="199.44" transform="rotate(-0 995.04 199.44)">Inspect evidence</text>
+   </g>
+   <g id="text_24">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="233.28" transform="rotate(-0 995.04 233.28)">Refined original frame sequence</text>
+   </g>
+   <g id="text_25">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="257.76" transform="rotate(-0 995.04 257.76)">Adaptive image crops</text>
+   </g>
+   <g id="text_26">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="282.24" transform="rotate(-0 995.04 282.24)">CoTracker3 tracks + overlays</text>
+   </g>
+   <g id="text_27">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="306.72" transform="rotate(-0 995.04 306.72)">Revise the grounded report</text>
+   </g>
+   <g id="text_28">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="995.04" y="410.4" transform="rotate(-0 995.04 410.4)">05 / PHYSICS REFLECTION</text>
+   </g>
+   <g id="text_29">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="995.04" y="440.64" transform="rotate(-0 995.04 440.64)">WMReward evidence</text>
+   </g>
+   <g id="text_30">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="474.48" transform="rotate(-0 995.04 474.48)">Run verified physical tool</text>
+   </g>
+   <g id="text_31">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="498.96" transform="rotate(-0 995.04 498.96)">Recheck report against frames</text>
+   </g>
+   <g id="text_32">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="523.44" transform="rotate(-0 995.04 523.44)">Use tool output as evidence</text>
+   </g>
+   <g id="text_33">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="995.04" y="547.92" transform="rotate(-0 995.04 547.92)">Tool score is not task reward</text>
+   </g>
+   <g id="text_34">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="678.24" y="410.4" transform="rotate(-0 678.24 410.4)">06 / SCOPE REVIEW</text>
+   </g>
+   <g id="text_35">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="678.24" y="440.64" transform="rotate(-0 678.24 440.64)">Audit + repair</text>
+   </g>
+   <g id="text_36">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="474.48" transform="rotate(-0 678.24 474.48)">Check each frozen requirement</text>
+   </g>
+   <g id="text_37">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="498.96" transform="rotate(-0 678.24 498.96)">Recheck contradictions in images</text>
+   </g>
+   <g id="text_38">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="523.44" transform="rotate(-0 678.24 523.44)">Up to three repair rounds</text>
+   </g>
+   <g id="text_39">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="678.24" y="547.92" transform="rotate(-0 678.24 547.92)">Retain unresolved audit issues</text>
+   </g>
+   <g id="text_40">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="361.44" y="410.4" transform="rotate(-0 361.44 410.4)">07 / COMPLETION CHECK</text>
+   </g>
+   <g id="text_41">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="361.44" y="440.64" transform="rotate(-0 361.44 440.64)">Conditional audit</text>
+   </g>
+   <g id="text_42">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="474.48" transform="rotate(-0 361.44 474.48)">For complete / mostly complete</text>
+   </g>
+   <g id="text_43">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="498.96" transform="rotate(-0 361.44 498.96)">Inspect the verification images</text>
+   </g>
+   <g id="text_44">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="523.44" transform="rotate(-0 361.44 523.44)">Accept same or lower verdict</text>
+   </g>
+   <g id="text_45">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="361.44" y="547.92" transform="rotate(-0 361.44 547.92)">Reaudit scope; cap upgrades</text>
+   </g>
+   <g id="text_46">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="44.64" y="410.4" transform="rotate(-0 44.64 410.4)">08 / REWARD</text>
+   </g>
+   <g id="text_47">
+    <text style="font-weight: 700; font-size: 16px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="44.64" y="440.64" transform="rotate(-0 44.64 440.64)">Resolve + aggregate</text>
+   </g>
+   <g id="text_48">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="474.48" transform="rotate(-0 44.64 474.48)">Conditional failure/progress check</text>
+   </g>
+   <g id="text_49">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="498.96" transform="rotate(-0 44.64 498.96)">Fixed task / physics / visual rules</text>
+   </g>
+   <g id="text_50">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="523.44" transform="rotate(-0 44.64 523.44)">Failed or unverifiable content → 0</text>
+   </g>
+   <g id="text_51">
+    <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #385766" x="44.64" y="547.92" transform="rotate(-0 44.64 547.92)">Protocol faults → review / error</text>
+   </g>
+   <g id="text_52">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #567586" x="28.8" y="630" transform="rotate(-0 28.8 630)">OUTPUT</text>
+   </g>
+   <g id="text_53">
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #183848" x="118.8" y="630" transform="rotate(-0 118.8 630)">score + training_eligible + review reasons + frame-linked reports + tool provenance</text>
+   </g>
+   <g id="text_54">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526d7c" x="28.8" y="673.2" transform="rotate(-0 28.8 673.2)">Local progress must remain valid independently of unresolved task details; it does not establish completion.</text>
+   </g>
+   <g id="text_55">
+    <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #526d7c" x="28.8" y="700.56" transform="rotate(-0 28.8 700.56)">All branches preserve the frozen task and use supplied visual evidence.</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p7a94636d7c">
+   <rect x="0" y="0" width="1296" height="720"/>
+  </clipPath>
+ </defs>
+</svg>

@@ -1,0 +1,739 @@
+"""Task-blind observation, shared assessment, and evidence-based verification."""
+from __future__ import annotations
+
+import asyncio
+import copy
+from dataclasses import replace
+import hashlib
+import json
+import os
+import re
+from pathlib import Path
+import time
+
+from reward_as_agent.evidence_prompts import observation_prompt, assessment_prompt, verification_prompt, completion_audit_prompt, partial_audit_prompt
+from reward_as_agent.evidence_schema import score_report
+from reward_as_agent.evidence_grounding import (
+    core_report, validate_grounded_report, validate_observation_time_format, observation_time_manifest,
+)
+from reward_as_agent.task_contract import (
+    extraction_prompt, coverage_audit_prompt, validate_extraction, freeze_contract,
+    validate_task_contract, validate_requirement_checks,
+)
+from reward_as_agent.evidence_video import load_evidence_video, InvalidVideoContent, uniform_indices, verification_indices, refinement_indices
+from reward_as_agent.llm import call_llm, safe_parse_json, normalize_model_json
+from reward_as_agent.doubao import progress_thinking_stream
+from reward_as_agent.grounded_output_schema import grounded_schema
+from reward_as_agent.adaptive_crops import PLAN, plan_validator, crop_content, full_frame_plan
+from reward_as_agent.requirement_audit import audit_prompt, validate_requirement_audit
+from reward_as_agent.focused_audit import focused_prompt, validate_focused_audit
+from reward_as_agent.training_reward import (
+    apply_training_reward, failure_candidates, failure_resolution_prompt,
+    needs_failure_resolution, validate_failure_resolution,
+    needs_progress_resolution, progress_candidates, progress_resolution_prompt,
+    validate_progress_resolution,
+)
+
+PIPELINE_VERSION = 'evidence-v12-cotracker3-tool-probe'
+# Preserve the v5 model-visible context; the candidate version is runtime provenance.
+MODEL_CONTEXT_VERSION = 'evidence-v5.0-dev1'
+
+
+def sampling_trace_fields(value):
+    """Missing metadata stays unknown, notably for application caches from v5."""
+    value = value if isinstance(value, dict) else {}
+    return {field: value.get(field) for field in (
+        'request_payload_sha256', 'request_sampling', 'response_sampling', 'sampling_metadata_status')}
+
+
+class PersistentTrace(list):
+    """Save completed stage evidence even when later requests fail."""
+    def __init__(self, path=None, context=None):
+        super().__init__()
+        self.path = path
+        self.context = context or {}
+
+    def append(self, item):
+        super().append(item)
+        if self.path:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
+            temp = self.path.with_suffix('.' + str(time.time_ns()) + '.tmp')
+            temp.write_text(json.dumps({**self.context, 'status': 'error' if item.get('error') else 'running', 'trace': list(self)}, ensure_ascii=False, indent=2))
+            temp.replace(self.path)
+
+
+def validate_observations(value, valid_ids):
+    if not isinstance(value, dict) or not isinstance(value.get('observations'), list):
+        raise ValueError('observations must be a list')
+    if set(value) != {'observations', 'uncertainties'}:
+        raise ValueError('Blind output accepts only observations and uncertainties, not task judgements or scores')
+    if not value['observations']:
+        raise ValueError('At least one observation is required, including if only visibility can be described')
+    seen = set()
+    for obs in value['observations']:
+        if not isinstance(obs, dict) or set(obs) != {'id', 'frames', 'description'}:
+            raise ValueError('Observation fields must be exactly id, frames, description')
+        if not isinstance(obs.get('id'), str) or not re.fullmatch(r'E[1-9][0-9]*', obs['id']) or obs['id'] in seen:
+            raise ValueError('Observation IDs must be unique nonempty strings')
+        seen.add(obs['id'])
+        if not isinstance(obs.get('description'), str) or not obs['description'].strip():
+            raise ValueError('Each observation needs a visible description')
+        frames = obs.get('frames')
+        if not isinstance(frames, list) or not frames or any(type(i) is not int or i not in valid_ids for i in frames):
+            raise ValueError(f'Observation {obs["id"]} must cite actual supplied source frame IDs')
+        if len(set(frames)) != len(frames):
+            raise ValueError('Observation frame references must be unique')
+    if not isinstance(value.get('uncertainties'), list) or any(not isinstance(x, str) or not x.strip() for x in value['uncertainties']):
+        raise ValueError('uncertainties must be a list of strings')
+    validate_observation_time_format(value)
+
+
+class EvidencePipeline:
+    def __init__(self, settings, physics_hook=None, process_event_hook=None):
+        self.physics_hook = physics_hook
+        self.process_event_hook = process_event_hook
+        physical_policy = os.environ.get('REWARD_PHYSICS_COMPLETION', 'optional')
+        if physical_policy not in {'optional', 'required'}:
+            raise ValueError('REWARD_PHYSICS_COMPLETION must be optional or required')
+        self.physics_completion_required = physical_policy == 'required'
+        from reward_as_agent.process_gates import POLICIES
+        # Keep the historical architecture default. Temporal evidence is
+        # available to deployments that explicitly enable the process gate;
+        # it must not silently turn valid static/end-state tasks into errors.
+        self.gate_policy = os.environ.get('REWARD_GATE_POLICY', 'off')
+        if self.gate_policy not in POLICIES:
+            raise ValueError('Unknown REWARD_GATE_POLICY')
+        if process_event_hook is not None and self.gate_policy!='evidence_process':
+            raise ValueError('Grounded process events require REWARD_GATE_POLICY=evidence_process')
+        if settings.provider not in {'doubao', 'openai'}:
+            raise ValueError('Evidence evaluation requires Doubao or an OpenAI-compatible transport')
+        # Keep the complete evidence response budget for every profile. Speed
+        # optimizations in this pipeline must not reduce the model's evidence
+        # or repair budget and therefore must not change its scoring behavior.
+        # Keep enough room for a grounded report while avoiding the 8k-token
+        # ceiling that made malformed/overlong responses expensive to retry.
+        self.settings = replace(settings, max_tokens=min(settings.max_tokens, 4096))
+        self.audit_mode = os.environ.get('REWARD_REQUIREMENT_AUDIT_MODE', 'joint')
+        if self.audit_mode not in {'joint', 'focused', 'hybrid'}:
+            raise ValueError('REWARD_REQUIREMENT_AUDIT_MODE must be joint, focused or hybrid')
+        self.frame_budget = int(os.environ.get('REWARD_EVIDENCE_FRAMES', '32'))
+        if not 8 <= self.frame_budget <= 81:
+            raise ValueError('REWARD_EVIDENCE_FRAMES must be between 8 and 81')
+        self.verification_full_frame_limit = int(os.getenv('REWARD_VERIFICATION_FULL_FRAME_LIMIT', '0'))
+        if self.verification_full_frame_limit not in (0, 16):
+            raise ValueError('REWARD_VERIFICATION_FULL_FRAME_LIMIT must be 0 or 16')
+        self.fast_training = os.getenv("REWARD_FAST_TRAINING", "0") == "1"
+        self.contract_cache_enabled = os.getenv("REWARD_CONTRACT_CACHE", "1") == "1"
+        self.adaptive_crop_enabled = os.getenv("REWARD_ADAPTIVE_CROP", "0" if self.fast_training else "1") == "1"
+        self.motion_evidence_enabled = os.getenv("REWARD_MOTION_EVIDENCE", "1") == "1"
+        self.physics_reflection_enabled = os.getenv("REWARD_PHYSICS_REFLECTION", "1") == "1"
+        self.physics_enabled = os.getenv("REWARD_PHYSICS_ENABLED", "1") == "1"
+        self.max_scope_repairs = int(os.getenv("REWARD_SCOPE_REPAIRS", "0" if self.fast_training else "3"))
+        if not 0 <= self.max_scope_repairs <= 3:
+            raise ValueError('REWARD_SCOPE_REPAIRS must be between 0 and 3')
+        self.contract_registry = None
+        self.contract_reviews = {}
+        self.contract_registry_sha256 = None
+        # Task-contract extraction depends only on the text prompt, not on the
+        # generated video. Reuse the frozen contract across videos in the same
+        # service process to avoid two redundant LLM calls per sample.
+        self._contract_cache = {}
+        self._contract_tasks = {}
+        registry_path = os.environ.get('REWARD_TASK_CONTRACT_REGISTRY')
+        if registry_path:
+            registry_bytes = Path(registry_path).read_bytes()
+            registry = json.loads(registry_bytes)
+            if registry.get('schema_version') != 'task-contract-registry-v1':
+                raise ValueError('Unsupported task contract registry version')
+            self.contract_registry = registry['contracts']
+            for key, contract in self.contract_registry.items():
+                validate_task_contract(contract)
+                if key != contract['source_sha256']:
+                    raise ValueError('Task registry key does not match source hash')
+            self.contract_reviews = registry.get('contract_reviews', {})
+            known_contracts = {c['contract_sha256']: c for c in self.contract_registry.values()}
+            for key, review in self.contract_reviews.items():
+                if key not in known_contracts or review.get('source_sha256') != known_contracts[key]['source_sha256']:
+                    raise ValueError('Contract review does not identify a frozen registry contract')
+                if review.get('status') != 'requires_review' or not isinstance(review.get('reason'), str) or not review['reason'].strip():
+                    raise ValueError('Contract review must state the unresolved interpretation')
+            self.contract_registry_sha256 = hashlib.sha256(registry_bytes).hexdigest()
+        modules = ('cotracker_backend.py', 'motion_evidence.py', 'adaptive_crops.py', 'grounded_output_schema.py', 'evidence_pipeline.py', 'evidence_video.py', 'evidence_prompts.py', 'evidence_schema.py',
+                   'evidence_grounding.py', 'task_contract.py', 'requirement_audit.py', 'focused_audit.py', 'doubao.py', 'process_gates.py', 'process_audit.py', 'physics_completion.py', 'process_events.py', 'training_reward.py')
+        digest = hashlib.sha256()
+        for name in modules:
+            digest.update(name.encode())
+            digest.update(Path(__file__).with_name(name).read_bytes())
+        digest.update(Path(__file__).with_name('llm.py').read_bytes())
+        digest.update(json.dumps({'provider':settings.provider,'model':settings.model,'api_base':settings.api_base,
+                                 'fast_training':self.fast_training,'contract_cache':self.contract_cache_enabled,
+                                 'adaptive_crop':self.adaptive_crop_enabled,'motion_evidence':self.motion_evidence_enabled,
+                                 'physics_enabled':self.physics_enabled,'physics_reflection':self.physics_reflection_enabled,'scope_repairs':self.max_scope_repairs,
+                                 'frames':self.frame_budget,'max_tokens':self.settings.max_tokens,
+                                 'verification_full_frame_limit':self.verification_full_frame_limit,
+                                 'thinking':'disabled','temperature':settings.temperature,
+                                 'progress_thinking_stream':os.getenv('REWARD_PROGRESS_THINKING_STREAM') == '1',
+                                 'audit_mode':self.audit_mode,
+                                 'gate_policy':self.gate_policy,
+                                 'physics_completion_required':self.physics_completion_required,
+                                 'task_contract_registry_sha256':self.contract_registry_sha256},sort_keys=True).encode())
+        self.evaluator_version = PIPELINE_VERSION + '-' + digest.hexdigest()[:16]
+        if physics_hook is not None:
+            import inspect
+            from scripts.frozen_v41.visibility_evidence import inspect_frame_bytes
+            digest.update(inspect.getsource(type(physics_hook)).encode())
+            digest.update(inspect.getsource(inspect_frame_bytes).encode())
+            digest.update(physics_hook.mode.encode())
+            digest.update(json.dumps(physics_hook.request_specs, sort_keys=True).encode())
+            self.evaluator_version += '-physics-' + digest.hexdigest()[:16]
+        if process_event_hook is not None:
+            fingerprint=process_event_hook.fingerprint
+            if not isinstance(fingerprint,str) or not re.fullmatch(r'[0-9a-f]{64}',fingerprint):
+                raise ValueError('Event hook must fingerprint its implementation and worker configuration')
+            self.evaluator_version += '-events-' + fingerprint[:16]
+
+    async def stage(self, name, system_prompt, payload, frames, valid_ids, validator, trace):
+        content = [{'type': 'text', 'text': json.dumps(payload, ensure_ascii=False)}] + frames
+        base = [{'role': 'system', 'content': system_prompt}, {'role': 'user', 'content': content}]
+        error = None
+        for attempt in range(3):
+            messages = list(base)
+            if error:
+                messages.append({'role': 'user', 'content':
+                    'The previous output failed structural/evidence validation: ' + error +
+                    '. Reassess the supplied source material and emit a corrected full JSON object. '
+                    'Do not invent source frame IDs or unsupported facts to satisfy validation.'})
+            # Includes exact ordered image bytes and repair text, without persisting images.
+            request_sha256 = hashlib.sha256(json.dumps(
+                messages, ensure_ascii=False, sort_keys=True, separators=(',', ':')
+            ).encode()).hexdigest()
+            stage_start = time.monotonic()
+            stream_token = progress_thinking_stream.set(
+                name == 'partial_progress_resolution'
+                and os.environ.get('REWARD_PROGRESS_THINKING_STREAM') == '1')
+            try:
+                output_schema = None
+                # Preserve original first-pass generation; constrain repair attempts only.
+                if error and frames and name == 'blind_observation':
+                    output_schema = grounded_schema(valid_ids, blind=True)
+                elif error and frames and name in {'assessment', 'verification', 'physics_tool_reflection', 'verification_scope_repair'}:
+                    output_schema = grounded_schema(valid_ids, payload.get('task_contract'))
+                if output_schema is None:
+                    response = await call_llm(messages, self.settings)
+                else:
+                    response = await call_llm(messages, self.settings, output_schema=output_schema)
+            except Exception as exc:
+                trace.append({'stage': name, 'attempt': attempt + 1,
+                              'messages_sha256': request_sha256,
+                              **sampling_trace_fields(getattr(exc, 'sampling_metadata', None)),
+                              'error': type(exc).__name__ + ': ' + str(exc)})
+                raise
+            finally:
+                progress_thinking_stream.reset(stream_token)
+            entry = {'stage': name, 'attempt': attempt + 1, 'response_id': response.get('id'),
+                     'elapsed_seconds': round(time.monotonic() - stage_start, 3),
+                     'messages_sha256': request_sha256,
+                     **sampling_trace_fields(response),
+                     'usage': response.get('usage'), 'cache_reused': response.get('cache_reused', False),
+                     'output': None}
+            try:
+                text = response['choices'][0]['message']['content']
+                parsed = safe_parse_json(text)
+                entry['output'] = parsed
+                if parsed is None:
+                    raise ValueError('Output was not a JSON object')
+                parsed, removed_fields = normalize_model_json(parsed)
+                if removed_fields:
+                    entry['normalized_output'] = parsed
+                    entry['removed_model_fields'] = removed_fields
+                validator(parsed, set(valid_ids))
+            except (ValueError, TypeError, KeyError, IndexError) as exc:
+                error = str(exc)
+                entry['validation_error'] = error
+                trace.append(entry)
+                if response.get('_cache_path'):
+                    Path(response['_cache_path']).unlink(missing_ok=True)
+                continue
+            trace.append(entry)
+            return parsed
+        trace.append({'stage': name, 'error': 'Evidence validation exhausted: ' + str(error)})
+        raise ValueError(f'{name} failed evidence validation after bounded retries: {error}')
+
+    async def prepare_task_contract(self, description, trace):
+        def validator(value, _):
+            validate_extraction(value, description)
+
+        draft = await self.stage('task_contract_extraction', extraction_prompt(description),
+            {'source_task': description}, [], [], validator, trace)
+        reviewed = await self.stage('task_contract_coverage_audit', coverage_audit_prompt(description, draft),
+            {'source_task': description, 'draft_contract': draft}, [], [], validator, trace)
+        return freeze_contract(description, reviewed)
+
+    async def resolve_task_contract(self, description, trace):
+        if self.contract_registry is None and not self.contract_cache_enabled:
+            return await self.prepare_task_contract(description, trace)
+        if self.contract_registry is None:
+            key = hashlib.sha256(description.encode()).hexdigest()
+            cache_hit = key in self._contract_cache
+            if not cache_hit:
+                task = self._contract_tasks.get(key)
+                if task is None:
+                    async def prepare():
+                        shared_trace = []
+                        try:
+                            contract = await self.prepare_task_contract(description, shared_trace)
+                            self._contract_cache[key] = (contract, shared_trace)
+                            # Bound memory while retaining recent task contracts.
+                            if len(self._contract_cache) > 1024:
+                                self._contract_cache.pop(next(iter(self._contract_cache)))
+                            return contract, shared_trace
+                        finally:
+                            self._contract_tasks.pop(key, None)
+                    task = asyncio.create_task(prepare())
+                    # Retrieve exceptions even if every requesting video cancels.
+                    task.add_done_callback(lambda t: t.exception() if not t.cancelled() else None)
+                    self._contract_tasks[key] = task
+                contract, shared_trace = await asyncio.shield(task)
+            else:
+                contract, shared_trace = self._contract_cache[key]
+            trace.append({'stage': 'task_contract_shared', 'cache_hit': cache_hit,
+                          'source_sha256': key, 'contract_sha256': contract['contract_sha256'],
+                          'preparation_trace': copy.deepcopy(shared_trace)})
+            return copy.deepcopy(contract)
+        key = hashlib.sha256(description.encode()).hexdigest()
+        if key not in self.contract_registry:
+            raise ValueError('Task source missing from frozen registry; prepare it before this evaluation')
+        contract = self.contract_registry[key]
+        validate_task_contract(contract, description)
+        return contract
+
+    async def audit_requirements(self, report, contract, stage_name, trace):
+        if self.audit_mode == 'joint':
+            return await self.stage(stage_name, audit_prompt(contract, report),
+                {'instruction': 'Audit only requirement scope and internal textual consistency.'},
+                [], [], lambda value, _: validate_requirement_audit(value, contract, report), trace)
+        joint = None
+        if self.audit_mode == 'hybrid':
+            joint = await self.stage(stage_name + '_joint', audit_prompt(contract, report),
+                {'instruction': 'Audit only requirement scope and internal textual consistency.'},
+                [], [], lambda value, _: validate_requirement_audit(value, contract, report), trace)
+            validate_requirement_audit(joint, contract, report)
+        semaphore = asyncio.Semaphore(2)
+        async def one(requirement):
+            requirement_id = requirement['id']
+            async with semaphore:
+                value = await self.stage(stage_name + '_' + requirement_id,
+                    focused_prompt(contract, report, requirement_id),
+                    {'instruction': 'Audit only this requirement, even if another has an obvious error.',
+                     'target_requirement_id': requirement_id},
+                    [], [], lambda value, _: validate_focused_audit(
+                        value, contract, report, requirement_id), trace)
+            # Validate again at aggregation boundary; never synthesize unchecked success.
+            validate_focused_audit(value, contract, report, requirement_id)
+            return value['checks'][0]
+        checks = await asyncio.gather(*(one(req) for req in contract['requirements']),
+                                      return_exceptions=True)
+        for check in checks:
+            if isinstance(check, BaseException):
+                raise check
+        result = {'schema_version': 'requirement-scope-audit-v1', 'checks': checks}
+        validate_requirement_audit(result, contract, report)
+        if joint is not None:
+            # Both complete audit outputs remain in the trace. Retain every distinct
+            # allegation for image rechecking; agreement is not required or truth.
+            for destination, source in zip(result['checks'], joint['checks']):
+                for issue in source['issues']:
+                    if issue not in destination['issues']:
+                        destination['issues'].append(issue)
+            validate_requirement_audit(result, contract, report)
+        return result
+
+    async def audit_and_repair_requirements(self, report, contract, description,
+                                           observations, manifest, frames, coverage, trace):
+        """Audit textual scope, repair up to three times against images, and retain unresolved issues.
+
+        The auditor cannot establish visual truth. Its claims are evidence to recheck,
+        never instructions to raise a score or an automatic change to a verdict.
+        """
+        audits = []
+        before_repair = report
+        ids = [entry['source_frame_index'] for entry in manifest]
+        max_repairs = self.max_scope_repairs
+        for round_index in range(max_repairs + 1):
+            audit = await self.audit_requirements(report, contract,
+                'requirement_scope_audit' if round_index == 0 else 'requirement_scope_reaudit',
+                trace)
+            audits.append({
+                'report_sha256': hashlib.sha256(json.dumps(
+                    report, ensure_ascii=False, sort_keys=True, separators=(',', ':')
+                ).encode()).hexdigest(),
+                'audit': audit,
+            })
+            if not any(check['issues'] for check in audit['checks']) or round_index == max_repairs:
+                break
+            report = await self.stage(
+                'verification_scope_repair', verification_prompt(manifest, task_contract=contract) + '\n本轮是针对审查指出的具体矛盾进行修复，而不是一般性复核。先独立查看所附原始图片，再输出完整报告：\n1. 对每条 audit issue，定位冲突的观察描述、requirement reason/status 和 assessment。旧 observations、blind_observations 和 draft 都是待核对的模型判断，不是不可修改的事实；只有任务契约的要求保持冻结。\n2. 依据图片确定每个争议事实（对象、接触位置、运动方向、持有状态、动作与末态）。分别考虑冲突两侧是否有图像支持，不能通过改写措辞或删除审查意见掩盖冲突。审查也可能错误，不为通过审查迎合它。\n3. 同步重写全部依赖该事实的 observations、requirement_checks、task_assessment、physics_assessment、visual_assessment 和 uncertainties，使用原 schema 的实际字段；引用的 observation 必须支持对应 reason。尤其不能同时声称同一时段静止和发生运动、空夹爪和持有物体、或两个不同接触位置。\n4. 图片不足以区分冲突说法时，不任意选一个作为事实；依据原 schema 使用不确定/不可观察状态和相应 confidence，并在所有关联字段保持一致。不要为了清除审查而自动判成功或失败。\n5. 对 added_condition，仅以冻结契约中的明确要求判断；删除额外约束并据图重新判断原要求，不把删除额外条件等同于任务成功。\n返回前逐条核对本轮问题是否已被图像支持的修正解决。只输出完整 JSON，不输出评分目标或额外字段。\n',
+                ({
+                 'task_description': description, 'task_contract': contract,
+                 'video_coverage': coverage, 'repair_round': round_index + 1,
+                 'repair_mode': 'independent_reconstruction_v3',
+                 'repair_instruction': (
+                     'Prior repair did not resolve internal consistency. Reconstruct a complete '
+                     'report from the supplied original images and the frozen task contract. '
+                     'No prior observations, draft verdicts, or audit allegations are supplied '
+                     'because they may anchor the same error. First describe visible states and '
+                     'changes; derive requirement statuses and assessments from those observations. '
+                     'Check that cited observations support every reason, all fields agree on '
+                     'motion/contact/target/final state, and no conditions beyond the frozen '
+                     'contract are imposed. Preserve uncertainty where images are insufficient. '
+                     'Do not target a score or assume success or failure. Return the full original '
+                     'JSON schema. The image set and task requirements are unchanged.'),
+                 'pipeline_version': MODEL_CONTEXT_VERSION,
+                } if round_index >= 1 else {'task_description': description, 'task_contract': contract,
+                 'blind_observations': observations, 'draft_report': report,
+                 'requirement_scope_audit': audit, 'previous_scope_audits': audits,
+                 'repair_round': round_index + 1, 'video_coverage': coverage,
+                 'repair_instruction': (
+                     'A separate text-only audit found possible requirement-scope or internal '
+                     'reasoning errors. It is not visual ground truth. Check each cited claim '
+                     'against the original task, its own requirement, and the supplied images. '
+                     'Correct only supported errors, retain legitimate failures or uncertainty, '
+                     'and do not invent evidence or relax requirements to satisfy the auditor. '
+                     'Re-evaluate the complete report consistently; no preferred score or verdict '
+                     'is supplied. The frame coverage is unchanged from verification.'),
+                 'pipeline_version': MODEL_CONTEXT_VERSION}), frames, ids,
+                lambda value, valid_ids: validate_grounded_report(value, valid_ids, contract), trace,
+            )
+        return report, audits, before_repair
+
+    async def resolve_failure_reward(self, report, contract, scope_audits, contract_review,
+                                     physics_evidence, manifest, frames, coverage, trace):
+        """Recheck whether task-related doubts can change an otherwise failed reward.
+
+        This conditional decision does not edit the existing assessment or its
+        audits. A negative/inconclusive decision preserves review; it never
+        instructs the model to produce a preferred score.
+        """
+        if ((not os.getenv('REWARD_FAILURE_RESOLUTION', '0' if self.fast_training else '1') == '1') or contract_review or (physics_evidence or {}).get('input_unobservable')
+                or not needs_failure_resolution(report, contract, scope_audits)):
+            return None
+        candidates = failure_candidates(report, contract, scope_audits)
+        ids = [entry['source_frame_index'] for entry in manifest]
+        return await self.stage(
+            'failure_reward_resolution', failure_resolution_prompt(),
+            {'task_contract': contract, 'evidence_report': report,
+             'final_scope_audit': scope_audits[-1],
+             'candidate_requirement_ids': candidates, 'frame_manifest': manifest,
+             'video_coverage': coverage}, frames, ids,
+            lambda value, valid_ids: validate_failure_resolution(
+                value, report, contract, scope_audits, valid_ids), trace,
+        )
+
+    def input_quality_zero(self, idx, reason, trace):
+        return {
+            'planning_api_output': {'index': idx, 'score': 0.0, 'status': 'success'},
+            'total_score': 0.0, 'training_eligible': True, 'review_required': False,
+            'pipeline_version': PIPELINE_VERSION, 'evaluator_version': self.evaluator_version,
+            'diagnostic_score': None, 'diagnostic_review_required': True,
+            'diagnostic_review_reasons': [reason],
+            'evidence_report': {'task_assessment': {'verdict': 'unobservable'}},
+            'scoring': {'total_score': 0.0, 'review_required': False, 'review_reasons': [],
+                        'scoring_version': 'input-quality-zero-v1',
+                        'video_quality_gate': {'applied': True, 'reasons': [reason],
+                            'policy': 'Invalid or unobservable generated content receives training zero.'}},
+            'trace': list(trace),
+        }
+
+    async def process_one_video(self, video_path, description, idx):
+        start = time.monotonic()
+        trace_root = os.environ.get('REWARD_EVIDENCE_TRACE_DIR')
+        identity = hashlib.sha256((str(video_path) + '\n' + description).encode()).hexdigest()[:20]
+        trace_path = Path(trace_root) / (identity + '.json') if trace_root else None
+        trace = PersistentTrace(trace_path, {'video_path': str(video_path), 'prompt': description,
+                                            'pipeline_version': PIPELINE_VERSION, 'evaluator_version': self.evaluator_version})
+        source_digest = None
+        if self.physics_enabled and (self.physics_hook is not None or self.process_event_hook is not None):
+            from scripts.frozen_v41.tool_protocol import video_sha256
+            source_digest = await asyncio.to_thread(video_sha256, video_path)
+        try:
+            video = await asyncio.to_thread(load_evidence_video, video_path)
+        except InvalidVideoContent as exc:
+            trace.append({'stage': 'input_quality_zero', 'reason': str(exc)})
+            return self.input_quality_zero(idx, str(exc), trace)
+        from scripts.frozen_v41.visibility_evidence import inspect_frame_bytes
+        visibility = await asyncio.to_thread(inspect_frame_bytes,
+            ((f.shape[1], f.shape[0], f.tobytes()) for f in video.frames))
+        if visibility.get('all_frames_spatially_uniform'):
+            reason = 'All decoded frames are spatially uniform; no observable task evidence'
+            trace.append({'stage': 'input_quality_zero', 'reason': reason, 'visibility': visibility})
+            return self.input_quality_zero(idx, reason, trace)
+        indices = uniform_indices(len(video.frames), self.frame_budget)
+        manifest = video.manifest(indices)
+        frames = await asyncio.to_thread(video.content, indices)
+        # No task text in this stage: desired actions must not masquerade as observations.
+        # Contract extraction follows observation to preserve strict baseline traces.
+        # Contract extraction is video-independent. Start it alongside the
+        # image observation so the first reward for a new task does not pay the
+        # two LLM latencies serially. The shared task cache still coalesces
+        # concurrent videos with the same prompt.
+        observations = await self.stage(
+            'blind_observation', observation_prompt(manifest),
+            {'instruction': 'Describe only the supplied visible sequence.',
+             'pipeline_version': MODEL_CONTEXT_VERSION}, frames, indices,
+            validate_observations, trace)
+        contract = await self.resolve_task_contract(description, trace)
+
+        def report_validator(value, valid_ids):
+            validate_grounded_report(value, valid_ids, contract)
+
+        draft = await self.stage('assessment', assessment_prompt(manifest, task_contract=contract),
+            {'task_description': description, 'task_contract': contract, 'blind_observations': observations,
+             'pipeline_version': MODEL_CONTEXT_VERSION}, frames, indices, report_validator, trace)
+        refined = (refinement_indices(draft, indices, len(video.frames), max_additional=4)
+                   if self.fast_training else verification_indices(draft, indices, len(video.frames)))
+        crop_indices = uniform_indices(len(video.frames), 8)
+        if not self.adaptive_crop_enabled:
+            crop_plan = full_frame_plan([indices[0], indices[-1]])
+            trace.append({'stage': 'adaptive_crop_plan_fast', 'output': crop_plan,
+                          'policy': 'deterministic_full_frame; no target inferred'})
+        else:
+            crop_frames = await asyncio.to_thread(video.content, crop_indices)
+            try:
+                crop_plan = await self.stage('adaptive_crop_plan', PLAN,
+                    {'instruction': description, 'frame_manifest': video.manifest(crop_indices),
+                     'allowed_source_frame_ids': crop_indices}, crop_frames, crop_indices, plan_validator, trace)
+            except ValueError as exc:
+                if not str(exc).startswith('adaptive_crop_plan failed evidence validation after bounded retries:'):
+                    raise
+                crop_plan = full_frame_plan(crop_indices)
+                trace.append({'stage': 'adaptive_crop_plan_fallback', 'reason': str(exc),
+                              'output': crop_plan, 'policy': 'supplied_full_frames_no_inferred_target'})
+        refined = sorted(set(refined) | {c['source_frame_index'] for c in crop_plan['crops']})
+        if self.verification_full_frame_limit:
+            from reward_as_agent.evidence_video import bounded_verification_indices
+            original_refined = list(refined)
+            refined = bounded_verification_indices(refined, self.verification_full_frame_limit,
+                {c['source_frame_index'] for c in crop_plan['crops']})
+            trace.append({'stage': 'experimental_sparse_verification',
+                          'original_source_frame_ids': original_refined,
+                          'selected_source_frame_ids': refined,
+                          'full_frame_limit': self.verification_full_frame_limit,
+                          'policy': 'retain endpoints and all crop source IDs; downstream visual stages use this inventory'})
+        verify_frames = await asyncio.to_thread(video.content, refined)
+        crop_images, crop_manifest = await asyncio.to_thread(crop_content, video, crop_plan)
+        verify_frames += crop_images
+        from reward_as_agent.motion_evidence import build_motion_evidence
+        motion_result, motion_views = ({'tool': 'disabled', 'status': 'disabled'}, []) if not self.motion_evidence_enabled else await asyncio.to_thread(build_motion_evidence, video, crop_plan)
+        trace.append({'stage': 'cotracker3_motion_tool', 'output': motion_result})
+        verify_frames += motion_views
+        verify_manifest = video.manifest(refined) + crop_manifest
+        if self.fast_training and sum(x.get('type') == 'image_url' for x in verify_frames) > 32:
+            raise ValueError('Fast verification exceeds backend image budget')
+        coverage = {'decoded_frames': len(video.frames), 'fps': video.fps,
+                    'provided_frames': len(refined),
+                    'all_decoded_frames_provided': refined == list(range(len(video.frames)))}
+        final = await self.stage('verification', verification_prompt(verify_manifest, task_contract=contract),
+            {'task_description': description, 'task_contract': contract, 'blind_observations': observations, 'draft_report': draft,
+             'video_coverage': coverage, 'inspection_plan': crop_plan,
+             'coverage_instruction': ('When all_decoded_frames_provided is true, every decoded original frame '
+                 'is supplied in temporal order. There are no omitted decoded frames in this verification '
+                 'request. Do not explain visible discontinuities using evaluator sampling gaps. '
+                 'Original recording frame rate still limits temporal resolution; distinguish visible '
+                 'state changes from an unobserved cause.'),
+             'pipeline_version': MODEL_CONTEXT_VERSION}, verify_frames, refined, report_validator, trace)
+        physics_evidence = None
+        if self.physics_enabled and self.physics_hook is not None and self.physics_reflection_enabled:
+            from scripts.frozen_v41.visibility_evidence import inspect_frame_bytes
+            input_visibility = inspect_frame_bytes(
+                (frame.shape[1], frame.shape[0], frame.tobytes()) for frame in video.frames)
+            if await asyncio.to_thread(video_sha256, video_path) != source_digest:
+                raise ValueError('Source video changed after baseline decoding')
+            final, physics_evidence = await self.physics_hook.apply(
+                pipeline=self, video_path=video_path, video_sha256_expected=source_digest,
+                report=final, contract=contract, description=description,
+                manifest=verify_manifest, frames=verify_frames, valid_ids=refined,
+                validator=report_validator, trace=trace, input_visibility=input_visibility)
+        final, scope_audits, before_scope_repair = await self.audit_and_repair_requirements(
+            final, contract, description, observations, verify_manifest,
+            verify_frames, coverage, trace,
+        )
+        # Every completion claim needs the same evidence standard regardless of
+        # the contract's action wording or language. Only same/downward verdicts
+        # are adopted; the frozen task contract remains unchanged.
+        if (os.getenv('REWARD_COMPLETION_AUDIT', '0') == '1' and not self.fast_training
+                and final['task_assessment']['verdict'] in ('complete', 'mostly_complete')):
+            audit_payload = {'task_contract': contract,
+                             'verification_coverage': coverage, 'frame_manifest': verify_manifest}
+            # Experimental isolation of candidate-narrative anchoring. Source
+            # pixels, frozen requirements and categorical adoption stay fixed.
+            if os.getenv('REWARD_COMPLETION_AUDIT_BLIND', '0') != '1':
+                audit_payload['evidence_report'] = final
+            audited = await self.stage(
+                'completion_audit', completion_audit_prompt(verify_manifest, contract),
+                audit_payload,
+                verify_frames, refined,
+                lambda value, valid_ids: validate_grounded_report(value, valid_ids, contract), trace)
+            completion_rank = {'complete': 3, 'mostly_complete': 2, 'partial': 1,
+                               'failed': 0, 'unobservable': 0}
+            if (completion_rank[audited['task_assessment']['verdict']]
+                    <= completion_rank[final['task_assessment']['verdict']]):
+                audited_final = audited
+                final = audited_final
+                final, scope_audits, _ = await self.audit_and_repair_requirements(
+                    final, contract, description, observations, verify_manifest,
+                    verify_frames, coverage, trace)
+                # A completion audit is a stricter independent downward check.
+                # Later scope repair may clarify wording, but must not upgrade
+                # the audited task verdict and erase the audit's correction.
+                if completion_rank[final['task_assessment']['verdict']] > completion_rank[
+                        audited_final['task_assessment']['verdict']]:
+                    final = audited_final
+                    repaired_audit = await self.audit_requirements(
+                        final, contract, 'requirement_scope_audit_after_completion_cap', trace)
+                    scope_audits = [{
+                        'report_sha256': hashlib.sha256(json.dumps(
+                            final, ensure_ascii=False, sort_keys=True,
+                            separators=(',', ':')).encode()).hexdigest(),
+                        'audit': repaired_audit,
+                    }]
+        if (os.getenv('REWARD_PARTIAL_AUDIT', '0') == '1' and not self.fast_training
+                and final['task_assessment']['verdict'] == 'partial'):
+            audited = await self.stage(
+                'partial_audit', partial_audit_prompt(verify_manifest, contract),
+                {'task_contract': contract, 'evidence_report': final,
+                 'verification_coverage': coverage, 'frame_manifest': verify_manifest},
+                verify_frames, refined,
+                lambda value, valid_ids: validate_grounded_report(value, valid_ids, contract), trace)
+            if audited['task_assessment']['verdict'] in ('partial', 'failed', 'unobservable'):
+                final = audited
+                final, scope_audits, _ = await self.audit_and_repair_requirements(
+                    final, contract, description, observations, verify_manifest,
+                    verify_frames, coverage, trace)
+        scoring = score_report(core_report(final))
+        scoring['scoring_version'] = 'evidence-soft-physics-v2-with-scope-review-v5-provisional'
+        if physics_evidence and physics_evidence.get('input_unobservable'):
+            scoring['total_score'] = None
+            scoring['review_reasons'].append('input visibility: all decoded frames are spatially uniform; no grounded manipulation evidence')
+            scoring['input_visibility_gate'] = physics_evidence['input_visibility']
+        requirement_summary = validate_requirement_checks(final['requirement_checks'], contract, final)
+        for requirement_id in requirement_summary['unresolved_requirement_ids']:
+            scoring['review_reasons'].append(f'task requirement {requirement_id}: unresolved visible evidence')
+        contract_review = self.contract_reviews.get(contract['contract_sha256'])
+        if contract_review:
+            scoring['review_reasons'].append('task contract: ' + contract_review['reason'])
+        for check in scope_audits[-1]['audit']['checks']:
+            for issue in check['issues']:
+                scoring['review_reasons'].append(
+                    f"task requirement {check['requirement_id']}: unresolved scope audit "
+                    f"({issue['kind']}): {issue['reason']}"
+                )
+        scoring['review_required'] = bool(scoring['review_reasons'])
+        process_event_evidence = None
+        if self.gate_policy == 'evidence_process':
+            from reward_as_agent.process_audit import audit_process_with_scope, score_process
+            process_ids=refined;process_frames=verify_frames;process_coverage=coverage
+            event_context=None;event_reviews=[]
+            if self.process_event_hook is not None:
+                from reward_as_agent.process_events import validate_event_bundle
+                if await asyncio.to_thread(video_sha256,video_path)!=source_digest:
+                    raise ValueError('Source changed before event inspection')
+                bundle=validate_event_bundle(await self.process_event_hook.apply(
+                    pipeline=self,video=video,video_path=video_path,source_sha256=source_digest,
+                    description=description,trace=trace),len(video.frames))
+                if await asyncio.to_thread(video_sha256,video_path)!=source_digest:
+                    raise ValueError('Source changed during event inspection')
+                process_ids=sorted(set(refined)|set(bundle['frame_ids']))
+                process_frames=await asyncio.to_thread(video.content,process_ids)
+                process_coverage={**coverage,'provided_frames':len(process_ids),
+                    'all_decoded_frames_provided':process_ids==list(range(len(video.frames)))}
+                event_context=bundle['context'];event_reviews=bundle['review_reasons']
+                process_event_evidence=bundle['evidence']
+                trace.append({'stage':'process_event_evidence','output':bundle})
+            process_audit, process_scope_audits = await audit_process_with_scope(self, description, contract,
+                video.manifest(process_ids), process_frames, process_ids, process_coverage, trace,
+                local_observations=event_context)
+            scoring = score_process(scoring, final, process_audit)
+            scoring['review_reasons'].extend(event_reviews)
+            for check in process_scope_audits[-1]['checks']:
+                if check['status'] != 'supported_scope':
+                    scoring['review_reasons'].append('process scope unresolved: '+check['reason'])
+            scoring['review_required'] = bool(scoring['review_reasons'])
+            scoring['reward_gates']['process_scope_audits'] = process_scope_audits
+            scoring['reward_gates']['process_frame_manifest'] = video.manifest(process_ids)
+            trace.append({'stage': 'reward_gates', **scoring['reward_gates']})
+        elif self.gate_policy != 'off':
+            from reward_as_agent.process_gates import apply_gates, temporal_evidence
+            temporal = (await asyncio.to_thread(temporal_evidence, video.frames)
+                        if self.gate_policy == 'process' else None)
+            scoring = apply_gates(scoring, final, policy=self.gate_policy, temporal=temporal,
+                earlier_reports=[t['output'] for t in trace if t.get('stage') in
+                    {'assessment', 'verification', 'physics_tool_reflection'} and
+                    isinstance(t.get('output'), dict) and not t.get('validation_error')])
+            trace.append({'stage': 'reward_gates', **scoring['reward_gates']})
+        if self.physics_enabled and self.physics_completion_required:
+            from reward_as_agent.physics_completion import require_physical_completion
+            scoring = require_physical_completion(scoring, physics_evidence, source_digest)
+            trace.append({'stage': 'physical_completion', **scoring['physical_completion']})
+        failure_resolution = await self.resolve_failure_reward(
+            final, contract, scope_audits, contract_review, physics_evidence,
+            verify_manifest, verify_frames, coverage, trace,
+        )
+        progress_resolution = None
+        if (not self.fast_training and not contract_review
+                and not (physics_evidence or {}).get('input_unobservable')
+                and needs_progress_resolution(final, contract, scope_audits)):
+            progress_resolution = await self.stage(
+                'partial_progress_resolution', progress_resolution_prompt(),
+                {'task_contract': contract, 'evidence_report': final,
+                 'candidate_requirement_ids': progress_candidates(final),
+                 'final_scope_audit': scope_audits[-1],
+                 'frame_manifest': verify_manifest, 'video_coverage': coverage},
+                verify_frames, refined,
+                lambda value, valid_ids: validate_progress_resolution(
+                    value, final, contract, scope_audits, valid_ids), trace,
+            )
+        scoring = apply_training_reward(
+            scoring, final, contract, scope_audits,
+            contract_review=contract_review, physics_evidence=physics_evidence,
+            failure_resolution=failure_resolution,
+            progress_resolution=progress_resolution,
+        )
+        score = scoring['total_score']
+        result = {
+            # Kept solely for the existing transport's index/error routing.
+            'planning_api_output': {'index': idx, 'score': final['task_assessment']['verdict'], 'status': 'success'},
+            'total_score': score if score is not None else -1,
+            'pipeline_version': PIPELINE_VERSION, 'evidence_report': final,
+            'physics_evidence': physics_evidence,
+            'process_event_evidence': process_event_evidence,
+            'evaluator_version': self.evaluator_version,
+            'task_contract': contract, 'task_contract_sha256': contract['contract_sha256'],
+            'task_contract_registry_sha256': self.contract_registry_sha256,
+            'task_contract_review': contract_review,
+            'requirement_scope_audits': scope_audits,
+            'pre_scope_repair_report': before_scope_repair,
+            'requirement_summary': requirement_summary,
+            'draft_report': draft, 'blind_observations': observations,
+            'scoring': scoring, 'review_required': scoring['review_required'],
+            'failure_reward_resolution': failure_resolution,
+            'diagnostic_score': scoring['diagnostic_score'],
+            'diagnostic_review_required': scoring['diagnostic_review_required'],
+            'diagnostic_review_reasons': scoring['diagnostic_review_reasons'],
+            'training_eligible': score is not None and not scoring['review_required'],
+            'frame_manifest': verify_manifest,
+            'observation_time_manifest': observation_time_manifest(final, verify_manifest),
+            'verification_coverage': coverage,
+            'video_metadata': {'decoded_frames': len(video.frames), 'fps': video.fps,
+                               'width': video.width, 'height': video.height},
+            'trace': trace, 'elapsed_seconds': round(time.monotonic() - start, 3),
+        }
+        if score is None:
+            result['error'] = 'needs_review: insufficient observable evidence for numerical reward'
+        if trace_root:
+            root = Path(trace_root)
+            root.mkdir(parents=True, exist_ok=True)
+            path = root / (identity + '.json')
+            temp = path.with_suffix('.' + str(time.time_ns()) + '.tmp')
+            temp.write_text(json.dumps({'video_path': str(video_path), 'prompt': description, **result}, ensure_ascii=False, indent=2))
+            temp.replace(path)
+        return result

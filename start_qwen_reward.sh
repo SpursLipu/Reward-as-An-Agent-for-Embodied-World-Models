@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+if [[ -f .env ]]; then set -a; source .env; set +a; fi
+export REWARD_AS_AGENT_PROVIDER=openai
+export REWARD_AS_AGENT_API_BASE="${REWARD_AS_AGENT_API_BASE:-http://127.0.0.1:8038/v1}"
+export REWARD_AS_AGENT_MODEL="${QWEN_SERVED_MODEL_NAME:-qwen38-reward}"
+export REWARD_AS_AGENT_API_KEY="${REWARD_AS_AGENT_API_KEY:-EMPTY}"
+export REWARD_AS_AGENT_TEMPERATURE=0 REWARD_AS_AGENT_MAX_TOKENS=8192
+export REWARD_AS_AGENT_LLM_TIMEOUT="${REWARD_AS_AGENT_LLM_TIMEOUT:-900}"
+export REWARD_AS_AGENT_MAX_RETRIES="${REWARD_AS_AGENT_MAX_RETRIES:-2}"
+export REWARD_AS_AGENT_MAX_INFLIGHT_PER_DP="${REWARD_AS_AGENT_MAX_INFLIGHT_PER_DP:-16}"
+export REWARD_AS_AGENT_CACHE_BYPASS=1 REWARD_TASK_CONTRACT_REGISTRY=""
+export REWARD_GATE_POLICY=off REWARD_REQUIREMENT_AUDIT_MODE=joint
+export REWARD_EVIDENCE_FRAMES=32 REWARD_PHYSICS_COMPLETION=optional
+export REWARD_WMREWARD_WORKERS=1
+export CUDA_VISIBLE_DEVICES="${REWARD_WMREWARD_CUDA_VISIBLE_DEVICES:-6}"
+export REWARD_WMREWARD_DEVICE="${REWARD_WMREWARD_DEVICE:-cuda:0}"
+export NO_PROXY="127.0.0.1,localhost,${NO_PROXY:-}"
+export no_proxy="127.0.0.1,localhost,${no_proxy:-}"
+TASK_ROOT=/increase_kairos_vepfs/increase/lipu/grpo
+PYTHON="${REWARD_PYTHON:-${TASK_ROOT}/envs/reward_as_agent/bin/python}"
+if [[ ! -x "$PYTHON" ]]; then PYTHON=python3; fi
+exec "$PYTHON" -m reward_as_agent.cli serve
