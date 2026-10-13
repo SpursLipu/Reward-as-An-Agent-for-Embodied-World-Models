@@ -11,7 +11,7 @@ A multimodal reward agent that evaluates task progress, physical plausibility, a
 
 ## Framework
 
-<img src="assets/reward_as_agent_framework.svg" alt="Evidence-grounded reward agent inference flow" width="1100">
+<img src="assets/reward_as_agent_framework.svg" alt="Reward as an Agent architecture from the paper" width="1100">
 
 - **Planning:** describe video evidence without task text, then extract, coverage-audit and freeze the task requirements.
 - **Assessment and verification:** assess task progress, physics and visual quality; verify refined original frames with adaptive crops and CoTracker3 motion evidence.
@@ -19,7 +19,7 @@ A multimodal reward agent that evaluates task progress, physical plausibility, a
 - **Completion audit:** for `complete` or `mostly_complete` reports, recheck the verification images. Accept only the same or a lower verdict, then reaudit scope; later repairs cannot exceed the accepted audit verdict.
 - **Reward:** conditionally resolve failure independence and useful local progress, then apply fixed reward rules. Failed or unverifiable video content receives zero when evaluator checks permit a valid reward; unresolved protocol/audit problems require review, and execution failures remain errors.
 
-[Framework diagram (SVG)](assets/reward_as_agent_framework.svg) · [Diagram generator](scripts/render_framework.py)
+[Paper figure (PDF)](assets/reward_as_agent_framework.pdf) · [SVG](assets/reward_as_agent_framework.svg) · [PNG](assets/reward_as_agent_framework.png) · [Preview renderer](scripts/render_framework.py)
 
 WMReward supplies physical evidence, and CoTracker3 supplies image-plane motion evidence. Neither tool directly determines task success. Additional tools can use the [worker interface](scripts/frozen_v41/worker_client.py) and [evidence hook](scripts/frozen_v41/physics_integration.py).
 

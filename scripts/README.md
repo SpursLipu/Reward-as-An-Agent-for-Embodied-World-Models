@@ -13,7 +13,7 @@ Configure credentials and local model/tool paths in `.env` before live inference
 | `python scripts/human/review_server.py --help` | Serve a supplied video manifest for independent human review |
 | `python scripts/human/human_alignment.py --help` | Prepare manifests and compare independently collected human labels |
 | `bash scripts/setup_env.sh` | Create the Python environment |
-| `python scripts/render_framework.py` | Regenerate SVG, PNG and PDF framework assets; requires Matplotlib |
+| `python scripts/render_framework.py` | Regenerate SVG and PNG previews from the paper framework PDF; requires PyMuPDF |
 
 `scripts/frozen_v41/` retains the historical package name because the production implementation imports its WMReward worker, transport, protocol and visibility modules. These are required runtime dependencies.
 
